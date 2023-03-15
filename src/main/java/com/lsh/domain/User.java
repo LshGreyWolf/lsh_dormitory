@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2023-03-05 12:21:01
  */
 @Data
-public class User extends Page {
+public class User  {
 
     private Integer id;
     private String userName;

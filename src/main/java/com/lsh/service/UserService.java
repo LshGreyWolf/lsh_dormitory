@@ -12,6 +12,9 @@ import java.util.List;
  * @since 2023-03-05 12:55:32
  */
 public interface UserService extends IService<User> {
-    List<User> selectAll();
+//    List<User> selectAll();
+
+    User login(String userName, String password);
+
 }
 

@@ -20,9 +20,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+//    @Override
+//    public List<User> selectAll() {
+//      return userMapper.selectAll();
+//    }
+
     @Override
-    public List<User> selectAll() {
-      return userMapper.selectAll();
+    public User login(String userName, String password) {
+
+
+
+        return userMapper.login(userName,password);
     }
 }
 

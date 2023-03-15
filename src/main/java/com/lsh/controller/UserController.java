@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @version 1.0
@@ -26,8 +27,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user")
-    public List<User> selectAll(){
-        PageHelper.startPage(1,1);
-        return userService.selectAll();
+    public List<User> selectAll() {
+        List<User> list = userService.list(null);
+       List<String> userNames =  list.stream().map(User::getName).collect(Collectors.toList());
+        System.out.println("userNames = " + userNames);
+        return list;
     }
 }
