@@ -1,5 +1,8 @@
 package com.lsh.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 /**
@@ -9,8 +12,8 @@ import lombok.Data;
  * @since 2023-03-05 12:21:01
  */
 @Data
-public class User  {
-
+public class User extends Page {
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String userName;
     private String password;
@@ -21,6 +24,7 @@ public class User  {
      */
     private Integer type;
     private String remark;
+    private String sex;
 
 
 }

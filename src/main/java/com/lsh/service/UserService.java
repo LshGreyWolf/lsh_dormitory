@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
 
 import java.util.List;
@@ -15,6 +16,20 @@ public interface UserService extends IService<User> {
 //    List<User> selectAll();
 
     User login(String userName, String password);
+    PageInfo<User> queryByPage(User user);
 
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    boolean addUser(User user);
+
+    /**
+     * 更新用户
+     * @param user
+     * @return
+     */
+    boolean updateUserById(User user);
 }
 

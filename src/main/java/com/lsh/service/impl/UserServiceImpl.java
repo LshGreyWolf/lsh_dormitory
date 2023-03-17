@@ -1,6 +1,8 @@
 package com.lsh.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
 import com.lsh.mapper.UserMapper;
 import com.lsh.service.UserService;
@@ -31,6 +33,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
 
         return userMapper.login(userName,password);
+    }
+
+
+
+
+    @Override
+    public PageInfo<User> queryByPage(User user) {
+
+        if(user != null && user.getPage() != null){
+            PageHelper.startPage(user.getPage(),user.getLimit());
+        }
+        return new PageInfo<User>(userMapper.queryByPage(user));
+
+    }
+
+    @Override
+    public boolean addUser(User user) {
+
+       return userMapper.addUser(user);
+
+    }
+
+    @Override
+    public boolean updateUserById(User user) {
+
+
+        return userMapper.updateUserById(user);
     }
 }
 

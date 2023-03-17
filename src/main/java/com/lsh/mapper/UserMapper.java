@@ -1,6 +1,7 @@
 package com.lsh.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,5 +19,12 @@ public interface UserMapper extends BaseMapper<User> {
     List<User> selectAll(User user);
 
     User login(String userName, String password);
+
+   List<User> queryByPage(User user);
+
+
+    boolean addUser(User user);
+
+    boolean updateUserById(User user);
 }
 

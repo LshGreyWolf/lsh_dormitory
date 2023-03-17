@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsh.mapper.UserMapper">
+    <insert id="addUser">
+        insert into tb_user(user_name, phone, sex, name, type, remark, password)
+        values (#{userName}, #{phone}, #{sex}, #{name}, #{type}, #{remark}, #{password})
+    </insert>
+
+    <update id="updateUserById">
+        update tb_user set
+        <if test="userName !=null">user_name = #{userName},</if>
+        <if test="password !=null">password = #{password},</if>
+        <if test="name !=null">name = #{name},</if>
+        <if test="sex !=null">sex = #{sex},</if>
+        <if test="remark !=null">remark = #{remark},</if>
+        <if test="type !=null">type = #{type}</if>
+        where
+        <if test="id != null">id = #{id}</if>
+
+
+    </update>
+
+    <select id="selectAll" resultType="com.lsh.domain.User">
+        select *
+        from tb_user
+    </select>
+    <select id="login" resultType="com.lsh.domain.User">
+        select *
+        from tb_user
+        where user_name = #{userName}
+          and password = #{password}
+
+    </select>
+    <select id="queryByPage" resultType="com.lsh.domain.User">
+
+        select *
+        from tb_user
+        <include refid="UserFindCriteria"></include>
+    </select>
+    <sql id="UserFindCriteria">
+        <where>
+            <if test="id != null">id = #{id}</if>
+            <if test="userName != null and userName != ''">and user_name like concat('%',#{userName},'%')</if>
+            <if test="password != null and password != ''">and password = #{password}</if>
+            <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
+            <if test="phone != null and phone != ''">and phone = #{phone}</if>
+            <if test="type != null">and type = #{type}</if>
+            <if test="remark != null and remark != ''">and remark = #{remark}</if>
+            <if test="sex != null and sex != ''">and sex = #{sex}</if>
+        </where>
+    </sql>
+</mapper>
