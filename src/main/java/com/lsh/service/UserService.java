@@ -31,5 +31,10 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean updateUserById(User user);
+    /**
+     * @description 删除用户信息
+     * @param ids
+    */
+    int delete(String ids);
 }
 

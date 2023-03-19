@@ -22,6 +22,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Autowired
     private MenuMapper menuMapper;
 
+
     @Override
     public List<Menu> queryMenu(Integer userID) {
 

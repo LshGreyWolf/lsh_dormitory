@@ -30,7 +30,6 @@ public class UserController {
 
     /**
      * 用户分页查询
-     *
      * @param user
      * @return
      */
@@ -42,7 +41,6 @@ public class UserController {
 
     /**
      * 新增用户
-     *
      * @param user
      * @return
      */
@@ -60,6 +58,16 @@ public class UserController {
 
         boolean flag = userService.updateUserById(user);
         return Result.ok("修改成功！");
+    }
+
+    @GetMapping("/delete")
+    public Result deleteUser(String ids){
+        int row = userService.delete(ids);
+        if (row>0){
+            return  Result.ok("删除成功");
+        }
+        return  Result.fail("删除失败");
+
     }
 
 }

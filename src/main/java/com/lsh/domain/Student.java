@@ -33,7 +33,14 @@ public class Student {
     private String password;
     
     private Integer clazzId;
-
+    /***
+    *  学生对应的组织结构
+    */
+    private Org org;
+    /***
+    *学生对应的年级
+    */
+    private Grade grade;
 
 
 
