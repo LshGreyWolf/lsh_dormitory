@@ -6,9 +6,7 @@ import com.lsh.domain.Org;
 import com.lsh.service.OrgService;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,23 +26,23 @@ public class OrgController {
     private OrgService orgService;
 
     @GetMapping("tree")
-    public Result tree(){
+    public Result tree() {
         PageInfo<Org> pageInfo = orgService.query(null);
         //所有的树形数据
         List<Org> list = pageInfo.getList();
         //要构建的树形结构
-        List<Map<String,Object>> trees = new ArrayList<>();
+        List<Map<String, Object>> trees = new ArrayList<>();
         for (Org entity : list) {
-            if(entity.getParentId() == 0){
-                Map<String,Object> map = new HashMap<>();
-                map.put("id",entity.getId());
-                map.put("name",entity.getName());
-                if(entity.getType()<4){
-                    map.put("isParent",true);
-                    map.put("open",true);
-                    map.put("children",getChild(entity,list));
-                }else{
-                    map.put("isParent",false);
+            if (entity.getParentId() == 0) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", entity.getId());
+                map.put("name", entity.getName());
+                if (entity.getType() < 4) {
+                    map.put("isParent", true);
+                    map.put("open", true);
+                    map.put("children", getChild(entity, list));
+                } else {
+                    map.put("isParent", false);
                 }
                 trees.add(map);
             }
@@ -73,5 +71,34 @@ public class OrgController {
         return child;
     }
 
+    /**
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@RequestBody Org org) {
+        int flag = orgService.create(org);
+        if (flag > 0) {
+            return Result.ok("新增成功！");
+        }
+        return Result.ok("新增失败！");
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Org org) {
+        int flag = orgService.update(org);
+        if (flag > 0) {
+            return Result.ok("更新成功！");
+        }
+        return Result.ok("更新失败！");
+    }
+
+    @GetMapping("/delete")
+    public Result delete( Integer id) {
+        int flag = orgService.delete(id);
+        if (flag > 0) {
+            return Result.ok("删除成功！");
+        }
+        return Result.ok("删除失败！");
+    }
 
 }
