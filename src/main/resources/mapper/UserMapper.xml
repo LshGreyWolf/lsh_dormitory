@@ -7,6 +7,7 @@
         values (#{userName}, #{phone}, #{sex}, #{name}, #{type}, #{remark}, #{password})
     </insert>
 
+
     <update id="updateUserById">
         update tb_user set
         <if test="userName !=null">user_name = #{userName},</if>
@@ -37,6 +38,11 @@
         select *
         from tb_user
         <include refid="UserFindCriteria"></include>
+    </select>
+    <select id="getUser" parameterType="com.lsh.domain.User" resultType="com.lsh.domain.User">
+
+        select *
+        from tb_user where id = #{id};
     </select>
     <sql id="UserFindCriteria">
         <where>

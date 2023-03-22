@@ -2,6 +2,7 @@ package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lsh.domain.UserMenu;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -11,5 +12,5 @@ import com.lsh.domain.UserMenu;
  * @since 2023-03-09 18:41:09
  */
 public interface UserMenuService extends IService<UserMenu> {
-
+    public boolean saveUserMenu(@Param("userId") Integer userId, @Param("menuId") Integer menuId);
 }

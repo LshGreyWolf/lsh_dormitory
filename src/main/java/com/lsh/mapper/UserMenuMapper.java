@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.Menu;
 import com.lsh.domain.UserMenu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -14,5 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMenuMapper extends BaseMapper<UserMenu> {
+
+    boolean saveUserMenu(@Param("userId") Integer userId, @Param("menuId") Integer menuId);
 
 }

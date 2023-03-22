@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version 1.0
@@ -30,7 +32,7 @@ public class MenuController {
     @GetMapping("/query")
     public Result queryMenu(HttpServletRequest request) {
         List<Menu> menus = new ArrayList<>();
-        if(request.getAttribute("user") != null){
+        if (request.getAttribute("user") != null) {
             User user = (User) request.getAttribute("user");
             menus = menuService.queryMenu(user.getId());
         }
@@ -41,7 +43,7 @@ public class MenuController {
         List<Menu> menuList1 = new ArrayList<>();
         //找出一级菜单
         for (Menu menu : menus) {
-            if(menu.getParentId() == 0){
+            if (menu.getParentId() == 0) {
                 menuList1.add(menu);
             }
         }
@@ -50,7 +52,7 @@ public class MenuController {
         for (Menu parent : menuList1) {
             List<Menu> child = new ArrayList<>();
             for (Menu entity : menus) {
-                if(parent.getId() == entity.getParentId()){
+                if (parent.getId() == entity.getParentId()) {
                     child.add(entity);
                 }
             }
@@ -58,5 +60,39 @@ public class MenuController {
         }
         return Result.ok(menuList1);
 
+    }
+        @GetMapping("/tree")
+    public Result tree() {
+        List<Menu> list = menuService.list(null);
+
+        List<Map<String, Object>> menus = new ArrayList<>();
+
+        for (Menu menu : list) {
+            //父级菜单
+            if (menu.getParentId() == 0) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", menu.getId());
+                map.put("name", menu.getTitle());
+                map.put("isParent", true);
+                map.put("open", true);
+
+                List<Map<String, Object>> child = new ArrayList<>();
+                for (Menu menuChild : list) {
+                    if (menuChild.getParentId() != 0 && menuChild.getParentId() == menu.getId()) {
+                        HashMap<String, Object> childMap = new HashMap<>();
+                        childMap.put("id", menuChild.getId());
+                        childMap.put("name", menuChild.getTitle());
+                        childMap.put("isParent", false);
+                        childMap.put("open", false);
+                        child.add(childMap);
+                    }
+                }
+
+                map.put("children", child);
+                menus.add(map);
+            }
+
+        }
+        return Result.ok(menus);
     }
 }

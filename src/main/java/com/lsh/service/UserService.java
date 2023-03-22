@@ -3,6 +3,7 @@ package com.lsh.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,5 +37,8 @@ public interface UserService extends IService<User> {
      * @param ids
     */
     int delete(String ids);
+
+
+    User getUser(User user);
 }
 

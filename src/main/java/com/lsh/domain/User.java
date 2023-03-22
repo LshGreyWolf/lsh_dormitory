@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * (User)表实体类
  *
@@ -25,7 +27,8 @@ public class User extends Page {
     private Integer type;
     private String remark;
     private String sex;
-
+    @TableField(exist = false)
+    private List<Integer> menuIds;
 
 }
 

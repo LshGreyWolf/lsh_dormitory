@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
 import com.lsh.mapper.UserMapper;
 import com.lsh.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,5 +77,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return row;
     }
+
+    @Override
+    public User getUser(User user) {
+        return userMapper.getUser(user);
+    }
+
+
 }
 

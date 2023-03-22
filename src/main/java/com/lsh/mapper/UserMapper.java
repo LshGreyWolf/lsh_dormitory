@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -26,5 +27,8 @@ public interface UserMapper extends BaseMapper<User> {
     boolean addUser(User user);
 
     boolean updateUserById(User user);
+
+
+    User getUser(User user);
 }
 
