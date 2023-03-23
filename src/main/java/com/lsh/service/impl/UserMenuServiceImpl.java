@@ -1,6 +1,7 @@
 package com.lsh.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lsh.domain.Menu;
 import com.lsh.domain.Student;
 import com.lsh.domain.UserMenu;
 import com.lsh.mapper.StudentMapper;
@@ -10,6 +11,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @version 1.0
@@ -25,5 +28,12 @@ public class UserMenuServiceImpl extends ServiceImpl<UserMenuMapper, UserMenu> i
     @Override
     public boolean saveUserMenu(@Param("userId") Integer userId, @Param("menuId") Integer menuId) {
         return userMenuMapper.saveUserMenu(userId, menuId);
+    }
+
+    @Override
+    public List<Integer> getMenu(Integer userId) {
+
+
+        return userMenuMapper.getMenu(userId);
     }
 }

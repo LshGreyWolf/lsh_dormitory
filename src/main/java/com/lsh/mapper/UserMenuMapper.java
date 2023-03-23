@@ -6,6 +6,8 @@ import com.lsh.domain.UserMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 /**
  * (UserMenu)表数据库访问层
@@ -18,4 +20,5 @@ public interface UserMenuMapper extends BaseMapper<UserMenu> {
 
     boolean saveUserMenu(@Param("userId") Integer userId, @Param("menuId") Integer menuId);
 
+    List<Integer> getMenu(Integer userId);
 }
