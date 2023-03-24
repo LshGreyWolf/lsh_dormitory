@@ -60,10 +60,10 @@ public class UserController {
         //同时将数据同步到用户菜单关联表中
         //新增用户使，因为之前没有，不用删除
 
-        User serviceUser = userService.getUser(user);
+        user = userService.getUser(user);
         //循环插入
         for (Integer menuId :menuIds){
-             flag= userMenuService.saveUserMenu(serviceUser.getId(), menuId);
+             flag= userMenuService.saveUserMenu(user.getId(), menuId);
         }
         if (flag) {
             return Result.ok("新增用户成功！");

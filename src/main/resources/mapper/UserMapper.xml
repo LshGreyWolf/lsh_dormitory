@@ -42,7 +42,8 @@
     <select id="getUser" parameterType="com.lsh.domain.User" resultType="com.lsh.domain.User">
 
         select *
-        from tb_user where id = #{id};
+        from tb_user
+        <include refid="UserFindCriteria"></include>
     </select>
     <sql id="UserFindCriteria">
         <where>

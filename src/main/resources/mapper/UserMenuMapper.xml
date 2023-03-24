@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.UserMenuMapper">
 
-    <insert id="saveUserMenu" parameterType="com.lsh.domain.User" >
+    <insert id="saveUserMenu" parameterType="com.lsh.domain.User">
         insert into tb_user_menu
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="userId !=null">user_id</if>
@@ -16,5 +16,9 @@
         </trim>
 
     </insert>
+    <select id="getMenu" resultType="java.lang.Integer">
+        select  menu_id from tb_user_menu where user_id = #{userId}
+    </select>
+
 
 </mapper>
