@@ -1,6 +1,7 @@
 package com.lsh.domain;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
+public class Student extends Page {
     
     private Integer id;
     
@@ -36,10 +37,12 @@ public class Student {
     /***
     *  学生对应的组织结构
     */
+    @TableField(exist = false)
     private Org org;
     /***
     *学生对应的年级
     */
+    @TableField(exist = false)
     private Grade grade;
 
 

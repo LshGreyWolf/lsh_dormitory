@@ -20,6 +20,12 @@
         <include refid="GradeFindCriteria"/>
 
     </select>
+    <select id="detail" resultType="com.lsh.domain.Grade" parameterType="java.lang.Integer">
+
+        select *
+        from tb_grade
+        where id = #{id}
+    </select>
 
 
     <sql id="GradeFindCriteria">
