@@ -42,4 +42,10 @@
         <include refid="BuildingQuery"></include>
 
     </select>
+    <select id="getBuilding" resultType="com.lsh.domain.Building">
+    select * from
+        tb_building
+<include refid="BuildingQuery"></include>
+
+    </select>
 </mapper>

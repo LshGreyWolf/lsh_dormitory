@@ -53,4 +53,10 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
 
 
     }
+
+    @Override
+    public Building getBuilding(Building building) {
+
+      return   buildingMapper.getBuilding(building);
+    }
 }

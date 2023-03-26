@@ -20,4 +20,6 @@ public interface BuildingMapper extends BaseMapper<Building> {
     List<Building> BuildingQueryByPage(Building building);
 
     boolean saveBuilding(Building building);
+
+    Building getBuilding(Building building);
 }

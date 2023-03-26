@@ -18,4 +18,6 @@ public interface BuildingService extends IService<Building> {
     boolean saveBuilding(Building building);
 
     int deleteBuilding(String ids);
+
+    Building getBuilding(Building building);
 }

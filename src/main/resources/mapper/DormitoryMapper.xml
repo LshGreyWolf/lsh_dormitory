@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsh.mapper.DormitoryMapper">
+
+
+    <sql id="DormitoryFindCriteria">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="no != null and no != ''">and no = #{no}</if>
+            <if test="sex != null">and sex = #{sex}</if>
+            <if test="type != null">and type = #{type}</if>
+            <if test="capacity != null">and capacity = #{capacity}</if>
+            <if test="storeyId != null">and storey_id = #{storeyId}</if>
+            <if test="buildingId != null">and building_id = #{buildingId}</if>
+        </where>
+    </sql>
+
+
+    <resultMap type="com.lsh.domain.Dormitory" id="Dormitory">
+        <id column="id" property="id"/>
+        <result column="no" property="no"/>
+        <result column="sex" property="sex"/>
+        <result column="type" property="type"/>
+        <result column="capacity" property="capacity"/>
+        <result column="storey_id" property="storeyId"/>
+        <result column="building_id" property="buildingId"/>
+    </resultMap>
+
+
+
+
+
+</mapper>
