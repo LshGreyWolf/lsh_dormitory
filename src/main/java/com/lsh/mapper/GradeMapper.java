@@ -24,5 +24,6 @@ public interface GradeMapper extends BaseMapper<Grade> {
     boolean updateGradeById(Grade grade);
 
 
+    Grade detail(Integer id);
 }
 

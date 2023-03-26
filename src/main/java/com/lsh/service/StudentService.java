@@ -1,7 +1,9 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Student;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 /**
@@ -13,4 +15,14 @@ import com.lsh.domain.Student;
 public interface StudentService extends IService<Student> {
 
     Student login(String userName, String password);
+
+
+    PageInfo<Student> queryByPage(Student student);
+
+    int deleteStudent(String ids);
+
+    boolean saveStudent(Student student);
+
+    boolean updateStudent( Student student);
+
 }

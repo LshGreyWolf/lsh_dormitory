@@ -57,5 +57,10 @@ public class GradeServiceImpl extends ServiceImpl<GradeMapper, Grade> implements
         return gradeMapper.updateGradeById(grade);
 
     }
+
+    public Grade detail(Integer id) {
+        return gradeMapper.detail(id);
+    }
+
 }
 

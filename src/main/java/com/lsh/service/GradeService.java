@@ -25,5 +25,7 @@ public interface GradeService extends IService<Grade> {
     boolean add(Grade grade);
 
     boolean updateGradeById(Grade grade);
+    public Grade detail(Integer id);
+
 }
 
