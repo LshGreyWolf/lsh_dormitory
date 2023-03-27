@@ -43,9 +43,9 @@
 
     </select>
     <select id="getBuilding" resultType="com.lsh.domain.Building">
-    select * from
+        select * from
         tb_building
-<include refid="BuildingQuery"></include>
+        <include refid="BuildingQuery"></include>
 
     </select>
 </mapper>

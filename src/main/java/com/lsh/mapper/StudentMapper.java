@@ -24,4 +24,6 @@ public interface StudentMapper extends BaseMapper<Student> {
     boolean saveStudent(Student student);
 
     boolean updateStudent(Student student);
+
+    Student getStudent(Integer id);
 }

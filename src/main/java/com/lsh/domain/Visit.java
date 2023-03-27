@@ -8,38 +8,39 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 /**
- * (Repair)表实体类
+ * (Visit)表实体类
  *
  * @author lsh
- * @since 2023-03-25 17:23:28
+ * @since 2023-03-27 20:26:13
  */
 @SuppressWarnings("serial")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Repair extends Page {
-
+public class Visit extends Page {
+    
     private Integer id;
-
+    
+    private String visitor;
+    
+    private String phone;
+    
+    private Integer sex;
+    
+    private String idcard;
+    
     private Integer studentId;
-
-    private Integer dormitoryId;
-
-    private Integer buildingId;
-
-    private String description;
-
-    private Date createDate;
-    //0待解决/1已解决
-    private Integer status;
+    
+    private Date visitTime;
+    
+    private Date leaveTime;
+    
+    private String remark;
     @TableField(exist = false)
     private Student student;
-    @TableField(exist = false)
-    private Dormitory dormitory;
-    @TableField(exist = false)
-    private Building building;
+
+
 
 
 }

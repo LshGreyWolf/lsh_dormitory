@@ -69,4 +69,10 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         boolean flag = studentMapper.updateStudent(student);
       return flag;
     }
+
+    @Override
+    public Student getStudent(Integer id) {
+
+       return studentMapper.getStudent(id);
+    }
 }

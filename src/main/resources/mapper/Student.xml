@@ -53,6 +53,12 @@
 <include refid="StudentFindCriteria"></include>
 
     </select>
+    <select id="getStudent" resultType="com.lsh.domain.Student">
+
+        select *
+        from tb_student
+        where id= #{id}
+    </select>
 
 
     <sql id="StudentFindCriteria">

@@ -14,4 +14,8 @@ import com.lsh.domain.Repair;
 public interface RepairService extends IService<Repair> {
 
     PageInfo<Repair> queryByPage(Repair repair);
+
+    int updateRepair(Repair repair);
+
+    int delete(String ids);
 }

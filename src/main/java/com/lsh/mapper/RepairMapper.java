@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Repair;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * (Repair)表数据库访问层
@@ -15,5 +17,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RepairMapper extends BaseMapper<Repair> {
 
-    PageInfo<Repair> queryByPage(Repair repair);
+
+    List<Repair> queryByPage(Repair repair);
+
+    int updateRepair(Repair repair);
+
+
 }
