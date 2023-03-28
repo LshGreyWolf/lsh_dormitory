@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.Bed;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * (Bed)表数据库访问层
@@ -14,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BedMapper extends BaseMapper<Bed> {
 
+    List<Bed> listBed(Bed bed);
 }
 

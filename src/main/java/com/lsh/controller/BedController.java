@@ -32,17 +32,24 @@ public class BedController {
 
     @PostMapping("save")
     public Result insert(@RequestBody Bed bed) {
+        //先查询该宿舍的所有床位号
+        List<Bed> bedList = bedService.list(new LambdaQueryWrapper<Bed>().eq(Bed::getDormitoryId, bed.getDormitoryId()));
+        for (Bed item : bedList) {
+            if (item.getBno().equals(bed.getBno())) {
+                return Result.fail("该床位号已存在！请选择其他床位号");
+            }
+        }
         boolean flag = bedService.save(bed);
-        if (flag){
+        if (flag) {
             return Result.ok("新增成功");
         }
         return Result.ok("新增失败");
     }
 
     @GetMapping("delete")
-    public Result delete(Integer beId ) {
+    public Result delete(Integer beId) {
         boolean flag = bedService.removeById(beId);
-        if (flag){
+        if (flag) {
             return Result.ok("删除成功");
         }
         return Result.ok("删除失败");

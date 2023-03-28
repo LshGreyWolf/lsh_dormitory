@@ -34,14 +34,13 @@ public class DormitoryController {
 
     @PostMapping("save")
     public Result save(@RequestBody Dormitory dormitory) {
-        //先查询现存在的宿舍
-        List<Dormitory> dormitoryList = dormitoryService.list();
-//        for (Dormitory item : dormitoryList) {
-//            if (item.getNo().equals(dormitory.getNo())) {
-//
-//                return Result.fail("该栋楼的该宿舍已经存在，请选择其他宿舍号");
-//            }
-//        }
+        //先查询该栋楼现存在的所有宿舍
+        List<Dormitory> dormitoryList = dormitoryService.listDormitory(dormitory);
+        for (Dormitory item : dormitoryList) {
+            if (item.getNo().equals(dormitory.getNo())) {
+                return Result.fail("该栋楼的该宿舍已经存在，请选择其他宿舍号");
+            }
+        }
         boolean flag = dormitoryService.save(dormitory);
         if (flag) {
             return Result.ok("新增成功");

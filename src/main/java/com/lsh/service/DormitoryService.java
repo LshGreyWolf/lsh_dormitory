@@ -16,5 +16,7 @@ public interface DormitoryService extends IService<Dormitory> {
 
     List<Dormitory> listNo();
 
+    List<Dormitory> listDormitory(Dormitory dormitory);
+
 }
 

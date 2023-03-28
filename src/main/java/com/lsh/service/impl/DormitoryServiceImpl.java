@@ -25,5 +25,12 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
     public List<Dormitory> listNo() {
         return dormitoryMapper.listNo();
     }
+
+    @Override
+    public List<Dormitory> listDormitory( Dormitory dormitory) {
+
+
+        return dormitoryMapper.listDormitory(dormitory);
+    }
 }
 
