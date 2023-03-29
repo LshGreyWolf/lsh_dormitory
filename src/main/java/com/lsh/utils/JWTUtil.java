@@ -13,9 +13,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.lsh.utils.AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN;
+import static com.lsh.utils.AppHttpCodeEnum.TOKEN_NOT_NULL;
+
 
 /**
- * jwt的工具类
+ * @version 1.0
+ * @description: jwt的工具类
+ * @author: lsh
+ * @date: 2023/03/06
  */
 public class JWTUtil {
 
@@ -100,16 +106,16 @@ public class JWTUtil {
     public static String getType(String token){
         try {
             if(StringUtils.isEmpty(token)){
-                throw new MyException("token不能为空");
+                throw new MyException(TOKEN_NOT_NULL);
             }
             if(verify(token)){
                 Claims claims = Jwts.parser().setSigningKey(jwt_secret).parseClaimsJws(token).getBody();
                 return claims.get("type")+"";
             }else{
-                throw new MyException("超时或不合法token");
+                throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
             }
         } catch (Exception e) {
-            throw new MyException("超时或不合法token");
+            throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
         }
     }
 
@@ -118,7 +124,7 @@ public class JWTUtil {
     public static User getUser(String token){
         try {
             if(StringUtils.isEmpty(token)){
-                throw new MyException("token不能为空");
+                throw new MyException(TOKEN_NOT_NULL);
             }
             if(verify(token)){
                 Claims claims = Jwts.parser().setSigningKey(jwt_secret).parseClaimsJws(token).getBody();
@@ -127,17 +133,17 @@ public class JWTUtil {
                 user.setUserName(claims.get("userName")+"");
                 return user;
             }else{
-                throw new MyException("超时或不合法token");
+                throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
             }
         } catch (Exception e) {
-            throw new MyException("超时或不合法token");
+            throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
         }
     }
 
     public static Student getStudent(String token){
         try {
             if(StringUtils.isEmpty(token)){
-                throw new MyException("token不能为空");
+                throw new MyException(TOKEN_NOT_NULL);
             }
             if(verify(token)){
                 Claims claims = Jwts.parser().setSigningKey(jwt_secret).parseClaimsJws(token).getBody();
@@ -146,19 +152,19 @@ public class JWTUtil {
                 student.setStuNo(claims.get("stuNo")+"");
                 return student;
             }else{
-                throw new MyException("超时或不合法token");
+                throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
             }
         } catch (Exception e) {
-            throw new MyException("超时或不合法token");
+            throw new MyException(TIMEOUT_OR_ILLEGAL_TOKEN);
         }
     }
 
 
-    public static void main(String[] args) {
-        User user = new User();
-        user.setId(1);
-        user.setUserName("admin");
-        System.out.println(sign(user));
-    }
+//    public static void main(String[] args) {
+//        User user = new User();
+//        user.setId(1);
+//        user.setUserName("admin");
+//        System.out.println(sign(user));
+//    }
 
 }

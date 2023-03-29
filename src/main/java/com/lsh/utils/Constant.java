@@ -3,6 +3,12 @@ package com.lsh.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @version 1.0
+ * @description:
+ * @author: lsh
+ * @date: 2023/03/06
+ */
 public class Constant {
 
     //用户类型

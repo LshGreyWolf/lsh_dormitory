@@ -1,12 +1,27 @@
 package com.lsh.config.exception;
 
+import com.lsh.utils.AppHttpCodeEnum;
+
 public class MyException extends RuntimeException {
 
-    public MyException() {
+    private int code;
+
+    private String msg;
+
+    public int getCode() {
+        return code;
     }
 
-    public MyException(String message) {
-        super(message);
+    public String getMsg() {
+        return msg;
+    }
+
+    public MyException(AppHttpCodeEnum httpCodeEnum) {
+        //最后输出的内容
+        super(httpCodeEnum.getMsg());
+
+        this.code = httpCodeEnum.getCode();
+        this.msg = httpCodeEnum.getMsg();
     }
 }
 

@@ -6,7 +6,12 @@ import com.lsh.utils.Result;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+/**
+ * @version 1.0
+ * @description:
+ * @author: lsh
+ * @date: 2023/03/06
+ */
 @ControllerAdvice
 public class GlobalControllerAdvice {
 

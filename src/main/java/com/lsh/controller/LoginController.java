@@ -52,6 +52,7 @@ public class LoginController {
             User entity = userService.login(user.getUserName(), user.getPassword());
             if (entity != null) {
                 String token = JWTUtil.sign(entity);
+
                 Map map = new HashMap();
                 map.put(JWTUtil.token, token);
                 map.put("user", entity);

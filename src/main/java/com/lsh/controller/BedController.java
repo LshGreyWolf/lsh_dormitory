@@ -5,6 +5,7 @@ import com.lsh.domain.Bed;
 import com.lsh.service.BedService;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.List;
 public class BedController {
     @Autowired
     private BedService bedService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/list/{dormitoryId}")
     public Result list(@PathVariable("dormitoryId") Integer dormitoryId) {
@@ -30,7 +33,7 @@ public class BedController {
         return Result.ok(bedList);
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public Result insert(@RequestBody Bed bed) {
         //先查询该宿舍的所有床位号
         List<Bed> bedList = bedService.list(new LambdaQueryWrapper<Bed>().eq(Bed::getDormitoryId, bed.getDormitoryId()));

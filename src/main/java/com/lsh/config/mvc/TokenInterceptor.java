@@ -2,6 +2,7 @@ package com.lsh.config.mvc;
 
 
 import com.lsh.config.exception.MyException;
+import com.lsh.utils.AppHttpCodeEnum;
 import com.lsh.utils.JWTUtil;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
@@ -10,7 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/**
+ * @version 1.0
+ * @description:
+ * @author: lsh
+ * @date: 2023/03/06
+ */
 public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
@@ -22,7 +28,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             //根据token获取user对象
             User user = JWTUtil.getUser(token);
             if(user == null){
-                throw  new MyException("超时或不合法的token");
+                throw  new MyException(AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN);
             }
             String newToken = JWTUtil.sign(user);
             response.setHeader(JWTUtil.token,newToken);
@@ -32,7 +38,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             //根据token获取user对象
             Student student = JWTUtil.getStudent(token);
             if(student == null){
-                throw  new MyException("超时或不合法的token");
+                throw  new MyException(AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN);
             }
             String newToken = JWTUtil.signForStudent(student);
             response.setHeader(JWTUtil.token,newToken);

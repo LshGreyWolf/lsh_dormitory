@@ -1,6 +1,8 @@
 package com.lsh.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.github.pagehelper.PageHelper;
@@ -9,9 +11,11 @@ import com.lsh.domain.User;
 import com.lsh.domain.UserMenu;
 import com.lsh.service.UserMenuService;
 import com.lsh.service.UserService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +37,10 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserMenuService userMenuService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private RedisCache redisCache;
 
     /**
      * 用户分页查询
@@ -42,6 +50,7 @@ public class UserController {
     @PostMapping("/userQueryByPage")
     public Map<String, Object> userQueryByPage(@RequestBody User user) {
         PageInfo<User> pageInfo = userService.queryByPage(user);
+        redisCache.setCacheObject("user:list", JSONUtil.toJsonStr(pageInfo));
         return Result.ok(pageInfo);
     }
 
