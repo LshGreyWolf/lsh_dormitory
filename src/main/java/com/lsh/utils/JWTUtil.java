@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.lsh.utils.AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN;
-import static com.lsh.utils.AppHttpCodeEnum.TOKEN_NOT_NULL;
+import static com.lsh.enums.AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN;
+import static com.lsh.enums.AppHttpCodeEnum.TOKEN_NOT_NULL;
 
 
 /**
@@ -27,7 +27,7 @@ public class JWTUtil {
 
     public static String token = "token";
     //秘钥
-    public static String jwt_secret="yanzhen@cms@cc596183363.";
+    public static String jwt_secret="lsh3028429906@qq.com";
     //过期时长
     public static long jwt_expr = 3600*24*1000;
 

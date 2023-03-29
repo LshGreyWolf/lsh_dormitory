@@ -2,5 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.AbsenceMapper">
+    <update id="updateAbsence" parameterType="com.lsh.domain.Absence">
+        update tb_absence
+        <set>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="dormitoryId != null">dormitory_id = #{dormitoryId},</if>
+            <if test="startTime != null"> start_time = #{startTime},</if>
+            <if test="endTime != null"> end_time = #{endTime},</if>
+            <if test="remark != null and remark != ''"> remark = #{remark},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="queryByPage" resultType="com.lsh.domain.Absence" parameterType="com.lsh.domain.Absence">
+
+        select * from tb_absence
+        <include refid="AbsenceFindCriteria"/>
+    </select>
+    <select id="getAbsence" resultType="com.lsh.domain.Absence" parameterType="java.lang.Integer">
+
+        select * from tb_absence where id = #{id}
+    </select>
+
+    <sql id="AbsenceFindCriteria">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="studentId != null">and student_id = #{studentId}</if>
+            <if test="dormitoryId != null">and dormitory_id = #{dormitoryId}</if>
+            <if test="remark != null and remark != ''">and remark = #{remark}</if>
+        </where>
+    </sql>
 
 </mapper>

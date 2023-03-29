@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Absence;
 
 
@@ -12,4 +13,13 @@ import com.lsh.domain.Absence;
  */
 public interface AbsenceService extends IService<Absence> {
 
+    int insert(Absence absence);
+
+    int delete(String ids);
+
+    int updateAbsence(Absence absence);
+
+    Absence getAbsence(Integer id);
+
+    PageInfo<Absence> queryByPage(Absence absence);
 }

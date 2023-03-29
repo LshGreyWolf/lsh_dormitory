@@ -41,7 +41,7 @@ public class RepairController {
     public Map<String, Object> queryByPage(@RequestBody Repair repair) {
         PageInfo<Repair> repairPageInfo = repairService.queryByPage(repair);
         repairPageInfo.getList().forEach(item -> {
-
+            //根据id取出宿舍数据
             Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, item.getDormitoryId()));
 
             Building building = new Building();

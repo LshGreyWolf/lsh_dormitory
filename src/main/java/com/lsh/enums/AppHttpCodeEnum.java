@@ -1,4 +1,4 @@
-package com.lsh.utils;
+package com.lsh.enums;
 
 import org.omg.CORBA.TIMEOUT;
 

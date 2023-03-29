@@ -2,13 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.VisitMapper">
+    <insert id="save">
+
+        insert into tb_visit
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test=" visitor != null">,visitor</if>
+            <if test=" phone != null">,phone</if>
+            <if test=" sex != null">,sex</if>
+            <if test=" visitTime != null">,visit_time</if>
+            <if test=" leaveTime != null">,leave_time</if>
+            <if test=" remark != null">,remark</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test=" visitor != null">,#{visitor}</if>
+            <if test=" phone != null">,#{phone}</if>
+            <if test=" sex != null">,#{sex}</if>
+            <if test=" visitTime != null">,#{visitTime}</if>
+            <if test=" leaveTime != null">,#{leaveTime}</if>
+            <if test=" remark != null">,#{remark}</if>
+        </trim>
+    </insert>
 
     <select id="queryByPage" resultType="com.lsh.domain.Visit">
 
         select * from tb_visit
         <include refid="VisitFindCriteria"/>
 
-
+        order by visit_time desc
     </select>
 
 

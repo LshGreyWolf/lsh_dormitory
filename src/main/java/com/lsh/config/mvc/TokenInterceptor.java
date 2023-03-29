@@ -2,10 +2,11 @@ package com.lsh.config.mvc;
 
 
 import com.lsh.config.exception.MyException;
-import com.lsh.utils.AppHttpCodeEnum;
+import com.lsh.enums.AppHttpCodeEnum;
 import com.lsh.utils.JWTUtil;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
+import com.lsh.utils.UserHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +32,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                 throw  new MyException(AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN);
             }
             String newToken = JWTUtil.sign(user);
+            UserHolder.saveUser(user);
             response.setHeader(JWTUtil.token,newToken);
             response.setHeader("Access-Control-Expose-Headers", JWTUtil.token);
             request.setAttribute("user",user);

@@ -1,6 +1,6 @@
 package com.lsh.config.exception;
 
-import com.lsh.utils.AppHttpCodeEnum;
+import com.lsh.enums.AppHttpCodeEnum;
 
 public class MyException extends RuntimeException {
 

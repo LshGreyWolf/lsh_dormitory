@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.Absence;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * (Absence)表数据库访问层
@@ -14,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AbsenceMapper extends BaseMapper<Absence> {
 
+    List<Absence> queryByPage(Absence absence);
+
+    Absence getAbsence(Integer id);
+
+    int updateAbsence(Absence absence);
 }

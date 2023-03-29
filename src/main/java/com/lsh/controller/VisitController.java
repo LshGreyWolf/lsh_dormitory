@@ -3,6 +3,7 @@ package com.lsh.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Student;
 import com.lsh.domain.Visit;
 import com.lsh.service.StudentService;
 import com.lsh.service.VisitService;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @since 2023-03-27 20:26:13
  */
 @RestController
-@RequestMapping("visit")
+@RequestMapping("/visit")
 public class VisitController {
 
     @Autowired
@@ -35,9 +36,20 @@ public class VisitController {
         PageInfo<Visit> visitPageInfo = visitService.queryByPage(visit);
         List<Visit> visitList = visitPageInfo.getList();
         visitList.forEach(item->{
-            item.setStudent(studentService.getStudent(item.getId()));
+            Student student = studentService.getStudent(item.getStudentId());
+            item.setStudent(student);
         });
         return Result.ok(visitPageInfo);
+    }
+
+    @PostMapping("/save")
+    public Result save(@RequestBody Visit visit){
+        int flag = visitService.insert(visit);
+        if(flag>0){
+            return Result.ok();
+        }else{
+            return Result.fail();
+        }
     }
 }
 

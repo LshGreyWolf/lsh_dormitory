@@ -14,4 +14,6 @@ import com.lsh.domain.Visit;
 public interface VisitService extends IService<Visit> {
 
     PageInfo<Visit> queryByPage(Visit visit);
+
+    int insert(Visit visit);
 }
