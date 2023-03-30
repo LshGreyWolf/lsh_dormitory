@@ -3,6 +3,7 @@ package com.lsh.domain;
 import java.util.Date;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,8 @@ public class Notice  extends Page{
     private String filepath;
     @TableField(exist = false)
     private User user;
+    @TableField(exist = false)
+    private List<Integer> buildingIds;
 
 
 

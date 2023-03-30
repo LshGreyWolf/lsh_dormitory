@@ -35,7 +35,7 @@ public class VisitController {
     private Map<String, Object> queryByPage(@RequestBody Visit visit) {
         PageInfo<Visit> visitPageInfo = visitService.queryByPage(visit);
         List<Visit> visitList = visitPageInfo.getList();
-        visitList.forEach(item->{
+        visitList.forEach(item -> {
             Student student = studentService.getStudent(item.getStudentId());
             item.setStudent(student);
         });
@@ -43,13 +43,31 @@ public class VisitController {
     }
 
     @PostMapping("/save")
-    public Result save(@RequestBody Visit visit){
+    public Result save(@RequestBody Visit visit) {
         int flag = visitService.insert(visit);
-        if(flag>0){
-            return Result.ok();
-        }else{
-            return Result.fail();
+        if (flag > 0) {
+            return Result.ok("新增成功！");
+        } else {
+            return Result.fail("新增失败！");
         }
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody Visit visit) {
+        boolean flag = visitService.updateVisitor(visit);
+        if (flag){
+            return  Result.ok("更新成功！");
+        }
+        return Result.fail("更新失败");
+    }
+
+    @PostMapping("/delete")
+    public Result delete(String ids){
+        int row =  visitService.deleteVisitor(ids);
+        if (row>0){
+            return Result.ok("删除成功！");
+        }
+        return Result.fail("删除失败");
     }
 }
 

@@ -16,4 +16,8 @@ public interface VisitService extends IService<Visit> {
     PageInfo<Visit> queryByPage(Visit visit);
 
     int insert(Visit visit);
+
+    boolean updateVisitor(Visit visit);
+
+    int deleteVisitor(String ids);
 }

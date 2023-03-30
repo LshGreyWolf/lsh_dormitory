@@ -21,14 +21,14 @@ import com.lsh.service.VisitService;
 public class VisitServiceImpl extends ServiceImpl<VisitMapper, Visit> implements VisitService {
     @Autowired
     private VisitMapper visitMapper;
+
     @Override
     public PageInfo<Visit> queryByPage(Visit visit) {
-        if (visit != null && visit.getLimit() != null){
-            PageHelper.startPage(visit.getPage(),visit.getLimit());
+        if (visit != null && visit.getLimit() != null) {
+            PageHelper.startPage(visit.getPage(), visit.getLimit());
 
         }
         return new PageInfo<Visit>(visitMapper.queryByPage(visit));
-
 
 
     }
@@ -38,5 +38,22 @@ public class VisitServiceImpl extends ServiceImpl<VisitMapper, Visit> implements
 
 
         return visitMapper.save(visit);
+    }
+
+    @Override
+    public boolean updateVisitor(Visit visit) {
+
+        return visitMapper.updateVisitor(visit);
+    }
+
+    @Override
+    public int deleteVisitor(String ids) {
+        String[] idArr = ids.split(",");
+        int row = 0;
+        for (String id : idArr) {
+            visitMapper.deleteById(id);
+            row++;
+        }
+        return row;
     }
 }

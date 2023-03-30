@@ -17,4 +17,12 @@ import java.util.List;
 public interface NoticeMapper extends BaseMapper<Notice> {
 
     List<Notice> queryByPage(Notice notice);
+
+    int insertNotice(Notice notice);
+
+    int updateNotice(Notice notice);
+
+    Notice  getNotice(Notice notice);
+
+
 }

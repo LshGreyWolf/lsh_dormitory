@@ -50,9 +50,9 @@ public class AbsenceController {
     public Result save(@RequestBody Absence absence){
         int flag = absenceService.insert(absence);
         if(flag>0){
-            return Result.ok();
+            return Result.ok("新增成功！");
         }else{
-            return Result.fail();
+            return Result.fail("新增失败！");
         }
     }
 
@@ -60,9 +60,9 @@ public class AbsenceController {
     public Result delete(String ids){
         int flag = absenceService.delete(ids);
         if(flag>0){
-            return Result.ok();
+            return Result.ok("删除成功！");
         }else{
-            return Result.fail();
+            return Result.fail("删除失败！");
         }
     }
 
@@ -70,9 +70,9 @@ public class AbsenceController {
     public Result update(@RequestBody Absence absence){
         int flag = absenceService.updateAbsence(absence);
         if(flag>0){
-            return Result.ok();
+            return Result.ok("更新成功！");
         }else{
-            return Result.fail();
+            return Result.fail("更新失败！");
         }
     }
 

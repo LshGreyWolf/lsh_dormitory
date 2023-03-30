@@ -21,8 +21,6 @@ import java.util.List;
 public class BedController {
     @Autowired
     private BedService bedService;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/list/{dormitoryId}")
     public Result list(@PathVariable("dormitoryId") Integer dormitoryId) {

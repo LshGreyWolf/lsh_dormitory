@@ -15,9 +15,13 @@ public interface NoticeService extends IService<Notice> {
 
     PageInfo<Notice> queryByPage(Notice notice);
 
-    int create(Notice notice);
+    int insertNotice(Notice notice);
 
     int delete(String ids);
 
-    int updateSelective(Notice notice);
+    int updateNotice(Notice notice);
+
+
+    Notice getNotice(Notice notice);
+
 }

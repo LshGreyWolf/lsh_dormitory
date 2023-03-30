@@ -2,9 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.NoticeMapper">
+    <insert id="insertNotice" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_notice
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="title != null">, title</if>
+            <if test="content != null">, content</if>
+            <if test="userId != null">, user_id</if>
+            <if test="filepath != null">, filepath</if>
+
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="title != null">, #{title}</if>
+            <if test="content != null">, #{content}</if>
+            <if test="userId != null">, #{userId}</if>
+            <if test="filepath != null">, #{filepath}</if>
+
+        </trim>
+
+    </insert>
+
+    <update id="updateNotice">
+        update tb_notice
+        <set>
+            <if test="title != null">, title= #{title}</if>
+            <if test="content != null">, content= #{content}</if>
+            <if test="userId != null">, user_id= #{userId}</if>
+            <if test="filepath != null">, filepath = #{filepath}</if>
+        </set>
+
+    </update>
+
 
     <select id="queryByPage" resultType="com.lsh.domain.Notice" parameterType="com.lsh.domain.Notice">
         select * from tb_notice
+        <include refid="NoticeFindCriteria"/>
+    </select>
+    <select id="getNotice" resultType="com.lsh.domain.Notice">
+        select * from
+        tb_notice
         <include refid="NoticeFindCriteria"/>
     </select>
 

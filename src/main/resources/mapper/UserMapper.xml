@@ -9,13 +9,15 @@
 
 
     <update id="updateUserById">
-        update tb_user set
+        update tb_user
+        <set>
         <if test="userName !=null">user_name = #{userName},</if>
         <if test="password !=null">password = #{password},</if>
         <if test="name !=null">name = #{name},</if>
         <if test="sex !=null">sex = #{sex},</if>
         <if test="remark !=null">remark = #{remark},</if>
         <if test="type !=null">type = #{type}</if>
+        </set>
         where
         <if test="id != null">id = #{id}</if>
 

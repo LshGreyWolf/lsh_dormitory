@@ -1,11 +1,14 @@
 package com.lsh.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Building;
 import com.lsh.domain.Notice;
 import com.lsh.domain.NoticeReceive;
 import com.lsh.mapper.NoticeMapper;
+import com.lsh.mapper.NoticeReceiveMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.NoticeService;
@@ -23,29 +26,48 @@ import java.util.List;
 public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> implements NoticeService {
     @Autowired
     private NoticeMapper noticeMapper;
+    @Autowired
+    private NoticeReceiveMapper noticeReceiveMapper;
+
     @Override
     public PageInfo<Notice> queryByPage(Notice notice) {
 
-        if(notice != null && notice.getPage() != null){
-            PageHelper.startPage(notice.getPage(),notice.getLimit());
+        if (notice != null && notice.getPage() != null) {
+            PageHelper.startPage(notice.getPage(), notice.getLimit());
         }
         return new PageInfo<Notice>(noticeMapper.queryByPage(notice));
     }
 
     @Override
-    public int create(Notice notice) {
-        return 0;
+    public int insertNotice(Notice notice) {
+        noticeMapper.insertNotice(notice);
+
+
+        return 1;
     }
 
     @Override
     public int delete(String ids) {
-        return 0;
+        String[] idsArr = ids.split(",");
+        int row = 0;
+        for (String id : idsArr) {
+            noticeMapper.deleteById(id);
+            row++;
+        }
+        return row;
     }
 
     @Override
-    public int updateSelective(Notice notice) {
-        return 0;
+    public int updateNotice(Notice notice) {
+        return noticeMapper.updateNotice(notice);
     }
+
+    @Override
+    public Notice getNotice(Notice notice) {
+        return noticeMapper.getNotice(notice);
+    }
+
+
 
 
 }

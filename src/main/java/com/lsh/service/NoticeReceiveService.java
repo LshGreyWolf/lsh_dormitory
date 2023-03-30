@@ -12,4 +12,5 @@ import com.lsh.domain.NoticeReceive;
  */
 public interface NoticeReceiveService extends IService<NoticeReceive> {
 
+    int saveNoticeReceive(NoticeReceive noticeReceive);
 }

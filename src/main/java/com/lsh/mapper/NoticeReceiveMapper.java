@@ -14,4 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface NoticeReceiveMapper extends BaseMapper<NoticeReceive> {
 
+    int saveNoticeReceive(NoticeReceive noticeReceive);
 }
