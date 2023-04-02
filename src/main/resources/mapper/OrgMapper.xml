@@ -6,27 +6,24 @@
 
     <resultMap type="com.lsh.domain.Org" id="Org">
         <id column="id" property="id"/>
-        <result column="name"  property="name"/>
-        <result column="type"  property="type"/>
-        <result column="grade_id"  property="gradeId"/>
-        <result column="parent_id"  property="parentId"/>
-        <result column="remark"  property="remark"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="grade_id" property="gradeId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="remark" property="remark"/>
     </resultMap>
 
     <insert id="create" keyProperty="id" useGeneratedKeys="true" parameterType="com.lsh.domain.Org">
-        insert into tb_org(
-            name,
-            type,
-            grade_id,
-            parent_id,
-            remark
-        )values(
-                   #{name},
-                   #{type},
-                   #{gradeId},
-                   #{parentId},
-                   #{remark}
-               )
+        insert into tb_org(name,
+                           type,
+                           grade_id,
+                           parent_id,
+                           remark)
+        values (#{name},
+                #{type},
+                #{gradeId},
+                #{parentId},
+                #{remark})
     </insert>
 
     <select id="query" resultMap="Org">
@@ -40,29 +37,33 @@
     </select>
 
     <select id="detail" resultMap="Org">
-        select * from tb_org where id = #{id}
+        select *
+        from tb_org
+        where id = #{id}
     </select>
 
     <delete id="delete">
-        delete from tb_org where id = #{id}
+        delete
+        from tb_org
+        where id = #{id}
     </delete>
     <update id="update">
-        update tb_org set
-                          name=#{name},
-                          type=#{type},
-                          grade_id=#{gradeId},
-                          parent_id=#{parentId},
-                          remark=#{remark}
+        update tb_org
+        set name=#{name},
+            type=#{type},
+            grade_id=#{gradeId},
+            parent_id=#{parentId},
+            remark=#{remark}
         where id = #{id}
     </update>
 
     <update id="updateSelective">
         update tb_org set
-        <if test="name != null and name != ''"> name = #{name}</if>,
+        <if test="name != null and name != ''">name = #{name}</if>,
         <if test="type != null">type = #{type}</if>,
         <if test="gradeId != null">grade_id = #{gradeId}</if>,
         <if test="parentId != null">parent_id = #{parentId}</if>,
-        <if test="remark != null and remark != ''"> remark = #{remark}</if>
+        <if test="remark != null and remark != ''">remark = #{remark}</if>
         where id = #{id}
     </update>
 
@@ -78,7 +79,11 @@
     </sql>
 
     <select id="queryOrgBySelectionId" resultMap="Org">
-        select tb_org.* from tb_org,tb_selection_joiner where tb_selection_joiner.clazz_id = tb_org.id and selection_id = #{selectionId}
+        select tb_org.*
+        from tb_org,
+             tb_selection_joiner
+        where tb_selection_joiner.clazz_id = tb_org.id
+          and selection_id = #{selectionId}
     </select>
 
 </mapper>

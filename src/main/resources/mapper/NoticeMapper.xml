@@ -17,7 +17,6 @@
             <if test="content != null">, #{content}</if>
             <if test="userId != null">, #{userId}</if>
             <if test="filepath != null">, #{filepath}</if>
-
         </trim>
 
     </insert>

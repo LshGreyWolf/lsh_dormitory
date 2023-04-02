@@ -18,5 +18,6 @@ public interface DormitoryService extends IService<Dormitory> {
 
     List<Dormitory> listDormitory(Dormitory dormitory);
 
+    void initDormitory(Dormitory dormitory);
 }
 

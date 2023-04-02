@@ -3,4 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.SelectionJoinerMapper">
 
+    <delete id="deleteBySelectionId" parameterType="java.lang.Integer">
+        delete from tb_selection_joiner where selection_id = #{selectionId}
+    </delete>
 </mapper>

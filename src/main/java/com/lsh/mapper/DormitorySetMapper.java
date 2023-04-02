@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.DormitorySet;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * (DormitorySet)表数据库访问层
@@ -14,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DormitorySetMapper extends BaseMapper<DormitorySet> {
 
+    boolean saveDormitorySet(DormitorySet dormitorySet);
+
+    List<DormitorySet> queryDormitorySet(DormitorySet dormitorySet);
+
+    int updateDormitorySet(DormitorySet dormitorySet);
 }

@@ -50,11 +50,24 @@ public class DormitoryController {
 
 
     @GetMapping("/delete")
-    public Result delete(Integer dormitoryId){
+    public Result delete(Integer dormitoryId) {
         boolean flag = dormitoryService.removeById(dormitoryId);
-        if (flag){
+        if (flag) {
             return Result.ok("删除成功");
         }
         return Result.fail("删除失败");
     }
+
+    @PostMapping("/list")
+    public Result list(@RequestBody Dormitory dormitory) {
+        List<Dormitory> dormitories = dormitoryService.listDormitory(dormitory);
+        return Result.ok(dormitories);
+    }
+
+    @PostMapping("/initDormitory")
+    public Result initDormitory(@RequestBody Dormitory dormitory) {
+        dormitoryService.initDormitory(dormitory);
+        return Result.ok("初始化成功！");
+    }
+
 }

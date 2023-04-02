@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.Selection;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 
 /**
  * (Selection)表数据库访问层
@@ -14,4 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SelectionMapper extends BaseMapper<Selection> {
 
+    List<Selection> querySelection(Selection selection);
+
+    void saveSelection(Selection selection);
+
+    void updateSelection(Selection selection);
 }

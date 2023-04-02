@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Selection;
 
 
@@ -12,4 +13,9 @@ import com.lsh.domain.Selection;
  */
 public interface SelectionService extends IService<Selection> {
 
+    PageInfo<Selection> querySelection(Selection selection);
+
+    void saveSelection(Selection selection);
+
+    void updateSelection(Selection selection);
 }

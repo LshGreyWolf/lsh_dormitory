@@ -14,4 +14,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SelectionJoinerMapper extends BaseMapper<SelectionJoiner> {
 
+    void deleteBySelectionId(Integer id);
 }

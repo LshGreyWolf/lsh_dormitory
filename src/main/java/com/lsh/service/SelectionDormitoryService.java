@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.SelectionDormitory;
 
 
@@ -12,4 +13,9 @@ import com.lsh.domain.SelectionDormitory;
  */
 public interface SelectionDormitoryService extends IService<SelectionDormitory> {
 
+    int updateSelectionDormitory(SelectionDormitory selectionDormitory);
+
+    int saveSelectionDormitory(String clazzId, String dormitoryIds);
+
+    PageInfo<SelectionDormitory> querySelectionDormitory(SelectionDormitory selectionDormitory);
 }

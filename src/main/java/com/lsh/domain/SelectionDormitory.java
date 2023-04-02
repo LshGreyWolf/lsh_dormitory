@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SelectionDormitory  {
+public class SelectionDormitory extends Page {
     
     private Integer id;
     

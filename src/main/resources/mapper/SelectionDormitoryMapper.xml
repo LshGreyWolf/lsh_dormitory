@@ -2,5 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.SelectionDormitoryMapper">
+    <insert id="saveSelectionDormitory" parameterType="com.lsh.domain.SelectionDormitory" keyProperty="id" useGeneratedKeys="true">
 
+        insert into tb_selection_dormitory
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="dormitoryId != null">,dormitory_id</if>
+            <if test="clazzId != null">,clazz_id</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="dormitoryId != null">,#{dormitoryId}</if>
+            <if test="clazzId != null">,#{clazzId}</if>
+        </trim>
+
+    </insert>
+
+    <delete id="deleteByClazzId" parameterType="int">
+        delete
+        from tb_selection_dormitory
+        where clazz_id = #{clazzId}
+
+    </delete>
+    <select id="querySelectionDormitory" resultType="com.lsh.domain.SelectionDormitory"
+            parameterType="com.lsh.domain.SelectionDormitory">
+
+        select * from tb_selection_dormitory
+        <include refid="SelectionDormitoryFindCriteria"/>
+    </select>
+
+
+    <sql id="SelectionDormitoryFindCriteria">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="dormitoryId != null">and dormitory_id = #{dormitoryId}</if>
+            <if test="clazzId != null">and clazz_id = #{clazzId}</if>
+        </where>
+    </sql>
 </mapper>

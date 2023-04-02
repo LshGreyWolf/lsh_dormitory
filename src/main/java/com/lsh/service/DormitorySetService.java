@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.DormitorySet;
 
 
@@ -12,4 +13,11 @@ import com.lsh.domain.DormitorySet;
  */
 public interface DormitorySetService extends IService<DormitorySet> {
 
+    boolean saveDormitorySet(DormitorySet dormitorySet);
+
+    PageInfo<DormitorySet> queryDormitorySet(DormitorySet dormitorySet);
+
+    int deleteDormitorySet(String ids);
+
+    int updateDormitorySet(DormitorySet dormitorySet);
 }
