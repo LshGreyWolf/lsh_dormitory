@@ -77,8 +77,6 @@ public class MenuController {
         //将菜单数据上传到redis
         redisCache.setCacheObject(USER_MENU_KEY, JSONUtil.toJsonStr(menuList1),USER_MENU_TTL, TimeUnit.MINUTES);
 
-
-
         return Result.ok(menuList1);
 
     }

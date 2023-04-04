@@ -4,6 +4,7 @@ import java.util.Date;
 
 import java.io.Serializable;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,9 +33,9 @@ public class Visit extends Page {
     
     private Integer studentId;
     
-    private Date visitTime;
+    private String visitTime;
     
-    private Date leaveTime;
+    private String leaveTime;
     
     private String remark;
     @TableField(exist = false)

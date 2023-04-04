@@ -26,12 +26,13 @@
     <update id="updateVisitor">
         update tb_visit
         <set>
-        <if test="visitor != null"> visitor = #{visitor}</if>
-        <if test="phone != null"> phone =#{phone}</if>
-        <if test="sex != null"> sex =#{sex}</if>
-        <if test="visitTime != null"> visit_time =#{visitTime}</if>
-        <if test="leaveTime != null"> leave_time =#{leaveTime}</if>
-        <if test="remark != null"> remark =#{remark}</if>
+        <if test="visitor != null">, visitor = #{visitor}</if>
+        <if test="phone != null">, phone =#{phone}</if>
+        <if test="sex != null">, sex =#{sex}</if>
+        <if test="idcard != null">, idcard =#{idcard}</if>
+        <if test="visitTime != null"> ,visit_time =#{visitTime}</if>
+        <if test="leaveTime != null">, leave_time =#{leaveTime}</if>
+        <if test="remark != null">, remark =#{remark}</if>
         </set>
 
 

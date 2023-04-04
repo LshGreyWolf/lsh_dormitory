@@ -28,4 +28,5 @@ public class StoryController {
         List<Storey> list = storeyService.list(queryWrapper);
         return Result.ok(list);
     }
+
 }

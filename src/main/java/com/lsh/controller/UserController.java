@@ -44,6 +44,7 @@ public class UserController {
 
     /**
      * 用户分页查询
+     *
      * @param user
      * @return
      */
@@ -56,23 +57,25 @@ public class UserController {
 
     /**
      * 新增用户
+     *
      * @param user
      * @return
      */
     @PostMapping("/addUser")
     public Result addUser(@RequestBody User user) {
-        log.info("============={}",user.getMenuIds());
+        log.info("============={}", user.getMenuIds());
         List<Integer> menuIds = user.getMenuIds();
+//        user.setStatus(1);
         boolean flag = false;
-         flag = userService.addUser(user);
+        flag = userService.addUser(user);
 //        UserMenu userMenu = BeanUtil.copyProperties(user, UserMenu.class);
         //同时将数据同步到用户菜单关联表中
-        //新增用户使，因为之前没有，不用删除
+        //新增用户时，因为之前没有，不用删除
 
         user = userService.getUser(user);
         //循环插入
-        for (Integer menuId :menuIds){
-             flag= userMenuService.saveUserMenu(user.getId(), menuId);
+        for (Integer menuId : menuIds) {
+            flag = userMenuService.saveUserMenu(user.getId(), menuId);
         }
         if (flag) {
             return Result.ok("新增用户成功！");
@@ -89,23 +92,29 @@ public class UserController {
         queryWrapper.eq(UserMenu::getUserId, user.getId());
         userMenuService.remove(queryWrapper);
 
-        for (Integer menuId :user.getMenuIds()){
-            flag= userMenuService.saveUserMenu(user.getId(), menuId);
+        for (Integer menuId : user.getMenuIds()) {
+            flag = userMenuService.saveUserMenu(user.getId(), menuId);
         }
-        if (flag){
+        if (flag) {
             return Result.ok("修改成功！");
         }
         return Result.fail("修改失败");
     }
 
     @GetMapping("/delete")
-    public Result deleteUser(String ids){
+    public Result deleteUser(String ids) {
         int row = userService.delete(ids);
-        if (row>0){
-            return  Result.ok("删除成功");
+        if (row > 0) {
+            return Result.ok("删除成功");
         }
-        return  Result.fail("删除失败");
+        return Result.fail("删除失败");
 
+    }
+
+    @GetMapping("/updateStatus")
+    public Result updateStatus(User user) {
+        userService.updateStatusById(user);
+        return Result.ok("更改成功！");
     }
 
 }

@@ -30,5 +30,7 @@ public interface UserMapper extends BaseMapper<User> {
 
 
     User getUser(User user);
+
+    boolean updateStatusById(User user);
 }
 

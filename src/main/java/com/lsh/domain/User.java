@@ -27,6 +27,7 @@ public class User extends Page {
     private Integer type;
     private String remark;
     private String sex;
+    private Integer status;
     @TableField(exist = false)
     private List<Integer> menuIds;
 

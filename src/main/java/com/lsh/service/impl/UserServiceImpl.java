@@ -83,6 +83,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.getUser(user);
     }
 
+    @Override
+    public boolean updateStatusById(User user) {
+
+        userMapper.updateStatusById(user);
+
+        return false;
+    }
+
 
 }
 
