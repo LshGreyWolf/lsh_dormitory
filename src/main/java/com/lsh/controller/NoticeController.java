@@ -9,10 +9,12 @@ import com.lsh.service.NoticeService;
 import com.lsh.service.UserService;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +54,7 @@ public class NoticeController {
 
         User user = UserHolder.getUser();
         notice.setUserId(user.getId());
-
+        notice.setCreateTime(new Date());
         //将公告插入公告表
         int flag = noticeService.insertNotice(notice);
         //插入公告_接收者关联表
@@ -72,7 +74,7 @@ public class NoticeController {
 
     @GetMapping("/deleteNotice")
     public Result deleteNotice(String ids) {
-        int flag = noticeService.delete(ids);
+        int flag = noticeService.deleteNotice(ids);
         if (flag > 0) {
             return Result.ok("删除成功！");
         } else {
@@ -80,7 +82,7 @@ public class NoticeController {
         }
     }
 
-    @PostMapping("update")
+    @PostMapping("/updateNotice")
     public Result updateNotice(@RequestBody Notice notice) {
         int flag = noticeService.updateNotice(notice);
         if (flag > 0) {

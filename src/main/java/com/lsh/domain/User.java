@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -17,12 +19,18 @@ import java.util.List;
 public class User extends Page {
     @TableId(type = IdType.AUTO)
     private Integer id;
+
     private String userName;
+
     private String password;
+    @TableField(exist = false)
+    private String newPassword;
+
     private String name;
+
     private String phone;
     /**
-     * 0管理员/1宿管员
+     * 0- 管理员 /1 -宿管员
      */
     private Integer type;
     private String remark;

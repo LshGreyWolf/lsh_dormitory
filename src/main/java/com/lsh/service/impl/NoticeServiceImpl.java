@@ -9,6 +9,7 @@ import com.lsh.domain.Notice;
 import com.lsh.domain.NoticeReceive;
 import com.lsh.mapper.NoticeMapper;
 import com.lsh.mapper.NoticeReceiveMapper;
+import com.sun.webkit.graphics.WCRenderQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.NoticeService;
@@ -41,17 +42,17 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Override
     public int insertNotice(Notice notice) {
         noticeMapper.insertNotice(notice);
-
-
         return 1;
     }
 
     @Override
-    public int delete(String ids) {
+    public int deleteNotice(String ids) {
         String[] idsArr = ids.split(",");
         int row = 0;
         for (String id : idsArr) {
             noticeMapper.deleteById(id);
+            //删除关联表数据
+            noticeReceiveMapper.deleteByNoticeId(Integer.valueOf(id));
             row++;
         }
         return row;
@@ -59,7 +60,16 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
 
     @Override
     public int updateNotice(Notice notice) {
-        return noticeMapper.updateNotice(notice);
+        noticeMapper.updateNotice(notice);
+        noticeReceiveMapper.deleteByNoticeId(notice.getId());
+        List<Integer> buildingIds = notice.getBuildingIds();
+        for (Integer buildingId : buildingIds) {
+            NoticeReceive  noticeReceive = new NoticeReceive();
+            noticeReceive.setBuildingId(buildingId);
+            noticeReceive.setNoticeId(notice.getId());
+            noticeReceiveMapper.saveNoticeReceive(noticeReceive);
+        }
+        return 1;
     }
 
     @Override

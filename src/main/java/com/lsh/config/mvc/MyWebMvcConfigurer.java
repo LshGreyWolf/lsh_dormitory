@@ -33,7 +33,8 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login");
+                .excludePathPatterns("/login")
+                .excludePathPatterns("/login/register");
     }
 
     //使用CorsFilter解决跨域的问题

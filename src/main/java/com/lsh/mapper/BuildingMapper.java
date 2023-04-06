@@ -22,4 +22,7 @@ public interface BuildingMapper extends BaseMapper<Building> {
     boolean saveBuilding(Building building);
 
     Building getBuilding(Building building);
+
+    boolean updateBuilding(Building building);
+
 }

@@ -22,9 +22,9 @@ public class AbsenceServiceImpl extends ServiceImpl<AbsenceMapper, Absence> impl
     private AbsenceMapper absenceMapper;
 
     @Override
-    public int insert(Absence absence) {
+    public int insertAbsence(Absence absence) {
 
-        return absenceMapper.insert(absence);
+        return absenceMapper.insertAbsence(absence);
     }
 
     @Override

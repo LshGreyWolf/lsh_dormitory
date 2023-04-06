@@ -1,6 +1,7 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.NoticeReceive;
 
 
@@ -13,4 +14,9 @@ import com.lsh.domain.NoticeReceive;
 public interface NoticeReceiveService extends IService<NoticeReceive> {
 
     int saveNoticeReceive(NoticeReceive noticeReceive);
+
+    PageInfo<NoticeReceive> queryNoticeReceive(NoticeReceive noticeReceive);
+
+    int updateNoticeReceive(NoticeReceive noticeReceive);
+
 }

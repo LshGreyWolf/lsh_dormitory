@@ -70,7 +70,7 @@ public class BuildingController {
         for (Integer i = 0; i < storeyNum; i++) {
             Storey storey = new Storey();
             storey.setBuildingId(serviceBuilding.getId());
-            storey.setName(i+"层");
+            storey.setName(i+1 + "层");
             storeyService.save(storey);
         }
         if (flag) {
@@ -86,6 +86,16 @@ public class BuildingController {
             return Result.ok("删除成功");
         }
         return Result.fail("删除失败");
+    }
+
+    @PostMapping("/updateBuilding")
+    public Result updateBuilding(@RequestBody Building building) {
+
+        boolean flag = buildingService.updateBuilding(building);
+        if (flag){
+            return Result.ok("更新成功");
+        }
+        return Result.fail("失败");
     }
 
 

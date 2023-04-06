@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Absence;
+import com.lsh.domain.Building;
 import com.lsh.domain.Dormitory;
 import com.lsh.domain.Student;
 import com.lsh.service.AbsenceService;
+import com.lsh.service.BuildingService;
 import com.lsh.service.DormitoryService;
 import com.lsh.service.StudentService;
 import com.lsh.utils.Result;
@@ -32,6 +34,8 @@ public class AbsenceController {
 
     @Autowired
     private DormitoryService dormitoryService;
+    @Autowired
+    private BuildingService buildingService;
 
 
     @PostMapping("/queryByPage")
@@ -41,14 +45,19 @@ public class AbsenceController {
             Student detail = studentService.getStudent(item.getStudentId());
             item.setStudent(detail);
             Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId,item.getDormitoryId()));
+            Building building = new Building();
+            building.setId(item.getBuildingId());
+            Building building1 = buildingService.getBuilding(building);
+            item.setBuilding(building1);
+
             item.setDormitory(dormitory);
         });
         return Result.ok(pageInfo);
     }
 
-    @PostMapping("save")
-    public Result save(@RequestBody Absence absence){
-        int flag = absenceService.insert(absence);
+    @PostMapping("/insertAbsence")
+    public Result insertAbsence(@RequestBody Absence absence){
+        int flag = absenceService.insertAbsence(absence);
         if(flag>0){
             return Result.ok("新增成功！");
         }else{
@@ -66,8 +75,8 @@ public class AbsenceController {
         }
     }
 
-    @PostMapping("updateAbsence")
-    public Result update(@RequestBody Absence absence){
+    @PostMapping("/updateAbsence")
+    public Result updateAbsence(@RequestBody Absence absence){
         int flag = absenceService.updateAbsence(absence);
         if(flag>0){
             return Result.ok("更新成功！");

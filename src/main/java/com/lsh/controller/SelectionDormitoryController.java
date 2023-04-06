@@ -25,7 +25,7 @@ public class SelectionDormitoryController {
     private SelectionDormitoryService selectionDormitoryService;
 
 
-    @PostMapping("saveSelectionDormitory")
+    @PostMapping("/saveSelectionDormitory")
     public Result saveSelectionDormitory(@RequestBody Map<String, String> map) {
         //clazzId,dormitoryIds
         String clazzId = map.get("clazzId");

@@ -116,5 +116,13 @@ public class UserController {
         userService.updateStatusById(user);
         return Result.ok("更改成功！");
     }
+    @PostMapping("/resetPassword")
+    public Result resetPassword(@RequestBody User user){
+        User user1 = new User();
+        user1.setPassword("123456");
+        user1.setId(user.getId());
+        userService.updateUserById(user1);
+        return Result.ok("重置密码成功！");
+    }
 
 }

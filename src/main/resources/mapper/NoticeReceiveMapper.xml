@@ -16,4 +16,28 @@
             <if test="buildingId != null">,#{buildingId}</if>
         </trim>
     </insert>
+    <update id="updateNoticeReceive">
+        update tb_notice_receive
+        <set>
+        <if test=" noticeId != null" > notice_id=#{noticeId},</if>
+        <if test=" buildingId != null" >building_id=#{buildingId} </if>
+        </set>
+        where id = #{id}
+
+    </update>
+    <delete id="deleteByNoticeId" parameterType="int">
+        delete from tb_notice_receive where notice_id=#{id}
+    </delete>
+    <select id="queryNoticeReceive" resultType="com.lsh.domain.NoticeReceive">
+        select * from tb_notice_receive
+        <include refid="NoticeReceiveFindCriteria"/>
+    </select>
+
+    <sql id="NoticeReceiveFindCriteria">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="noticeId != null">and notice_id = #{noticeId}</if>
+            <if test="buildingId != null">and building_id = #{buildingId}</if>
+        </where>
+    </sql>
 </mapper>

@@ -2,14 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.AbsenceMapper">
+    <insert id="insertAbsence">
+insert into tb_absence
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="startTime != null">,start_time</if>
+            <if test="endTime != null">,end_time</if>
+            <if test="remark != null">,remark</if>
+            <if test="studentId != null">,student_id</if>
+            <if test="dormitoryId != null">,dormitory_id</if>
+            <if test="buildingId != null">,building_id</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="startTime != null">,#{startTime}</if>
+            <if test="endTime != null">,#{endTime}</if>
+            <if test="remark != null">,#{remark}</if>
+            <if test="studentId != null">,#{studentId}</if>
+            <if test="dormitoryId != null">,#{dormitoryId}</if>
+            <if test="buildingId != null">,#{buildingId}</if>
+        </trim>
+
+
+    </insert>
     <update id="updateAbsence" parameterType="com.lsh.domain.Absence">
         update tb_absence
         <set>
             <if test="studentId != null">student_id = #{studentId},</if>
             <if test="dormitoryId != null">dormitory_id = #{dormitoryId},</if>
-            <if test="startTime != null"> start_time = #{startTime},</if>
-            <if test="endTime != null"> end_time = #{endTime},</if>
-            <if test="remark != null and remark != ''"> remark = #{remark},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
         </set>
         where id = #{id}
     </update>
@@ -21,7 +43,9 @@
     </select>
     <select id="getAbsence" resultType="com.lsh.domain.Absence" parameterType="java.lang.Integer">
 
-        select * from tb_absence where id = #{id}
+        select *
+        from tb_absence
+        where id = #{id}
     </select>
 
     <sql id="AbsenceFindCriteria">

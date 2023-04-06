@@ -3,6 +3,7 @@ package com.lsh.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
+import com.lsh.domain.Vo.StudentDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,4 +27,9 @@ public interface StudentMapper extends BaseMapper<Student> {
     boolean updateStudent(Student student);
 
     Student getStudent(Integer id);
+
+    Student getStudent1(Student student);
+
+    void register(StudentDto studentDto);
+
 }

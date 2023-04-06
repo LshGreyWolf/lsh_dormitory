@@ -17,7 +17,7 @@ public interface NoticeService extends IService<Notice> {
 
     int insertNotice(Notice notice);
 
-    int delete(String ids);
+    int deleteNotice(String ids);
 
     int updateNotice(Notice notice);
 

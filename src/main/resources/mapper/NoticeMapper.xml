@@ -9,6 +9,8 @@
             <if test="content != null">, content</if>
             <if test="userId != null">, user_id</if>
             <if test="filepath != null">, filepath</if>
+            <if test="type != null">, type</if>
+            <if test="createTime != null">, create_time</if>
 
         </trim>
         VALUES
@@ -17,6 +19,8 @@
             <if test="content != null">, #{content}</if>
             <if test="userId != null">, #{userId}</if>
             <if test="filepath != null">, #{filepath}</if>
+            <if test="type != null">, #{type}</if>
+            <if test="createTime != null">, #{createTime}</if>
         </trim>
 
     </insert>
@@ -26,6 +30,7 @@
         <set>
             <if test="title != null">, title= #{title}</if>
             <if test="content != null">, content= #{content}</if>
+            <if test="createTime != null">, create_time = #{createTime}</if>
             <if test="userId != null">, user_id= #{userId}</if>
             <if test="filepath != null">, filepath = #{filepath}</if>
         </set>
@@ -51,6 +56,7 @@
             <if test="content != null and content != ''">and content = #{content}</if>
             <if test="userId != null">and user_id = #{userId}</if>
             <if test="filepath != null and filepath != ''">and filepath = #{filepath}</if>
+            <if test="type != null and type != ''">and type = #{type}</if>
         </where>
     </sql>
 </mapper>

@@ -3,6 +3,8 @@ package com.lsh.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Student;
+import com.lsh.domain.Vo.StudentDto;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -25,5 +27,7 @@ public interface StudentService extends IService<Student> {
 
     boolean updateStudent( Student student);
     Student getStudent(Integer id);
+    Student getStudent(Student student);
 
+    boolean register(StudentDto studentDto);
 }

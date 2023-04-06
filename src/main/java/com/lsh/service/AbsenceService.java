@@ -13,7 +13,7 @@ import com.lsh.domain.Absence;
  */
 public interface AbsenceService extends IService<Absence> {
 
-    int insert(Absence absence);
+    int insertAbsence(Absence absence);
 
     int delete(String ids);
 

@@ -1,5 +1,7 @@
 package com.lsh.controller;
 
+import com.lsh.domain.Vo.StudentDto;
+
 import com.lsh.utils.JWTUtil;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
@@ -8,6 +10,7 @@ import com.lsh.service.UserService;
 import com.lsh.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,8 +66,26 @@ public class LoginController {
         }
     }
 
+    @PostMapping("/register")
+    public Result register(@Validated @RequestBody StudentDto studentDto) {
 
+        String password = studentDto.getPassword();
 
+        String newPassword = studentDto.getNewPassword();
+        if (!password.equals(newPassword)) {
+            return Result.fail("两次密码不一致！");
+        }
+        Integer type = studentDto.getType();
+        if (type != 2) {
+            return Result.fail("只限制学生注册！");
+        }
+        boolean flag = studentService.register(studentDto);
+
+        if (!flag) {
+            return Result.fail("该手机号已注册！");
+        }
+        return Result.ok("注册成功，请登录！");
+    }
 
 
 }

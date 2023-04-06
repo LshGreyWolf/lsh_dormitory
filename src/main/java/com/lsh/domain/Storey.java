@@ -2,6 +2,10 @@ package com.lsh.domain;
 
 
 import java.io.Serializable;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +28,14 @@ public class Storey {
     private Integer buildingId;
     
     private String remark;
-
+    @TableField(fill = FieldFill.INSERT)
+    private Integer createBy;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Integer updateBy;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 
 
 

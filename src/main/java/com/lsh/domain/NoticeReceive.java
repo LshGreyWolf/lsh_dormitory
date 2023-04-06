@@ -15,13 +15,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class NoticeReceive  {
+public class NoticeReceive  extends Page{
     
     private Integer id;
     
     private Integer noticeId;
     
     private Integer buildingId;
+
 
 
 

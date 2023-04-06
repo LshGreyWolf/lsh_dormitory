@@ -20,4 +20,5 @@ public interface BuildingService extends IService<Building> {
     int deleteBuilding(String ids);
 
     Building getBuilding(Building building);
+    boolean updateBuilding(Building building);
 }

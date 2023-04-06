@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Absence extends Page{
+public class Absence extends Page {
 
     private Integer id;
 
@@ -28,15 +28,18 @@ public class Absence extends Page{
 
     private Integer dormitoryId;
 
-    private Date startTime;
+    private Integer buildingId;
 
-    private Date endTime;
+    private String startTime;
+
+    private String endTime;
 
     private String remark;
     @TableField(exist = false)
     private Student student;
     @TableField(exist = false)
     private Dormitory dormitory;
+    private Building building;
 
 
 }

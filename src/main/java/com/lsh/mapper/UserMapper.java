@@ -3,6 +3,7 @@ package com.lsh.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.User;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,5 +33,7 @@ public interface UserMapper extends BaseMapper<User> {
     User getUser(User user);
 
     boolean updateStatusById(User user);
+
+
 }
 

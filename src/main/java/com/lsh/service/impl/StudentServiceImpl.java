@@ -5,13 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Student;
-import com.lsh.domain.User;
+import com.lsh.domain.Vo.StudentDto;
 import com.lsh.mapper.StudentMapper;
-import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.StudentService;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 /**
  * (Student)表服务实现类
@@ -74,5 +73,28 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public Student getStudent(Integer id) {
 
        return studentMapper.getStudent(id);
+    }
+
+    @Override
+    public Student getStudent(Student student) {
+
+        return studentMapper.getStudent1(student);
+    }
+
+    @Override
+    public boolean register(StudentDto studentDto) {
+
+        String phone = studentDto.getPhone();
+        Student student = new Student();
+        student.setPhone(phone);
+        Student student1 = studentMapper.getStudent1(student);
+
+        if ( student1== null) {
+            studentMapper.register(studentDto);
+        } else {
+            return false;
+        }
+        return true;
+
     }
 }
