@@ -40,5 +40,7 @@ public interface UserService extends IService<User> {
 
 
     User getUser(User user);
+
+    boolean updateStatusById(User user);
 }
 
