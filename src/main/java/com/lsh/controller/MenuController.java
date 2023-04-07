@@ -2,6 +2,7 @@ package com.lsh.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.lsh.domain.Menu;
+import com.lsh.domain.Student;
 import com.lsh.domain.User;
 import com.lsh.service.MenuService;
 import com.lsh.service.UserMenuService;
@@ -45,15 +46,15 @@ public class MenuController {
     @GetMapping("/query")
     public Result queryMenu(HttpServletRequest request) {
         List<Menu> menus = new ArrayList<>();
-
+        User user = UserHolder.getUser();
+        Student student = UserHolder.getStudent();
         if (UserHolder.getUser() != null) {
             //从threadLocal中取出user
-            User user = UserHolder.getUser();
             menus = menuService.queryMenu(user.getId());
         }
-//        else if(request.getAttribute("student") != null){
-//            menus = menuService.queryByType();
-//        }
+        else if(student != null){
+            menus = menuService.queryByType();
+        }
 
         List<Menu> menuList1 = new ArrayList<>();
         //找出一级菜单

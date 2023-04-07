@@ -16,4 +16,7 @@ import java.util.List;
 @Mapper
 public interface MenuMapper extends BaseMapper<Menu> {
     List<Menu> queryMenu(Integer userID);
+
+    List<Menu> queryByType();
+
 }

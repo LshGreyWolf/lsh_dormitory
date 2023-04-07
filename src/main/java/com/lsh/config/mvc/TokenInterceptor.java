@@ -36,13 +36,17 @@ public class TokenInterceptor implements HandlerInterceptor {
             response.setHeader(JWTUtil.token,newToken);
             response.setHeader("Access-Control-Expose-Headers", JWTUtil.token);
             request.setAttribute("user",user);
+
         }else if("STUDENT".equals(type)){
             //根据token获取user对象
             Student student = JWTUtil.getStudent(token);
+
             if(student == null){
                 throw  new MyException(AppHttpCodeEnum.TIMEOUT_OR_ILLEGAL_TOKEN);
             }
+
             String newToken = JWTUtil.signForStudent(student);
+            UserHolder.saveStudent(student);
             response.setHeader(JWTUtil.token,newToken);
             response.setHeader("Access-Control-Expose-Headers", JWTUtil.token);
             request.setAttribute("student",student);

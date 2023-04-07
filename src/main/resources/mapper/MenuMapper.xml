@@ -16,4 +16,8 @@
 
 
     </select>
+    <select id="queryByType" resultType="com.lsh.domain.Menu">
+
+        select tb_menu.* from tb_menu where type = 1
+    </select>
 </mapper>

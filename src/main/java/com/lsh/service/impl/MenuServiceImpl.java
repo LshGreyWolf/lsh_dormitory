@@ -29,5 +29,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return menuMapper.queryMenu(userID);
     }
 
+    @Override
+    public List<Menu> queryByType() {
+        return menuMapper.queryByType();
+    }
+
 
 }

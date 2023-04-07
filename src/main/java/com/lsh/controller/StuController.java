@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.*;
 import com.lsh.service.*;
 import com.lsh.utils.Result;
+import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,10 +55,11 @@ public class StuController {
 
     @PostMapping("/info")
     public Result info(HttpServletRequest request) {
-        Student param = (Student) request.getAttribute("student");
+
+        Student param = UserHolder.getStudent();
         Student student = studentService.getStudent(param.getId());
-        Org org = orgService.detail(param.getClazzId());
-        Grade grade = gradeService.detail(param.getGradeId());
+        Org org = orgService.detail(student.getClazzId());
+        Grade grade = gradeService.detail(student.getGradeId());
         student.setOrg(org);
         student.setGrade(grade);
         return Result.ok(student);

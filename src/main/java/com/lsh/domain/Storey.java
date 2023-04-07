@@ -28,14 +28,7 @@ public class Storey {
     private Integer buildingId;
     
     private String remark;
-    @TableField(fill = FieldFill.INSERT)
-    private Integer createBy;
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Integer updateBy;
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+
 
 
 

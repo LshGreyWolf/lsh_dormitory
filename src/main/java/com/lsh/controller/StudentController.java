@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Grade;
 import com.lsh.domain.Org;
 import com.lsh.domain.Student;
+import com.lsh.domain.User;
 import com.lsh.service.GradeService;
 import com.lsh.service.OrgService;
 import com.lsh.service.StudentService;
@@ -75,6 +76,16 @@ public class StudentController {
             return Result.ok("修改成功");
         }
         return Result.fail("修改失败");
+    }
+
+
+    @PostMapping("/resetPassword")
+    public Result resetPassword(@RequestBody Student student){
+        Student student1 = new Student();
+        student1.setPassword("123456");
+        student1.setId(student.getId());
+        studentService.updateStudent(student1);
+        return Result.ok("重置密码成功！");
     }
 
 

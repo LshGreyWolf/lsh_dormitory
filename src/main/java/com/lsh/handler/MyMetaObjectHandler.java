@@ -14,7 +14,7 @@ import java.util.Date;
  * @author: lsh
  * @date: 2023/03/06
  */
-@Component
+
 public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {

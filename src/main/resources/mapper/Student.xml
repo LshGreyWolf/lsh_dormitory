@@ -63,7 +63,7 @@
     <select id="login" resultType="com.lsh.domain.Student">
         select *
         from tb_student
-        where stuNo = #{userName}
+        where stu_no = #{userName}
           and password = #{password}
     </select>
     <select id="queryByPage" resultType="com.lsh.domain.Student" parameterType="com.lsh.domain.Student">
