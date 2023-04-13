@@ -40,7 +40,7 @@ public class Notice extends Page {
     @TableField(exist = false)
     private List<Integer> buildingIds;
 
-
+    private Integer buildingId;
 
 
 }

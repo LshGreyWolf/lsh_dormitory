@@ -2,25 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.VisitMapper">
-    <insert id="save">
+    <insert id="saveVisitors">
 
         insert into tb_visit
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test=" visitor != null">,visitor</if>
             <if test=" phone != null">,phone</if>
             <if test=" sex != null">,sex</if>
+            <if test=" idcard != null">,idcard</if>
             <if test=" visitTime != null">,visit_time</if>
             <if test=" leaveTime != null">,leave_time</if>
             <if test=" remark != null">,remark</if>
+            <if test=" studentId != null">,student_id</if>
         </trim>
         values
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test=" visitor != null">,#{visitor}</if>
             <if test=" phone != null">,#{phone}</if>
             <if test=" sex != null">,#{sex}</if>
+            <if test=" idcard != null">,#{idcard}</if>
             <if test=" visitTime != null">,#{visitTime}</if>
             <if test=" leaveTime != null">,#{leaveTime}</if>
             <if test=" remark != null">,#{remark}</if>
+            <if test=" studentId != null">,#{studentId}</if>
         </trim>
     </insert>
     <update id="updateVisitor">

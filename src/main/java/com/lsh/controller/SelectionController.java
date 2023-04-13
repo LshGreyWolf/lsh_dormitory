@@ -7,10 +7,7 @@ import com.lsh.service.OrgService;
 import com.lsh.service.SelectionService;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +26,7 @@ public class SelectionController {
     @Autowired
     private OrgService orgService;
 
-    @PostMapping("querySelection")
+    @PostMapping("/querySelection")
     public Map<String, Object> querySelection(@RequestBody Selection selection) {
         PageInfo<Selection> pageInfo = selectionService.querySelection(selection);
         pageInfo.getList().forEach(item -> {
@@ -49,5 +46,13 @@ public class SelectionController {
     public Result updateSelection(@RequestBody Selection selection) {
         selectionService.updateSelection(selection);
         return Result.ok("更新成功！");
+    }
+    @GetMapping("/deleteSelection")
+    public Result deleteSelection(String ids){
+       boolean flag =  selectionService.deleteSelection(ids);
+       if (flag){
+           return Result.ok("删除成功！");
+       }
+       return Result.fail("删除失败！");
     }
 }

@@ -1,6 +1,8 @@
 package com.lsh.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -15,9 +17,12 @@ import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -116,13 +121,32 @@ public class UserController {
         userService.updateStatusById(user);
         return Result.ok("更改成功！");
     }
+
     @PostMapping("/resetPassword")
-    public Result resetPassword(@RequestBody User user){
+    public Result resetPassword(@RequestBody User user) {
         User user1 = new User();
         user1.setPassword("123456");
         user1.setId(user.getId());
         userService.updateUserById(user1);
         return Result.ok("重置密码成功！");
     }
+    @Value("${server.port}")
+    private String port;
+
+    private static final String ip = "http://localhost";
+    @PostMapping("/upload")
+    public Result upload(MultipartFile file) throws IOException {
+        String filename = file.getOriginalFilename();//获取文件的名称
+
+        //通过Hutool工具包的IdUtil类获取uuid作为前缀
+        String prefix = IdUtil.fastSimpleUUID();
+        String rootFilePath = System.getProperty("user.dir") + "/src/main/resources/files/" + prefix + "_" + filename;
+//        String rootFilePath = "C:\\Users\\lenovo\\Desktop\\Graduation Design\\dormitory-front\\file\\" + prefix + "_" + filename;
+
+        //使用Hutool工具包将我们接收到文件保存到rootFilePath中
+        FileUtil.writeBytes(file.getBytes(), rootFilePath);
+        return Result.ok(ip + ":" + port + "/files/" + prefix);
+    }
+
 
 }

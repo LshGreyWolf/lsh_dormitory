@@ -23,4 +23,5 @@ public interface RepairMapper extends BaseMapper<Repair> {
     int updateRepair(Repair repair);
 
 
+    boolean saveRepair(Repair repair);
 }

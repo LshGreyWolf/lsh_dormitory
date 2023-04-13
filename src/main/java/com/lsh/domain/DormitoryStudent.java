@@ -3,6 +3,8 @@ package com.lsh.domain;
 import java.util.Date;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,10 @@ public class DormitoryStudent  {
     private Date checkin;
     //0待入住/1已入住
     private Integer status;
+    @TableField(exist = false)
+    private Student student;
+    @TableField(exist = false)
+    private Dormitory dormitory;
 
 
 

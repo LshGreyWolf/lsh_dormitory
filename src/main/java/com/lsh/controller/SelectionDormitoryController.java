@@ -1,7 +1,10 @@
 package com.lsh.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Org;
 import com.lsh.domain.SelectionDormitory;
+import com.lsh.service.DormitoryService;
+import com.lsh.service.OrgService;
 import com.lsh.service.SelectionDormitoryService;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +27,10 @@ import java.util.Map;
 public class SelectionDormitoryController {
     @Autowired
     private SelectionDormitoryService selectionDormitoryService;
+    @Autowired
+    private DormitoryService dormitoryService;
+    @Autowired
+    private OrgService orgService;
 
 
     @PostMapping("/saveSelectionDormitory")
@@ -30,11 +38,30 @@ public class SelectionDormitoryController {
         //clazzId,dormitoryIds
         String clazzId = map.get("clazzId");
         String dormitoryIds = map.get("dormitoryIds");
+
+        //查出该班级下分配的所有宿舍 TODO 有bug
+        Org org = orgService.detail(Integer.valueOf(clazzId));
+        SelectionDormitory selectionDormitory = new SelectionDormitory();
+        selectionDormitory.setClazzId(org.getId());
+        PageInfo<SelectionDormitory> selectionDormitoryPageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);
+
+        List<SelectionDormitory> list = selectionDormitoryPageInfo.getList();
+        String[] ids = dormitoryIds.split(",");
+        //比较前端传来的宿舍id和已经分配宿舍的班级的宿舍id作比较。一个宿舍不能分配给两个班级（暂不考虑混合宿舍）
+        for (SelectionDormitory selectionDormitory1 : list) {
+            for (String id : ids) {
+                if (selectionDormitory1.getDormitoryId().equals(Integer.valueOf(id))) {
+                    return Result.fail("该宿舍已经分配，请选择其他宿舍。");
+                }
+            }
+        }
+
+
         int flag = selectionDormitoryService.saveSelectionDormitory(clazzId, dormitoryIds);
         if (flag > 0) {
-            return Result.ok("保存成功！");
+            return Result.ok("分配成功！");
         } else {
-            return Result.fail("保存失败！");
+            return Result.fail("分配失败！");
         }
     }
 

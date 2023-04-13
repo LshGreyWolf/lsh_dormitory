@@ -41,9 +41,9 @@ public class VisitController {
         return Result.ok(visitPageInfo);
     }
 
-    @PostMapping("/save")
-    public Result save(@RequestBody Visit visit) {
-        int flag = visitService.insert(visit);
+    @PostMapping("/saveVisitors")
+    public Result saveVisitors(@RequestBody Visit visit) {
+        int flag = visitService.saveVisitors(visit);
         if (flag > 0) {
             return Result.ok("新增成功！");
         } else {

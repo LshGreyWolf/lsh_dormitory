@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student extends Page {
+public class Student  extends Page{
     
     private Integer id;
     
@@ -44,6 +44,9 @@ public class Student extends Page {
     */
     @TableField(exist = false)
     private Grade grade;
+
+    @TableField(exist = false)
+    private Integer orgId;
 
 
 

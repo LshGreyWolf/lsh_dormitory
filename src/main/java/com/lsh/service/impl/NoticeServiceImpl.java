@@ -77,7 +77,12 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         return noticeMapper.getNotice(notice);
     }
 
-
-
+    @Override
+    public PageInfo<Notice> queryByBuildingId(Notice notice){
+        if(notice != null && notice.getPage() != null){
+            PageHelper.startPage(notice.getPage(),notice.getLimit());
+        }
+        return new PageInfo<Notice>(noticeMapper.queryByBuildingId(notice));
+    }
 
 }

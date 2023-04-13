@@ -2,6 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.RepairMapper">
+    <insert id="saveRepair">
+        insert into tb_repair
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="studentId != null">,student_id</if>
+            <if test="dormitoryId != null">,dormitory_id</if>
+            <if test="buildingId != null">,building_id</if>
+            <if test="description != null">,description</if>
+            <if test="createDate != null">,create_date</if>
+            <if test="status != null">,status</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="studentId != null">,#{studentId}</if>
+            <if test="dormitoryId != null">,#{dormitoryId}</if>
+            <if test="buildingId != null">,#{buildingId}</if>
+            <if test="description != null">,#{description}</if>
+            <if test="createDate != null">,#{createDate}</if>
+            <if test="status != null">,#{status}</if>
+
+        </trim>
+
+    </insert>
     <update id="updateRepair">
 
         update tb_repair
@@ -9,8 +31,8 @@
             <if test="studentId != null">student_id = #{studentId},</if>
             <if test="dormitoryId != null">dormitory_id = #{dormitoryId},</if>
             <if test="buildingId != null">building_id = #{buildingId},</if>
-            <if test="description != null and description != ''"> description = #{description},</if>
-            <if test="createDate != null and createDate != ''"> create_date = #{createDate},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="createDate != null and createDate != ''">create_date = #{createDate},</if>
             <if test="status != null">status = #{status},</if>
         </set>
         where id = #{id}

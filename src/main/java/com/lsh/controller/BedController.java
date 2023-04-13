@@ -47,9 +47,9 @@ public class BedController {
         return Result.ok("新增失败");
     }
 
-    @GetMapping("delete")
-    public Result delete(Integer beId) {
-        boolean flag = bedService.removeById(beId);
+    @GetMapping("/deleteBed")
+    public Result delete(Integer bedId) {
+        boolean flag = bedService.removeById(bedId);
         if (flag) {
             return Result.ok("删除成功");
         }

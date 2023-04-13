@@ -18,4 +18,6 @@ public interface SelectionService extends IService<Selection> {
     void saveSelection(Selection selection);
 
     void updateSelection(Selection selection);
+
+    boolean deleteSelection(String ids);
 }

@@ -8,6 +8,7 @@ import com.lsh.domain.User;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserService;
 import com.lsh.utils.Result;
+import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -54,6 +55,8 @@ public class LoginController {
         } else {//管理员与宿管员登录
             User entity = userService.login(user.getUserName(), user.getPassword());
             if (entity != null) {
+
+//                用户已经被禁用 todo
                 String token = JWTUtil.sign(entity);
 
                 Map map = new HashMap();
@@ -85,6 +88,14 @@ public class LoginController {
             return Result.fail("该手机号已注册！");
         }
         return Result.ok("注册成功，请登录！");
+    }
+
+    @PostMapping("/logout")
+    public Result logout() {
+        UserHolder.removeUser();
+        UserHolder.removeStudent();
+
+        return Result.ok("退出成功");
     }
 
 

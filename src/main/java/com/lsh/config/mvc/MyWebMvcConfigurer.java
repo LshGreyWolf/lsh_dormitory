@@ -34,7 +34,9 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(tokenInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
-                .excludePathPatterns("/login/register");
+                .excludePathPatterns("/login/register")
+                .excludePathPatterns("/student/import")
+                .excludePathPatterns("/user/upload");
     }
 
     //使用CorsFilter解决跨域的问题
@@ -51,26 +53,5 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         CorsFilter corsFilter = new CorsFilter(urlBasedCorsConfigurationSource);
         return corsFilter;
     }
-
-//    @Bean//使用@Bean注入fastJsonHttpMessageConvert
-//    public HttpMessageConverter fastJsonHttpMessageConverters() {
-//        //1.需要定义一个Convert转换消息的对象
-//        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-//        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-//        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-//        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        SerializeConfig.globalInstance.put(Long.class, ToStringSerializer.instance);
-//
-//        fastJsonConfig.setSerializeConfig(SerializeConfig.globalInstance);
-//        fastConverter.setFastJsonConfig(fastJsonConfig);
-//        HttpMessageConverter<?> converter = fastConverter;
-//        return converter;
-//    }
-
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        converters.add(fastJsonHttpMessageConverters());
-//    }
 
 }

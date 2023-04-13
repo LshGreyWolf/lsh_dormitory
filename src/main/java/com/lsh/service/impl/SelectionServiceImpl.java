@@ -59,7 +59,7 @@ public class SelectionServiceImpl extends ServiceImpl<SelectionMapper, Selection
             }
         });
 
-        selectedIds.forEach(i->{
+        selectedIds.forEach(i -> {
             SelectionJoiner selectionJoiner = new SelectionJoiner();
             selectionJoiner.setClazzId(i);
             selectionJoiner.setSelectionId(selection.getId());
@@ -80,18 +80,32 @@ public class SelectionServiceImpl extends ServiceImpl<SelectionMapper, Selection
         List<Integer> clazzIds = selection.getClazzIds();
         //筛选出对应的班级
         List<Integer> selectIds = new ArrayList();
-        clazzIds.forEach(item->{
+        clazzIds.forEach(item -> {
             Org detail = orgMapper.detail(item);
-            if(detail.getType() == 4){
+            if (detail.getType() == 4) {
                 selectIds.add(detail.getId());
             }
         });
-        selectIds.forEach(item->{
+        selectIds.forEach(item -> {
             SelectionJoiner joiner = new SelectionJoiner();
             joiner.setClazzId(item);
             joiner.setSelectionId(selection.getId());
             selectionJoinerMapper.insert(joiner);
         });
 
+    }
+
+    @Override
+    public boolean deleteSelection(String ids) {
+        String[] idArr = ids.split(",");
+        int row = 0;
+        for (String id : idArr) {
+            selectionMapper.deleteById(id);
+            row++;
+        }
+        if (row >= 0) {
+            return true;
+        }
+        return false;
     }
 }

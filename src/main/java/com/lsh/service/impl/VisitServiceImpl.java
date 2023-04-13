@@ -34,10 +34,10 @@ public class VisitServiceImpl extends ServiceImpl<VisitMapper, Visit> implements
     }
 
     @Override
-    public int insert(Visit visit) {
+    public int saveVisitors(Visit visit) {
 
 
-        return visitMapper.save(visit);
+        return visitMapper.saveVisitors(visit);
     }
 
     @Override

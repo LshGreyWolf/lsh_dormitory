@@ -1,5 +1,6 @@
 package com.lsh.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 /**
@@ -11,7 +12,9 @@ import lombok.Data;
  */
 @Data
 public class Page {
+    @TableField(exist = false)
     private Integer page = 1;
+    @TableField(exist = false)
     private Integer limit = 10;
 
 }

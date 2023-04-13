@@ -1,7 +1,9 @@
 package com.lsh.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Dormitory;
+import com.lsh.domain.Notice;
 
 import java.util.List;
 
@@ -19,5 +21,7 @@ public interface DormitoryService extends IService<Dormitory> {
     List<Dormitory> listDormitory(Dormitory dormitory);
 
     void initDormitory(Dormitory dormitory);
+
+
 }
 

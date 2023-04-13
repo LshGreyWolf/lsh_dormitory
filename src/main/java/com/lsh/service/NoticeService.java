@@ -24,4 +24,5 @@ public interface NoticeService extends IService<Notice> {
 
     Notice getNotice(Notice notice);
 
+    PageInfo<Notice> queryByBuildingId(Notice notice);
 }

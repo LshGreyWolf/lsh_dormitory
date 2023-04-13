@@ -17,5 +17,7 @@ public interface RepairService extends IService<Repair> {
 
     int updateRepair(Repair repair);
 
-    int delete(String ids);
+    int deleteRepair(String ids);
+
+    boolean saveRepair(Repair repair);
 }

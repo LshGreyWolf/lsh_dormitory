@@ -19,7 +19,7 @@ public interface VisitMapper extends BaseMapper<Visit> {
 
     List<Visit> queryByPage(Visit visit);
 
-    int save(Visit visit);
+    int saveVisitors(Visit visit);
 
     boolean updateVisitor(Visit visit);
 }

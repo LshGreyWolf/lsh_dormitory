@@ -1,11 +1,11 @@
 package com.lsh.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Grade;
 import com.lsh.domain.Org;
 import com.lsh.domain.Student;
-import com.lsh.domain.User;
 import com.lsh.service.GradeService;
 import com.lsh.service.OrgService;
 import com.lsh.service.StudentService;
@@ -13,7 +13,10 @@ import com.lsh.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +51,7 @@ public class StudentController {
             item.setGrade(grade);
 
         });
+
         return Result.ok(studentPageInfo);
     }
 
@@ -80,7 +84,7 @@ public class StudentController {
 
 
     @PostMapping("/resetPassword")
-    public Result resetPassword(@RequestBody Student student){
+    public Result resetPassword(@RequestBody Student student) {
         Student student1 = new Student();
         student1.setPassword("123456");
         student1.setId(student.getId());
@@ -88,5 +92,39 @@ public class StudentController {
         return Result.ok("重置密码成功！");
     }
 
+    @PostMapping("/returnNull")
+    public Result returnNull() {
+        return Result.ok();
+    }
+
+    /**
+     * excel 导入学生数据
+     * @param file
+     * @throws Exception
+     */
+    @PostMapping("/import")
+    public Boolean imp(MultipartFile file) throws Exception {
+        InputStream inputStream = file.getInputStream();
+        ExcelReader reader = ExcelUtil.getReader(inputStream);
+        HashMap<String, String> headerAlias = new HashMap<>(5);
+        headerAlias.put("学号", "stuNo");
+        headerAlias.put("姓名", "name");
+        headerAlias.put("手机号", "phone");
+        headerAlias.put("年级", "gradeId");
+        headerAlias.put("班级", "clazzId");
+        headerAlias.put("性别", "sex");
+        headerAlias.put("身份证号", "idcard");
+        headerAlias.put("密码", "password");
+
+        reader.setHeaderAlias(headerAlias);
+
+        List<Student> list = reader.readAll(Student.class);
+
+        System.out.println(list);
+
+        //上传的excel数据,保存到数据库中
+        studentService.saveBatch(list);
+        return true;
+    }
 
 }

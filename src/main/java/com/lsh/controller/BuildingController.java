@@ -9,6 +9,7 @@ import com.lsh.service.BuildingService;
 import com.lsh.service.StoreyService;
 import com.lsh.service.UserService;
 import com.lsh.utils.Result;
+import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,8 @@ public class BuildingController {
         //如果是超级管理员才能查询所有的楼宇
         //宿管员只能查询到自己的楼宇
         //todo threadLocal
-        User param = (User) request.getAttribute("user");
+//        User param = (User) request.getAttribute("user");
+        User param = UserHolder.getUser();
         User loginUser = userService.getUser(param);
         if (loginUser.getType() == 1) {
             building.setUserId(loginUser.getId());

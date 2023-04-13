@@ -71,9 +71,9 @@ public class RepairController {
         }
     }
 
-    @GetMapping("delete")
-    public Result delete(String ids){
-        int flag = repairService.delete(ids);
+    @GetMapping("/deleteRepair")
+    public Result deleteRepair(String ids){
+        int flag = repairService.deleteRepair(ids);
         if(flag>0){
             return Result.ok("删除成功");
         }else{

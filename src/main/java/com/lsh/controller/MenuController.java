@@ -46,13 +46,14 @@ public class MenuController {
     @GetMapping("/query")
     public Result queryMenu(HttpServletRequest request) {
         List<Menu> menus = new ArrayList<>();
-        User user = UserHolder.getUser();
-        Student student = UserHolder.getStudent();
-        if (UserHolder.getUser() != null) {
+//        User user = UserHolder.getUser();
+//        Student student = UserHolder.getStudent();
+        User user = (User) request.getAttribute("user");
+        Student student = (Student) request.getAttribute("student");
+        if (user != null) {
             //从threadLocal中取出user
             menus = menuService.queryMenu(user.getId());
-        }
-        else if(student != null){
+        } else if (student != null) {
             menus = menuService.queryByType();
         }
 
@@ -76,20 +77,20 @@ public class MenuController {
         }
 
         //将菜单数据上传到redis
-        redisCache.setCacheObject(USER_MENU_KEY, JSONUtil.toJsonStr(menuList1),USER_MENU_TTL, TimeUnit.MINUTES);
+        redisCache.setCacheObject(USER_MENU_KEY, JSONUtil.toJsonStr(menuList1), USER_MENU_TTL, TimeUnit.MINUTES);
 
         return Result.ok(menuList1);
 
     }
 
     @GetMapping("/tree")
-    public Result tree(Integer checked,HttpServletRequest request) {
+    public Result tree(Integer checked, HttpServletRequest request) {
         //checked表示菜单是否被选中，查询的时候方便回显
-        List<Integer> menuCheckedIdList=null;
-        if (checked != null){
+        List<Integer> menuCheckedIdList = null;
+        if (checked != null) {
             //TODO 使用TreadLocal
-            User user =(User) request.getAttribute("user");
-            menuCheckedIdList  = userMenuService.getMenu(user.getId());
+            User user = (User) request.getAttribute("user");
+            menuCheckedIdList = userMenuService.getMenu(user.getId());
         }
 
         List<Menu> list = menuService.list(null);
@@ -104,8 +105,8 @@ public class MenuController {
                 map.put("name", menu.getTitle());
                 map.put("isParent", true);
                 map.put("open", true);
-                if (checked != null){
-                    map.put("checked",menuCheckedIdList.contains(menu.getId()));
+                if (checked != null) {
+                    map.put("checked", menuCheckedIdList.contains(menu.getId()));
                 }
                 List<Map<String, Object>> child = new ArrayList<>();
                 for (Menu menuChild : list) {
@@ -115,8 +116,8 @@ public class MenuController {
                         childMap.put("name", menuChild.getTitle());
                         childMap.put("isParent", false);
                         childMap.put("open", false);
-                        if (checked != null){
-                            childMap.put("checked",menuCheckedIdList.contains(menuChild.getId()));
+                        if (checked != null) {
+                            childMap.put("checked", menuCheckedIdList.contains(menuChild.getId()));
                         }
                         child.add(childMap);
                     }

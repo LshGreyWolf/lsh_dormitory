@@ -37,7 +37,7 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
     }
 
     @Override
-    public int delete(String ids) {
+    public int deleteRepair(String ids) {
         String[] arr = ids.split(",");
         int row = 0;
         for (String s : arr) {
@@ -47,5 +47,13 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
             }
         }
         return row;
+    }
+
+    @Override
+    public boolean saveRepair(Repair repair) {
+
+        return repairMapper.saveRepair(repair);
+
+
     }
 }
