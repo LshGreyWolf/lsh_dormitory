@@ -30,8 +30,9 @@ public enum AppHttpCodeEnum {
     EMAIL_NOT_EXIST(511, "邮箱不能为空"),
     NICKNAME_EXIST(512, "昵称已存在"),
     TOKEN_NOT_NULL(513, "token不能为空"),
-    TIMEOUT_OR_ILLEGAL_TOKEN(514, "超时或不合法token");
+    TIMEOUT_OR_ILLEGAL_TOKEN(514, "超时或不合法token"),
 
+    VERSION_FLAT(516,"版本不一致，执行冲突");
     int code;
     String msg;
 

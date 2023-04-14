@@ -34,12 +34,23 @@ public class Repair extends Page {
     private Date createDate;
     //0待解决/1已解决
     private Integer status;
+
     @TableField(exist = false)
     private Student student;
+
     @TableField(exist = false)
     private Dormitory dormitory;
+
     @TableField(exist = false)
     private Building building;
+    /***
+     *审核人
+     */
+    private String processor;
+    /***
+     *审核意见
+     */
+    private String processIdea;
 
 
 }

@@ -136,7 +136,12 @@ public class StuController {
         Student student = studentService.getStudent(param.getId());
         String bedId = map.get("bedId");
         String dormitoryId = map.get("dormitoryId");
-        int row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
+        int row ;
+        try {
+            row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
+        } catch (Exception e) {
+            return Result.fail("版本冲突！,请稍后再试。");
+        }
         if (row > 0) {
             return Result.ok("选择成功！");
         }

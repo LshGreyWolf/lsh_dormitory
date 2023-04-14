@@ -2,6 +2,9 @@ package com.lsh.domain;
 
 
 import java.io.Serializable;
+import java.util.Map;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +25,9 @@ public class Bed  {
     private String bno;
     
     private Integer dormitoryId;
+    @TableField(exist = false)
+    private Student student;
+
 
 
 

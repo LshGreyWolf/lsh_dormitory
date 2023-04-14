@@ -22,6 +22,8 @@ public interface DormitoryService extends IService<Dormitory> {
 
     void initDormitory(Dormitory dormitory);
 
+    int getVersion(Integer id);
+
 
 }
 

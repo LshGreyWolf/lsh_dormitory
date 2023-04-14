@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.lsh.service.DormitoryService;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -101,6 +102,14 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
             }
 
         });
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public int getVersion(Integer id) {
+
+       return dormitoryMapper.getVersion(id);
+
     }
 }
 

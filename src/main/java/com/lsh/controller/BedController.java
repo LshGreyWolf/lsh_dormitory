@@ -2,7 +2,9 @@ package com.lsh.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Bed;
+import com.lsh.domain.Student;
 import com.lsh.service.BedService;
+import com.lsh.service.DormitoryStudentService;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -21,6 +23,8 @@ import java.util.List;
 public class BedController {
     @Autowired
     private BedService bedService;
+    @Autowired
+    private DormitoryStudentService dormitoryStudentService;
 
     @PostMapping("/list/{dormitoryId}")
     public Result list(@PathVariable("dormitoryId") Integer dormitoryId) {
@@ -28,6 +32,11 @@ public class BedController {
         LambdaQueryWrapper<Bed> queryWrapper = new LambdaQueryWrapper<Bed>()
                 .eq(Bed::getDormitoryId, dormitoryId);
         List<Bed> bedList = bedService.list(queryWrapper);
+        bedList.forEach(item->{
+            //根据床位查出该床位的学生信息
+            Student student = dormitoryStudentService.queryStudentByBedId(item.getId());
+            item.setStudent(student);
+        });
         return Result.ok(bedList);
     }
 

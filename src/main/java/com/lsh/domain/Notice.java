@@ -37,9 +37,11 @@ public class Notice extends Page {
     private String filepath;
     @TableField(exist = false)
     private User user;
+
     @TableField(exist = false)
     private List<Integer> buildingIds;
 
+    @TableField(exist = false)
     private Integer buildingId;
 
 

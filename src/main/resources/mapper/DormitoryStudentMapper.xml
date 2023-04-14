@@ -3,4 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.DormitoryStudentMapper">
 
+    <select id="countByBuildingId" resultType="java.lang.Integer">
+        select count(distinct student_id)
+        from tb_dormitory_student,
+             tb_dormitory
+        where tb_dormitory_student.dormitory_id = tb_dormitory.id
+          and building_id = #{buildingId}
+    </select>
+    <select id="queryStudentByBedId" resultType="com.lsh.domain.Student">
+        select student_id, tb_student.name
+        from tb_dormitory_student,
+             tb_student
+        where tb_dormitory_student.student_id = tb_student.id
+          and bed_id = #{bedId}
+        limit 1
+
+    </select>
 </mapper>

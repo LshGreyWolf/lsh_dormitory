@@ -2,6 +2,7 @@ package com.lsh.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lsh.domain.DormitoryStudent;
+import com.lsh.domain.Student;
 import org.apache.ibatis.annotations.Mapper;
 
 
@@ -14,4 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DormitoryStudentMapper extends BaseMapper<DormitoryStudent> {
 
+    int countByBuildingId(Integer buildingId);
+
+    Student queryStudentByBedId(Integer bedId);
 }
