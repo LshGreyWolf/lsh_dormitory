@@ -1,14 +1,18 @@
 package com.lsh.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Grade;
 import com.lsh.domain.User;
 import com.lsh.service.GradeService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+
+import static com.lsh.constants.RedisConstants.SCHOOL_GRADE;
 
 /**
  * @author lenovo
@@ -22,10 +26,15 @@ public class GradeController {
 
     @Autowired
     private GradeService gradeService;
+    @Autowired
+    private RedisCache redisCache;
 
     @PostMapping("/gradeQueryByPage")
     public Map<String, Object> gradeQueryByPage(@RequestBody Grade grade) {
         PageInfo<Grade> pageInfo = gradeService.gradeQueryByPage(grade);
+
+        redisCache.setCacheObject(SCHOOL_GRADE, JSONUtil.toJsonStr(pageInfo.getList()));
+
         return Result.ok(pageInfo);
     }
 

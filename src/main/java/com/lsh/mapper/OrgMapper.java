@@ -1,6 +1,7 @@
 package com.lsh.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lsh.domain.Grade;
 import com.lsh.domain.Org;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,7 +20,7 @@ public interface OrgMapper extends BaseMapper<Org> {
 
     public int delete(Integer id);
 
-    public int update(Org org);
+    public int updateOrg(Org org);
 
     public int updateSelective(Org org);
 
@@ -30,5 +31,9 @@ public interface OrgMapper extends BaseMapper<Org> {
     public int count(Org org);
 
     public List<Org> queryOrgBySelectionId(Integer selectionId);
+
+    List<Org> queryByPage(Org org);
+
+    void updateDeleted(int parseInt);
 }
 

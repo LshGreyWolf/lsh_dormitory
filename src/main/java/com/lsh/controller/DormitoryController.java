@@ -1,14 +1,20 @@
 package com.lsh.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Dormitory;
+import com.lsh.domain.Storey;
 import com.lsh.service.DormitoryService;
+import com.lsh.service.StoreyService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.lsh.constants.RedisConstants.STUDENT_DORMITORY;
 
 /**
  * @author lenovo
@@ -22,6 +28,10 @@ public class DormitoryController {
 
     @Autowired
     private DormitoryService dormitoryService;
+    @Autowired
+    private StoreyService storeyService;
+    @Autowired
+    private RedisCache redisCache;
 
     @PostMapping("/list/{storeyId}")
     public Result list(@PathVariable("storeyId") Integer storeyId) {
@@ -29,6 +39,12 @@ public class DormitoryController {
         LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getStoreyId, storeyId);
         List<Dormitory> dormitoryList = dormitoryService.list(queryWrapper);
+        //将楼层对应的宿舍缓存到redis
+        Storey storey = storeyService.getOne(new LambdaQueryWrapper<Storey>().eq(Storey::getId, storeyId));
+
+        String key = STUDENT_DORMITORY + storey.getName();
+        redisCache.setCacheObject(key, JSONUtil.toJsonStr(dormitoryList));
+
         return Result.ok(dormitoryList);
     }
 

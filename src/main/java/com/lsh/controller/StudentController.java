@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lsh.constants.SystemConstants.ORG_TYPE_COLLEGE;
+
 /**
  * @version 1.0
  * @description:
@@ -39,6 +41,8 @@ public class StudentController {
 
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Student student) {
+
+        //进行分页查询
         PageInfo<Student> studentPageInfo = studentService.queryByPage(student);
 
         List<Student> studentList = studentPageInfo.getList();
@@ -55,6 +59,34 @@ public class StudentController {
         return Result.ok(studentPageInfo);
     }
 
+    @PostMapping("/conditionQuery")
+    public Map<String, Object> conditionQuery(@RequestBody Student student) {
+        //构建分页查询的条件（组织结构 点击事件）
+        Integer orgId = student.getOrgId();
+        Org detail = orgService.detail(orgId);
+        //如果是学院，就将orgId当作学院的id
+        if (detail.getParentId() ==ORG_TYPE_COLLEGE){
+            student.setCollegeId(orgId);
+        }else {
+            //如果是专业，就将orgId当作专业的id
+            student.setMajorId(orgId);
+        }
+        //进行分页查询
+        PageInfo<Student> studentPageInfo = studentService.queryByPage(student);
+
+        List<Student> studentList = studentPageInfo.getList();
+        studentList.forEach(item -> {
+            //根据student的id查询对应的班级
+            Org org = orgService.detail(item.getClazzId());
+            item.setOrg(org);
+            //根据student的id查询对应的年级
+            Grade grade = gradeService.detail(item.getGradeId());
+            item.setGrade(grade);
+
+        });
+
+        return Result.ok(studentPageInfo);
+    }
     @GetMapping("delete")
     public Result delete(String ids) {
         int row = studentService.deleteStudent(ids);
@@ -106,7 +138,7 @@ public class StudentController {
     public Boolean imp(MultipartFile file) throws Exception {
         InputStream inputStream = file.getInputStream();
         ExcelReader reader = ExcelUtil.getReader(inputStream);
-        HashMap<String, String> headerAlias = new HashMap<>(5);
+        HashMap<String, String> headerAlias = new HashMap<>(10);
         headerAlias.put("学号", "stuNo");
         headerAlias.put("姓名", "name");
         headerAlias.put("手机号", "phone");
@@ -115,6 +147,8 @@ public class StudentController {
         headerAlias.put("性别", "sex");
         headerAlias.put("身份证号", "idcard");
         headerAlias.put("密码", "password");
+        headerAlias.put("专业", "majorId");
+        headerAlias.put("学院", "collegeId");
 
         reader.setHeaderAlias(headerAlias);
 

@@ -8,34 +8,17 @@ package com.lsh.constants;
  */
 public class SystemConstants {
     /**
-     * 文章是草稿
+     * 用户类型为 超级管理员
      */
-    public static final int ARTICLE_STATUS_DRAFT = 1;
+    public static final int USER_TYPE_SUPER_ADMINISTRATORS = 0;
     /**
-     * 文章是正常分布状态
+     * 用户类型为宿管员
      */
-    public static final int ARTICLE_STATUS_NORMAL = 0;
+    public static final int USER_TYPE_ADMINISTRATORS = 1;
     /**
-     * 文章分类为正常状态
+     * org 的 parentId 为0 是学院
      */
-    public static final int CATEGORY_STATUS_NORMAL = 0;
-    /**
-     * 文章分类为禁用状态
-     */
-    public static final int CATEGORY_STATUS_DRAFT = 1;
-    /**
-     * 友链
-     */
-    public static final int LINK_STATUS_DRAFT = 1;
-    public static final int LINK_STATUS_NORMAL = 0;
+    public static final int ORG_TYPE_COLLEGE = 0;
 
-    /**
-     * 评论类型为：文章评论
-     */
-    public static final String ARTICLE_COMMENT = "0";
-    /**
-     * 评论类型为：友链评论
-     */
-    public static final String LINK_COMMENT = "1";
 
 }

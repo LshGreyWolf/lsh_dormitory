@@ -51,14 +51,14 @@ public class SelectionServiceImpl extends ServiceImpl<SelectionMapper, Selection
         //选择的班级的id集合
         ArrayList<Integer> selectedIds = new ArrayList<>();
         //得到选择的ids，因为里面不止有班级的id 而且还有专业等的id，
-        //因为要插入的是select——joiner 只需要班级的id即可
+        //因为要插入的是select_joiner 只需要班级的id即可
         clazzIds.forEach(item -> {
             Org org = orgMapper.detail(item);
             if (org.getType() == 4) {
                 selectedIds.add(org.getId());
             }
         });
-
+        //筛选出班级id后，进行插入操作
         selectedIds.forEach(i -> {
             SelectionJoiner selectionJoiner = new SelectionJoiner();
             selectionJoiner.setClazzId(i);

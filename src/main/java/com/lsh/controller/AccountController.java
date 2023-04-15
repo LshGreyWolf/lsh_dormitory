@@ -24,7 +24,7 @@ public class AccountController {
     @PostMapping("/insertAccount")
     public Result insertAccount(@RequestBody Account account) {
         accountService.save(account);
-        return Result.ok("成功");
+        return Result.ok("充值成功");
     }
 
 }

@@ -1,16 +1,22 @@
 package com.lsh.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Bed;
+import com.lsh.domain.Dormitory;
 import com.lsh.domain.Student;
 import com.lsh.service.BedService;
+import com.lsh.service.DormitoryService;
 import com.lsh.service.DormitoryStudentService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.lsh.constants.RedisConstants.STUDENT_BED;
 
 /**
  * @author lenovo
@@ -25,6 +31,10 @@ public class BedController {
     private BedService bedService;
     @Autowired
     private DormitoryStudentService dormitoryStudentService;
+    @Autowired
+    private RedisCache redisCache;
+    @Autowired
+    private DormitoryService dormitoryService;
 
     @PostMapping("/list/{dormitoryId}")
     public Result list(@PathVariable("dormitoryId") Integer dormitoryId) {
@@ -37,6 +47,12 @@ public class BedController {
             Student student = dormitoryStudentService.queryStudentByBedId(item.getId());
             item.setStudent(student);
         });
+
+        Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitoryId));
+
+        String key = STUDENT_BED +dormitory.getNo();
+        redisCache.setCacheObject(key, JSONUtil.toJsonStr(bedList));
+
         return Result.ok(bedList);
     }
 

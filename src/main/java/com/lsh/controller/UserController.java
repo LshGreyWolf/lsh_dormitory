@@ -9,8 +9,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Student;
 import com.lsh.domain.User;
 import com.lsh.domain.UserMenu;
+import com.lsh.domain.Vo.PasswordDto;
+import com.lsh.service.StudentService;
 import com.lsh.service.UserMenuService;
 import com.lsh.service.UserService;
 import com.lsh.utils.RedisCache;
@@ -22,9 +25,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -46,6 +51,8 @@ public class UserController {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private StudentService studentService;
 
     /**
      * 用户分页查询
@@ -130,10 +137,12 @@ public class UserController {
         userService.updateUserById(user1);
         return Result.ok("重置密码成功！");
     }
+
     @Value("${server.port}")
     private String port;
 
     private static final String ip = "http://localhost";
+
     @PostMapping("/upload")
     public Result upload(MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();//获取文件的名称
@@ -146,6 +155,54 @@ public class UserController {
         //使用Hutool工具包将我们接收到文件保存到rootFilePath中
         FileUtil.writeBytes(file.getBytes(), rootFilePath);
         return Result.ok(ip + ":" + port + "/files/" + prefix);
+    }
+
+
+    @PostMapping("/modifyPassword")
+    public Result modifyPassword(@RequestBody PasswordDto passwordDto, HttpServletRequest request) {
+        Integer type = passwordDto.getType();
+
+        String password = passwordDto.getPassword();
+
+        String newPassword = passwordDto.getNewPassword();
+
+        String reNewPassword = passwordDto.getReNewPassword();
+
+        // 0 user  1 student
+        if (type ==0){
+            User user = (User) request.getAttribute("user");
+            User user1 = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getId, user.getId()));
+            String oldPassword = user1.getPassword();
+            if (!Objects.equals(oldPassword, password)){
+                return  Result.fail("原密码错误，请重新输入！");
+            }else {
+                if (!newPassword.equals(reNewPassword)){
+                    return Result.fail("两次输入的密码不一致，请重新输入！");
+                }
+                User user2 = new User();
+                user2.setPassword(newPassword);
+                user2.setId(user.getId());
+                userService.updateById(user2);
+            }
+        }
+        if (type ==1){
+            Student student = (Student) request.getAttribute("student");
+            Student student1 = studentService.getOne(new LambdaQueryWrapper<Student>().eq(Student::getId, student.getId()));
+            String oldPassword = student1.getPassword();
+            if (!Objects.equals(oldPassword, password)){
+                return  Result.fail("原密码错误，请重新输入！");
+            }else {
+                if (!newPassword.equals(reNewPassword)){
+                    return Result.fail("两次输入的密码不一致，请重新输入！");
+                }
+                Student student2 = new Student();
+                student2.setPassword(newPassword);
+                student2.setId(student.getId());
+                studentService.updateById(student2);
+            }
+        }
+
+        return Result.ok("修改成功！");
     }
 
 

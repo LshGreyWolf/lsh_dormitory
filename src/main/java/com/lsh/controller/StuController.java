@@ -74,9 +74,9 @@ public class StuController {
             Student detail = studentService.getStudent(entity.getStudentId());
             entity.setStudent(detail);
             LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(Dormitory::getId, entity.getDormitory());
+            queryWrapper.eq(Dormitory::getId, entity.getDormitoryId());
             Dormitory dormitory = dormitoryService.getOne(queryWrapper);
-            entity.setDormitory(dormitory);
+                entity.setDormitory(dormitory);
         });
         return Result.ok(pageInfo);
     }

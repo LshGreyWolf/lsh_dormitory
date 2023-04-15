@@ -29,6 +29,8 @@ public class Storey {
     
     private String remark;
 
+    private Date createTime;
+
 
 
 

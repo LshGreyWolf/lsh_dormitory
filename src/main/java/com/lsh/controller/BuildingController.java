@@ -1,5 +1,6 @@
 package com.lsh.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Building;
@@ -8,6 +9,7 @@ import com.lsh.domain.User;
 import com.lsh.service.BuildingService;
 import com.lsh.service.StoreyService;
 import com.lsh.service.UserService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static com.lsh.constants.RedisConstants.USER_BUILDING_KEY;
+import static com.lsh.constants.SystemConstants.USER_TYPE_ADMINISTRATORS;
 
 /**
  * 楼宇(Building)表控制层
@@ -35,28 +41,32 @@ public class BuildingController {
     private UserService userService;
     @Autowired
     private StoreyService storeyService;
+    @Autowired
+    private RedisCache redisCache;
 
     @PostMapping("/BuildingQueryByPage")
     public Map<String, Object> BuildingQueryByPage(@RequestBody Building building, HttpServletRequest request) {
-        PageInfo<Building> buildingPageInfo = buildingService.BuildingQueryByPage(building);
-        List<Building> buildingList = buildingPageInfo.getList();
+
         //如果是超级管理员才能查询所有的楼宇
         //宿管员只能查询到自己的楼宇
-        //todo threadLocal
-//        User param = (User) request.getAttribute("user");
         User param = UserHolder.getUser();
         User loginUser = userService.getUser(param);
-        if (loginUser.getType() == 1) {
+        //登录用户为宿管员的时候
+        if (loginUser.getType() == USER_TYPE_ADMINISTRATORS) {
             building.setUserId(loginUser.getId());
         }
-
+        PageInfo<Building> buildingPageInfo = buildingService.BuildingQueryByPage(building);
+        List<Building> buildingList = buildingPageInfo.getList();
+        //循环楼宇，将楼宇的User属性 添加
         for (Building build : buildingList) {
             Integer userId = build.getUserId();
             User user = new User();
             user.setId(userId);
-
             build.setUser(userService.getUser(user));
         }
+        //将楼宇数据缓存到redis中,无过期时间
+        redisCache.setCacheObject(USER_BUILDING_KEY, JSONUtil.toJsonStr(buildingList));
+
         return Result.ok(buildingPageInfo);
     }
 
@@ -72,7 +82,8 @@ public class BuildingController {
         for (Integer i = 0; i < storeyNum; i++) {
             Storey storey = new Storey();
             storey.setBuildingId(serviceBuilding.getId());
-            storey.setName(i+1 + "层");
+            storey.setName(i + 1 + "层");
+            storey.setCreateTime(new Date());
             storeyService.save(storey);
         }
         if (flag) {
@@ -94,7 +105,7 @@ public class BuildingController {
     public Result updateBuilding(@RequestBody Building building) {
 
         boolean flag = buildingService.updateBuilding(building);
-        if (flag){
+        if (flag) {
             return Result.ok("更新成功");
         }
         return Result.fail("失败");

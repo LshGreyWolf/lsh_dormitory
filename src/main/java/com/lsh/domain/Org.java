@@ -2,6 +2,8 @@ package com.lsh.domain;
 
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,13 @@ public class Org  extends Page{
     private Integer parentId;
     
     private String remark;
+
+    private Integer status;
+
+    private Integer deleted;
+
+    @TableField(exist = false)
+    private String gradeName ;
 
 
 

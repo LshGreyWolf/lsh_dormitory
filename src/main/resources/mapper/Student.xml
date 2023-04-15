@@ -98,6 +98,8 @@
             <if test="phone != null and phone != ''">and phone = #{phone}</if>
             <if test="password != null and password != ''">and password = #{password}</if>
             <if test="clazzId != null">and clazz_id = #{clazzId}</if>
+            <if test="majorId != null">and major_id = #{majorId}</if>
+            <if test="collegeId != null">and college_id = #{collegeId}</if>
         </where>
     </sql>
 </mapper>

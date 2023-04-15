@@ -3,6 +3,7 @@ package com.lsh.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Grade;
 import com.lsh.domain.Org;
 import com.lsh.mapper.OrgMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +44,8 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         return orgMapper.delete(id);
     }
 
-    public int update(Org org) {
-        return orgMapper.update(org);
+    public int updateOrg(Org org) {
+        return orgMapper.updateOrg(org);
     }
 
     public int updateSelective(Org org) {
@@ -62,12 +63,34 @@ public class OrgServiceImpl extends ServiceImpl<OrgMapper, Org> implements OrgSe
         return orgMapper.detail(id);
     }
 
-    public int count(Org org) {
-        return orgMapper.count(org);
-    }
+
 
     public List<Org> queryOrgBySelectionId(Integer selectionId){
         return orgMapper.queryOrgBySelectionId(selectionId);
     }
+
+    @Override
+    public PageInfo<Org> queryByPage(Org org) {
+
+        if (org != null && org.getPage() != null) {
+            PageHelper.startPage(org.getPage(), org.getLimit());
+        }
+        return new PageInfo<Org>(orgMapper.queryByPage(org));
+
+    }
+
+//    @Override
+//    public int updateDeleted(String ids) {
+//        String[] arr = ids.split(",");
+//        int row = 0;
+//        for (String s : arr) {
+//            if(!StringUtils.isEmpty(s)){
+//                orgMapper.updateDeleted(Integer.parseInt(s));
+//                row++;
+//            }
+//        }
+//        return row;
+//
+//    }
 }
 

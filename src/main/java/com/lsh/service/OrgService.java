@@ -3,6 +3,8 @@ package com.lsh.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Bed;
+import com.lsh.domain.Grade;
 import com.lsh.domain.Org;
 import com.lsh.mapper.OrgMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import java.util.List;
  * @since 2023-03-18 14:55:18
  */
 
-public interface OrgService {
+public interface OrgService extends IService<Org>{
 
 
     public int create(Org org);
@@ -28,7 +30,7 @@ public interface OrgService {
 
     public int delete(Integer id);
 
-    public int update(Org org);
+    public int updateOrg(Org org);
 
     public int updateSelective(Org org);
 
@@ -36,7 +38,12 @@ public interface OrgService {
 
     public Org detail(Integer id);
 
-    public int count(Org org);
+
 
     public List<Org> queryOrgBySelectionId(Integer selectionId);
+
+
+    PageInfo<Org> queryByPage(Org org);
+
+//    int updateDeleted(String ids);
 }
