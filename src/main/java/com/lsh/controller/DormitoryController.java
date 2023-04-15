@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Dormitory;
 import com.lsh.domain.Storey;
+import com.lsh.domain.Vo.ReplaceBedDto;
 import com.lsh.service.DormitoryService;
 import com.lsh.service.StoreyService;
 import com.lsh.utils.RedisCache;
@@ -84,6 +85,20 @@ public class DormitoryController {
     public Result initDormitory(@RequestBody Dormitory dormitory) {
         dormitoryService.initDormitory(dormitory);
         return Result.ok("初始化成功！");
+    }
+
+    @PostMapping("/replaceBed")
+    public Result replaceBed(@RequestBody ReplaceBedDto replaceBedDto) {
+        Integer gradeId = replaceBedDto.getGradeId();
+        Integer clazzId = replaceBedDto.getClazzId();
+        Integer collegeId = replaceBedDto.getCollegeId();
+        Integer majorId = replaceBedDto.getMajorId();
+        Integer studentId = replaceBedDto.getStudentId();
+        Integer bedId = replaceBedDto.getBedId();
+        //删除原来学生的床位和选宿舍的信息（dormitory  dormitory_student）
+        //调换床位id
+
+        return null;
     }
 
 }

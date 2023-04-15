@@ -30,16 +30,23 @@ public class Absence extends Page {
 
     private Integer buildingId;
 
-    private String startTime;
+    private Date startTime;
 
-    private String endTime;
+    private Date endTime;
 
     private String remark;
+
     @TableField(exist = false)
     private Student student;
+
     @TableField(exist = false)
     private Dormitory dormitory;
+
     private Building building;
 
+    /***
+     *    0-规定时间离宿中/1/-已回/2-到时间未回-缺勤
+     */
+    private Integer status;
 
 }

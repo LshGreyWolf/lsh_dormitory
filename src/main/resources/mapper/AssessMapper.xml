@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lsh.mapper.AssessMapper">
+
+    <select id="queryByPage" resultType="com.lsh.domain.Assess">
+
+select * from
+             tb_assess
+<where>
+    <if test="id != null">and id =#{id}</if>
+    <if test="dormitoryId != null">and dormitory_id =#{dormitoryId}</if>
+    <if test="userId != null">and user_id =#{userId}</if>
+    <if test="description != null">and description =#{description}</if>
+    <if test="type != null">and id =#{type}</if>
+    <if test="createTime != null">and create_time =#{createTime}</if>
+</where>
+
+
+    </select>
+</mapper>

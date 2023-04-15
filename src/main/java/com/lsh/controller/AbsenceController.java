@@ -15,6 +15,8 @@ import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -51,12 +53,30 @@ public class AbsenceController {
             item.setBuilding(building1);
 
             item.setDormitory(dormitory);
+                //todo
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            Date endTime = item.getEndTime();
+//            Date currentTime=new Date();
+//            String format = sdf.format(endTime);
+//            String format1 = sdf.format(currentTime);
+//
+//            System.out.println("currentTime = " + currentTime);
+//            int flag = endTime.compareTo(currentTime);
+//            if (flag > 0){
+//                //结束时间大于当前时间，则缺勤
+//                item.setStatus(2);
+//                absenceService.updateById(item);
+//            }
         });
+
+
         return Result.ok(pageInfo);
     }
 
     @PostMapping("/insertAbsence")
     public Result insertAbsence(@RequestBody Absence absence){
+        //新增时，默认离宿中
+        absence.setStatus(0);
         int flag = absenceService.insertAbsence(absence);
         if(flag>0){
             return Result.ok("新增成功！");
@@ -77,8 +97,8 @@ public class AbsenceController {
 
     @PostMapping("/updateAbsence")
     public Result updateAbsence(@RequestBody Absence absence){
-        int flag = absenceService.updateAbsence(absence);
-        if(flag>0){
+        boolean flag = absenceService.updateById(absence);
+        if(flag){
             return Result.ok("更新成功！");
         }else{
             return Result.fail("更新失败！");
