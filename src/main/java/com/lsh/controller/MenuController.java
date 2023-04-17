@@ -1,9 +1,11 @@
 package com.lsh.controller;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Menu;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
+import com.lsh.domain.UserMenu;
 import com.lsh.service.MenuService;
 import com.lsh.service.UserMenuService;
 import com.lsh.utils.RedisCache;
@@ -12,9 +14,7 @@ import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -46,12 +46,11 @@ public class MenuController {
     @GetMapping("/query")
     public Result queryMenu(HttpServletRequest request) {
         List<Menu> menus = new ArrayList<>();
-//        User user = UserHolder.getUser();
-//        Student student = UserHolder.getStudent();
+
         User user = (User) request.getAttribute("user");
         Student student = (Student) request.getAttribute("student");
         if (user != null) {
-            //从threadLocal中取出user
+
             menus = menuService.queryMenu(user.getId());
         } else if (student != null) {
             menus = menuService.queryByType();
@@ -88,7 +87,7 @@ public class MenuController {
         //checked表示菜单是否被选中，查询的时候方便回显
         List<Integer> menuCheckedIdList = null;
         if (checked != null) {
-            //TODO 使用TreadLocal
+
             User user = (User) request.getAttribute("user");
             menuCheckedIdList = userMenuService.getMenu(user.getId());
         }
@@ -129,5 +128,35 @@ public class MenuController {
 
         }
         return Result.ok(menus);
+    }
+
+
+    @GetMapping("/selectMenu")
+    public Result selectMenu(HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        List<Menu> menus = new ArrayList<>();
+        if (user != null) {
+
+            menus = menuService.queryMenu(user.getId());
+        }
+
+        return Result.ok(menus);
+    }
+
+    @GetMapping("/deleteMenu")
+    public Result deleteMenu(Integer id,HttpServletRequest request) {
+
+            menuService.removeById(id);
+
+            userMenuService.remove(new LambdaQueryWrapper<UserMenu>().eq(UserMenu::getMenuId,id));
+
+
+
+        return Result.ok("删除成功！");
+    }
+    @PostMapping("/updateMenu")
+    public Result updateMenu(@RequestBody Menu menu){
+        menuService.updateById(menu);
+        return Result.ok("修改成功！");
     }
 }
