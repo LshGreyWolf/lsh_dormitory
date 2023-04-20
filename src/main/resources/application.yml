@@ -26,6 +26,9 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
+  resources:
+   static-locations: classpath:/resources
+
 
 server:
   port: 8888

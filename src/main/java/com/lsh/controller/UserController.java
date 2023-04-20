@@ -150,11 +150,10 @@ public class UserController {
         //通过Hutool工具包的IdUtil类获取uuid作为前缀
         String prefix = IdUtil.fastSimpleUUID();
         String rootFilePath = System.getProperty("user.dir") + "/src/main/resources/files/" + prefix + "_" + filename;
-//        String rootFilePath = "C:\\Users\\lenovo\\Desktop\\Graduation Design\\dormitory-front\\file\\" + prefix + "_" + filename;
-
         //使用Hutool工具包将我们接收到文件保存到rootFilePath中
         FileUtil.writeBytes(file.getBytes(), rootFilePath);
-        return Result.ok(ip + ":" + port + "/files/" + prefix);
+        return Result.ok("localhost:9001/"+prefix + "_" + filename);
+//        return Result.ok(ip + ":" + port + "/static/" + prefix);
     }
 
 
