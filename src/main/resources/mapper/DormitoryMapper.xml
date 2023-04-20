@@ -33,6 +33,12 @@
         where tb_dormitory.id = #{id}
 
     </select>
+    <select id="selectCountDormitory" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+
+        select count(*)
+        from tb_dormitory
+        where building_id = #{buildingId}
+    </select>
 
 
     <resultMap type="com.lsh.domain.Dormitory" id="Dormitory">

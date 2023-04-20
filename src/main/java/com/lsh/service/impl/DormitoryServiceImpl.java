@@ -111,5 +111,12 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
        return dormitoryMapper.getVersion(id);
 
     }
+
+    @Override
+    public int selectCountDormitory(Integer buildingId) {
+
+
+        return dormitoryMapper.selectCountDormitory(buildingId);
+    }
 }
 

@@ -1,6 +1,5 @@
 package com.lsh.config.mvc;
 
-
 import com.lsh.config.exception.MyException;
 import com.lsh.enums.AppHttpCodeEnum;
 import com.lsh.utils.JWTUtil;
@@ -9,7 +8,6 @@ import com.lsh.domain.User;
 import com.lsh.utils.UserHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /**

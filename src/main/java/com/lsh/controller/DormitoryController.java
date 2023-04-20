@@ -2,16 +2,21 @@ package com.lsh.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lsh.domain.Bed;
 import com.lsh.domain.Dormitory;
+import com.lsh.domain.DormitoryStudent;
 import com.lsh.domain.Storey;
 import com.lsh.domain.Vo.ReplaceBedDto;
+import com.lsh.service.BedService;
 import com.lsh.service.DormitoryService;
+import com.lsh.service.DormitoryStudentService;
 import com.lsh.service.StoreyService;
 import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +38,10 @@ public class DormitoryController {
     private StoreyService storeyService;
     @Autowired
     private RedisCache redisCache;
+    @Autowired
+    private BedService bedService;
+    @Autowired
+    private DormitoryStudentService dormitoryStudentService;
 
     @PostMapping("/list/{storeyId}")
     public Result list(@PathVariable("storeyId") Integer storeyId) {
@@ -95,10 +104,27 @@ public class DormitoryController {
         Integer majorId = replaceBedDto.getMajorId();
         Integer studentId = replaceBedDto.getStudentId();
         Integer bedId = replaceBedDto.getBedId();
-        //删除原来学生的床位和选宿舍的信息（dormitory  dormitory_student）
-        //调换床位id
 
-        return null;
+        //调换床位id
+        //根据床位id查出之前的学生的信息
+        DormitoryStudent originalDormitoryStudent =
+                dormitoryStudentService.getOne(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getBedId, bedId));
+        //删除原来学生的床位和选宿舍的信息（dormitory  dormitory_student）
+        boolean flag = dormitoryStudentService.remove(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, originalDormitoryStudent.getStudentId()));
+        //插入新学生的信息
+
+        if (!flag){
+            return Result.fail("系统异常！");
+        }
+        DormitoryStudent dormitoryStudent = new DormitoryStudent();
+        dormitoryStudent.setBedId(bedId);
+        dormitoryStudent.setStudentId(studentId);
+        dormitoryStudent.setCheckin(new Date());
+        dormitoryStudent.setStatus(1);
+        Bed bed = bedService.getOne(new LambdaQueryWrapper<Bed>().eq(Bed::getId, bedId));
+        dormitoryStudent.setDormitoryId(bed.getDormitoryId());
+        dormitoryStudentService.save(dormitoryStudent);
+        return Result.ok("调换成功！");
     }
 
 }

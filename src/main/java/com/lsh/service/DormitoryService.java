@@ -25,5 +25,6 @@ public interface DormitoryService extends IService<Dormitory> {
     int getVersion(Integer id);
 
 
+    int selectCountDormitory(Integer buildingId);
 }
 

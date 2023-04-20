@@ -21,5 +21,7 @@ public interface DormitoryMapper extends BaseMapper<Dormitory> {
     List<Dormitory> listDormitory(Dormitory dormitory);
 
     int getVersion(Integer id);
+
+    int selectCountDormitory(Integer buildingId);
 }
 
