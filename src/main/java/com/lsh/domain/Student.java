@@ -60,5 +60,7 @@ public class Student extends Page {
     @TableField(exist = false)
     private Integer orgId;
 
+    private String file;
+
 
 }

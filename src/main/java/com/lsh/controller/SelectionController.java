@@ -1,14 +1,22 @@
 package com.lsh.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Org;
 import com.lsh.domain.Selection;
+import com.lsh.domain.SelectionJoiner;
+import com.lsh.domain.Student;
 import com.lsh.service.OrgService;
+import com.lsh.service.SelectionJoinerService;
 import com.lsh.service.SelectionService;
+import com.lsh.service.StudentService;
 import com.lsh.utils.Result;
+import com.lsh.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +33,10 @@ public class SelectionController {
     private SelectionService selectionService;
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private SelectionJoinerService selectionJoinerService;
 
     @PostMapping("/querySelection")
     public Map<String, Object> querySelection(@RequestBody Selection selection) {
@@ -47,12 +59,35 @@ public class SelectionController {
         selectionService.updateSelection(selection);
         return Result.ok("更新成功！");
     }
+
     @GetMapping("/deleteSelection")
-    public Result deleteSelection(String ids){
-       boolean flag =  selectionService.deleteSelection(ids);
-       if (flag){
-           return Result.ok("删除成功！");
-       }
-       return Result.fail("删除失败！");
+    public Result deleteSelection(String ids) {
+        boolean flag = selectionService.deleteSelection(ids);
+        if (flag) {
+            return Result.ok("删除成功！");
+        }
+        return Result.fail("删除失败！");
+    }
+
+    /**
+     * 根据学生查出该班级的选择宿舍的时间
+     *
+     * @return
+     */
+    @PostMapping("/selectTimeByStudent")
+    public Result selectTimeByStudent() {
+        //根据学生的班级id查询出选择id
+        Student student = studentService.getById(UserHolder.getStudent().getId());
+        Integer clazzId = student.getClazzId();
+        SelectionJoiner joiner =
+                selectionJoinerService.getOne(new LambdaQueryWrapper<SelectionJoiner>().eq(SelectionJoiner::getClazzId, clazzId));
+        Integer selectionId = joiner.getSelectionId();
+        Selection selection = selectionService.getById(selectionId);
+        Date startTime = selection.getStartTime();
+        Date endTime = selection.getEndTime();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("startTime", startTime);
+        map.put("endTime", endTime);
+        return Result.ok(map);
     }
 }

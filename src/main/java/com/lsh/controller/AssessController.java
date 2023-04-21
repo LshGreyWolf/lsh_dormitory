@@ -4,9 +4,7 @@ package com.lsh.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.*;
-import com.lsh.service.AssessService;
-import com.lsh.service.DormitoryService;
-import com.lsh.service.UserService;
+import com.lsh.service.*;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +29,24 @@ public class AssessController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private StoreyService storeyService;
+
+    @Autowired
+    private BuildingService buildingService;
 
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Assess assess) {
         PageInfo<Assess> pageInfo = assessService.queryByPage(assess);
         pageInfo.getList().forEach(item -> {
-
             Dormitory dormitory =
-                    dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, item.getDormitoryId()));
-            User user = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getId, item.getUserId()));
+                    dormitoryService.getById(item.getDormitoryId());
+            Storey storey = storeyService.getById(dormitory.getStoreyId());
+            Building building = buildingService.getById(dormitory.getBuildingId());
+            dormitory.setStorey(storey);
+            dormitory.setBuilding(building);
+            User user = userService.getById(item.getUserId());
+
             item.setDormitory(dormitory);
             item.setUser(user);
         });

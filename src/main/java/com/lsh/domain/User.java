@@ -39,5 +39,8 @@ public class User extends Page {
     @TableField(exist = false)
     private List<Integer> menuIds;
 
+    private String file;
+
+
 }
 

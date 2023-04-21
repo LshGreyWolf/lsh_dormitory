@@ -204,5 +204,12 @@ public class StuController {
             return Result.ok(noticePageInfo);
         }
     }
+    @PostMapping("/updateStudent")
+    public Result updateStudent(@RequestBody Student student){
+        Integer id = UserHolder.getStudent().getId();
+        student.setId(id);
+        studentService.updateById(student);
+        return Result.ok("修改成功！");
+    }
 
 }

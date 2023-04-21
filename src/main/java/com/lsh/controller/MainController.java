@@ -9,18 +9,17 @@ import com.lsh.service.BuildingService;
 import com.lsh.service.DormitoryService;
 import com.lsh.service.DormitoryStudentService;
 import com.lsh.service.NoticeService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +35,8 @@ public class MainController {
 
     @Autowired
     private BuildingService buildingService;
+    @Autowired
+    private RedisCache redisCache;
 
     @Autowired
     private DormitoryService dormitoryService;
@@ -206,6 +207,13 @@ public class MainController {
 
         List<Notice> noticeList = noticeService.list();
         return Result.ok(noticeList);
+    }
+
+    @GetMapping("/deleteAllRedisKey")
+    public Result deleteAllRedisKey(){
+        Collection<String> keys = redisCache.keys("*");
+        redisCache.deleteObject(keys);
+        return Result.ok(keys);
     }
 
 }

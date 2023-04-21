@@ -39,6 +39,10 @@ public class Dormitory {
 
     @Version
     private Integer version;
+    @TableField(exist = false)
+    private Building building;
+    @TableField(exist = false)
+    private Storey storey;
 
 
 }

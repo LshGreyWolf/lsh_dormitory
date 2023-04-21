@@ -54,7 +54,8 @@
             <if test="name !=null">name = #{name},</if>
             <if test="sex !=null">sex = #{sex},</if>
             <if test="remark !=null">remark = #{remark},</if>
-            <if test="type !=null">type = #{type}</if>
+            <if test="type !=null">type = #{type},</if>
+            <if test="phone !=null">phone = #{phone}</if>
         </set>
         where
         <if test="id != null">id = #{id}</if>

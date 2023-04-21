@@ -12,12 +12,15 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
 import com.lsh.domain.UserMenu;
+import com.lsh.domain.Vo.LoginType;
 import com.lsh.domain.Vo.PasswordDto;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserMenuService;
 import com.lsh.service.UserService;
+import com.lsh.utils.JWTUtil;
 import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
+import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,8 +51,6 @@ public class UserController {
     @Autowired
     private UserMenuService userMenuService;
     @Autowired
-    private StringRedisTemplate redisTemplate;
-    @Autowired
     private RedisCache redisCache;
     @Autowired
     private StudentService studentService;
@@ -65,6 +66,17 @@ public class UserController {
         PageInfo<User> pageInfo = userService.queryByPage(user);
         redisCache.setCacheObject("user:list", JSONUtil.toJsonStr(pageInfo));
         return Result.ok(pageInfo);
+    }
+
+    @GetMapping("/getUser")
+    public Result getUser() {
+        User user = UserHolder.getUser();
+        User userServiceUser = null;
+        if (user != null) {
+            userServiceUser = userService.getUser(user);
+        }
+
+        return Result.ok(userServiceUser);
     }
 
     /**
@@ -129,6 +141,25 @@ public class UserController {
         return Result.ok("更改成功！");
     }
 
+    /**
+     * 用户修改个人资料
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/updateUserInformation")
+    public Result updateUserInformation(@RequestBody User user, HttpServletRequest request) {
+        user.setId(UserHolder.getUser().getId());
+        userService.updateById(user);
+        return Result.ok("修改成功！");
+    }
+
+    /**
+     * 用户重置密码
+     *
+     * @param user
+     * @return
+     */
     @PostMapping("/resetPassword")
     public Result resetPassword(@RequestBody User user) {
         User user1 = new User();
@@ -138,13 +169,16 @@ public class UserController {
         return Result.ok("重置密码成功！");
     }
 
-    @Value("${server.port}")
-    private String port;
 
-    private static final String ip = "http://localhost";
-
+    /**
+     * 上传头像
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
-    public Result upload(MultipartFile file) throws IOException {
+    public Result upload(MultipartFile file, LoginType loginType) throws IOException {
         String filename = file.getOriginalFilename();//获取文件的名称
 
         //通过Hutool工具包的IdUtil类获取uuid作为前缀
@@ -152,11 +186,52 @@ public class UserController {
         String rootFilePath = System.getProperty("user.dir") + "/src/main/resources/files/" + prefix + "_" + filename;
         //使用Hutool工具包将我们接收到文件保存到rootFilePath中
         FileUtil.writeBytes(file.getBytes(), rootFilePath);
-        return Result.ok("localhost:9001/"+prefix + "_" + filename);
-//        return Result.ok(ip + ":" + port + "/static/" + prefix);
+        if (loginType.getType() == 0) {
+            //将用户名的头像名称存入数据库
+            String user2 = redisCache.getCacheObject("user");
+            User user = JSONUtil.toBean(user2, User.class);
+            user.setId(user.getId());
+            user.setFile(prefix + "_" + filename);
+            userService.updateById(user);
+        } else {
+            String student = redisCache.getCacheObject("student");
+            Student student1 = JSONUtil.toBean(student, Student.class);
+            student1.setId(student1.getId());
+            student1.setFile(prefix + "_" + filename);
+            studentService.updateById(student1);
+        }
+
+        return Result.ok("http://localhost:9001/" + prefix + "_" + filename);
     }
 
+    /**
+     * 获取用户的头像地址
+     *
+     * @return
+     */
+    @PostMapping("/img")
+    public Result img(HttpServletRequest request) {
+        User requestUser = (User) request.getAttribute("user");
+        String file = null;
+        if (requestUser != null) {
+            User user = UserHolder.getUser();
+            User user1 = userService.getById(user.getId());
+            file = user1.getFile();
+        } else {
+            Student student = studentService.getById(UserHolder.getStudent().getId());
+            file = student.getFile();
+        }
 
+        return Result.ok("http://localhost:9001/" + file);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param passwordDto
+     * @param request
+     * @return
+     */
     @PostMapping("/modifyPassword")
     public Result modifyPassword(@RequestBody PasswordDto passwordDto, HttpServletRequest request) {
         Integer type = passwordDto.getType();
@@ -168,14 +243,14 @@ public class UserController {
         String reNewPassword = passwordDto.getReNewPassword();
 
         // 0 user  1 student
-        if (type ==0){
+        if (type == 0) {
             User user = (User) request.getAttribute("user");
             User user1 = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getId, user.getId()));
             String oldPassword = user1.getPassword();
-            if (!Objects.equals(oldPassword, password)){
-                return  Result.fail("原密码错误，请重新输入！");
-            }else {
-                if (!newPassword.equals(reNewPassword)){
+            if (!Objects.equals(oldPassword, password)) {
+                return Result.fail("原密码错误，请重新输入！");
+            } else {
+                if (!newPassword.equals(reNewPassword)) {
                     return Result.fail("两次输入的密码不一致，请重新输入！");
                 }
                 User user2 = new User();
@@ -184,14 +259,14 @@ public class UserController {
                 userService.updateById(user2);
             }
         }
-        if (type ==1){
+        if (type == 1) {
             Student student = (Student) request.getAttribute("student");
             Student student1 = studentService.getOne(new LambdaQueryWrapper<Student>().eq(Student::getId, student.getId()));
             String oldPassword = student1.getPassword();
-            if (!Objects.equals(oldPassword, password)){
-                return  Result.fail("原密码错误，请重新输入！");
-            }else {
-                if (!newPassword.equals(reNewPassword)){
+            if (!Objects.equals(oldPassword, password)) {
+                return Result.fail("原密码错误，请重新输入！");
+            } else {
+                if (!newPassword.equals(reNewPassword)) {
                     return Result.fail("两次输入的密码不一致，请重新输入！");
                 }
                 Student student2 = new Student();

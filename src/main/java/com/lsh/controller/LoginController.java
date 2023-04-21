@@ -1,5 +1,9 @@
 package com.lsh.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
+import com.lsh.domain.Vo.LoginType;
 import com.lsh.domain.Vo.StudentDto;
 
 import com.lsh.utils.JWTUtil;
@@ -7,6 +11,7 @@ import com.lsh.domain.Student;
 import com.lsh.domain.User;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserService;
+import com.lsh.utils.RedisCache;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +43,11 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private RedisCache redisCache;
 
     @PostMapping
-    public Result login(@RequestBody User user) {
+    public Result login(@RequestBody User user, HttpServletRequest request) {
         if (user.getType() == 2) { //学生登录的
             Student entity = studentService.login(user.getUserName(), user.getPassword());
             if (entity != null) {
@@ -44,7 +55,10 @@ public class LoginController {
                 Map map = new HashMap();
                 map.put(JWTUtil.token, token);
                 map.put("student", entity);
+
+                redisCache.setCacheObject("student", JSONUtil.toJsonStr(entity));
                 return Result.ok("登陆成功", map);
+
             } else {
                 return Result.fail("用户名或密码错误");
             }
@@ -58,11 +72,14 @@ public class LoginController {
                 Map map = new HashMap();
                 map.put(JWTUtil.token, token);
                 map.put("user", entity);
+                redisCache.setCacheObject("user", JSONUtil.toJsonStr(entity));
                 return Result.ok("登陆成功", map);
             } else {
                 return Result.fail("用户名或密码错误");
             }
         }
+
+
     }
 
     @PostMapping("/register")
@@ -90,9 +107,11 @@ public class LoginController {
     public Result logout() {
         UserHolder.removeUser();
         UserHolder.removeStudent();
-
         return Result.ok("退出成功");
     }
+
+
+
 
 
 }
