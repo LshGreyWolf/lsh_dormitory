@@ -38,6 +38,12 @@ public class SelectionController {
     @Autowired
     private SelectionJoinerService selectionJoinerService;
 
+    /**
+     * 宿舍选择分页
+     *
+     * @param selection
+     * @return
+     */
     @PostMapping("/querySelection")
     public Map<String, Object> querySelection(@RequestBody Selection selection) {
         PageInfo<Selection> pageInfo = selectionService.querySelection(selection);
@@ -48,6 +54,11 @@ public class SelectionController {
         return Result.ok(pageInfo);
     }
 
+    /**
+     * 新增宿舍选择
+     * @param selection
+     * @return
+     */
     @PostMapping("/saveSelection")
     public Result saveSelection(@RequestBody Selection selection) {
         selectionService.saveSelection(selection);
@@ -80,7 +91,8 @@ public class SelectionController {
         Student student = studentService.getById(UserHolder.getStudent().getId());
         Integer clazzId = student.getClazzId();
         SelectionJoiner joiner =
-                selectionJoinerService.getOne(new LambdaQueryWrapper<SelectionJoiner>().eq(SelectionJoiner::getClazzId, clazzId));
+                selectionJoinerService
+                        .getOne(new LambdaQueryWrapper<SelectionJoiner>().eq(SelectionJoiner::getClazzId, clazzId));
         Integer selectionId = joiner.getSelectionId();
         Selection selection = selectionService.getById(selectionId);
         Date startTime = selection.getStartTime();

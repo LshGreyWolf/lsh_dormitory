@@ -20,6 +20,12 @@ import java.util.Map;
 public class DormitorySetController {
     @Autowired
     private DormitorySetService dormitorySetService;
+
+    /**
+     * 保存宿舍编号设置
+     * @param dormitorySet
+     * @return
+     */
     @PostMapping("/saveDormitorySet")
     public Result saveDormitorySet(@RequestBody DormitorySet dormitorySet){
 
@@ -27,7 +33,11 @@ public class DormitorySetController {
         return Result.ok("保存成功！");
     }
 
-
+    /**
+     * 分页宿舍编号设置
+     * @param dormitorySet
+     * @return
+     */
     @PostMapping("queryDormitorySet")
     public Map<String,Object> queryDormitorySet(@RequestBody  DormitorySet dormitorySet){
         PageInfo<DormitorySet> pageInfo = dormitorySetService.queryDormitorySet(dormitorySet);

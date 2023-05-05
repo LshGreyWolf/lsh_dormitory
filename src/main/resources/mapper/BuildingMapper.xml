@@ -45,6 +45,7 @@
             <if test="storeyNum != null">,storey_num = #{storeyNum}</if>
             <if test="sex != null">,sex = #{sex}</if>
             <if test="remark != null">,remark = #{remark}</if>
+            <if test="userId != null">,user_id = #{userId}</if>
         </set>
         where id =#{id}
 

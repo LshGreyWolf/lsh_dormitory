@@ -1,21 +1,22 @@
-package com.lsh.domain.Vo;
+package com.lsh.domain;
 
-import com.lsh.domain.Menu;
-import com.lsh.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @version 1.0
  * @description:
  * @author: lsh
- * @date: 2023/03/22
+ * @date: 2023/05/04
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMenuVo {
-    private User user;
-    private Menu menu;
+@ToString
+public class Role {
+    private Integer id;
+
+    private String role;
 }

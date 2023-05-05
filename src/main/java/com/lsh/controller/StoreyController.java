@@ -31,6 +31,11 @@ public class StoreyController {
     @Autowired
     private BuildingService buildingService;
 
+    /**
+     * 根据楼宇id查询该楼宇的层数
+     * @param buildingId
+     * @return
+     */
     @PostMapping("/list/{buildingId}")
     public Result listStory(@PathVariable("buildingId") Integer buildingId) {
         LambdaQueryWrapper<Storey> queryWrapper = new LambdaQueryWrapper<Storey>()
@@ -40,8 +45,8 @@ public class StoreyController {
         Building building = buildingService.getOne(new LambdaQueryWrapper<Building>().eq(Building::getId, buildingId));
 
         String buildingName= building.getName();
-        String key = USER_STOREY + buildingName;
 
+        String key = USER_STOREY + buildingName;
         redisCache.setCacheObject(key, JSONUtil.toJsonStr(list));
         return Result.ok(list);
     }

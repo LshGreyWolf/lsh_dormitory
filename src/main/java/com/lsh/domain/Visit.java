@@ -41,6 +41,7 @@ public class Visit extends Page {
     @TableField(exist = false)
     private Student student;
 
+    private Integer buildingId;
 
 
 

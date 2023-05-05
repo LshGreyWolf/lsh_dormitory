@@ -35,6 +35,7 @@ insert into tb_absence
             <if test="endTime != null">end_time = #{endTime},</if>
             <if test="remark != null and remark != ''">remark = #{remark},</if>
             <if test="status != null and status != ''">status = #{status},</if>
+            <if test="buildingId != null and buildingId != ''">building_id = #{buildingId},</if>
         </set>
         where id = #{id}
     </update>
@@ -58,6 +59,7 @@ insert into tb_absence
             <if test="dormitoryId != null">and dormitory_id = #{dormitoryId}</if>
             <if test="remark != null and remark != ''">and remark = #{remark}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="buildingId != null and buildingId != ''">and building_id = #{buildingId}</if>
         </where>
     </sql>
 

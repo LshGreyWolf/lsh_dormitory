@@ -32,7 +32,15 @@ public enum AppHttpCodeEnum {
     TOKEN_NOT_NULL(513, "token不能为空"),
     TIMEOUT_OR_ILLEGAL_TOKEN(514, "超时或不合法token"),
 
-    VERSION_FLAT(516,"版本不一致，执行冲突");
+    VERSION_FLAT(516,"版本不一致，执行冲突"),
+
+    ACCOUNT_NOT_EXIST(11, "账号不存在"),
+    DUPLICATE_ACCOUNT(12, "账号重复"),
+    ACCOUNT_IS_DISABLED(13, "账号被禁用"),
+    INCORRECT_CREDENTIALS(14, "账号或密码错误"),
+    NOT_LOGIN_IN(15, "账号未登录"),
+    UNAUTHORIZED(16, "没有权限");
+
     int code;
     String msg;
 

@@ -14,6 +14,7 @@ import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,11 @@ public class MenuController {
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 菜单的树形结构
+     * @param request
+     * @return
+     */
     @GetMapping("/query")
     public Result queryMenu(HttpServletRequest request) {
         List<Menu> menus = new ArrayList<>();
@@ -82,14 +88,18 @@ public class MenuController {
 
     }
 
+    /**
+     * 菜单列表的ztree树形结构
+     * @param checked
+     * @return
+     */
     @GetMapping("/tree")
-    public Result tree(Integer checked, HttpServletRequest request) {
+    public Result tree(@RequestParam("checked") Integer checked, @RequestParam("id") Integer userId ) {
         //checked表示菜单是否被选中，查询的时候方便回显
         List<Integer> menuCheckedIdList = null;
-        if (checked != null) {
+        if (!StringUtils.isEmpty(checked) && !StringUtils.isEmpty(userId)) {
 
-            User user = (User) request.getAttribute("user");
-            menuCheckedIdList = userMenuService.getMenu(user.getId());
+            menuCheckedIdList = userMenuService.getMenu(userId);
         }
 
         List<Menu> list = menuService.list(null);
@@ -130,30 +140,29 @@ public class MenuController {
         return Result.ok(menus);
     }
 
-
+    /**
+     * 查询所有的菜单
+     * @param request
+     * @return
+     */
     @GetMapping("/selectMenu")
     public Result selectMenu(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         List<Menu> menus = new ArrayList<>();
-        if (user != null) {
-
+        if (!StringUtils.isEmpty(user)) {
             menus = menuService.queryMenu(user.getId());
         }
-
         return Result.ok(menus);
     }
 
     @GetMapping("/deleteMenu")
-    public Result deleteMenu(Integer id,HttpServletRequest request) {
-
+    public Result deleteMenu(Integer id) {
             menuService.removeById(id);
-
             userMenuService.remove(new LambdaQueryWrapper<UserMenu>().eq(UserMenu::getMenuId,id));
-
-
-
         return Result.ok("删除成功！");
     }
+
+
     @PostMapping("/updateMenu")
     public Result updateMenu(@RequestBody Menu menu){
         menuService.updateById(menu);

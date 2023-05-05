@@ -60,6 +60,7 @@
             <if test="idcard != null and idcard != ''">and idcard = #{idcard}</if>
             <if test="studentId != null">and student_id = #{studentId}</if>
             <if test="remark != null and remark != ''">and remark = #{remark}</if>
+            <if test="buildingId != null and buildingId != ''">and building_id = #{buildingId}</if>
         </where>
     </sql>
 </mapper>

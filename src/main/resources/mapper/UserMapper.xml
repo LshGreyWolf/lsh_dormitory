@@ -93,6 +93,13 @@
         from tb_user
         <include refid="UserFindCriteria"></include>
     </select>
+    <select id="findByUserName" resultType="com.lsh.domain.User">
+
+        select
+        *
+        from tb_user
+        where user_name = #{userName}
+    </select>
     <sql id="UserFindCriteria">
         <where>
             <if test="id != null">id = #{id}</if>
@@ -106,4 +113,7 @@
             <if test="status != null and sex != ''">and status = #{status}</if>
         </where>
     </sql>
+
+
+
 </mapper>

@@ -25,12 +25,22 @@ public class NoticeReceiveController {
     @Autowired
     private NoticeReceiveService noticeReceiveService;
 
+    /**
+     * 查询公告接收者（用于更新公告时的回显）
+     * @param noticeReceive
+     * @return
+     */
     @PostMapping("/queryNoticeReceive")
     public Map<String, Object> queryNoticeReceive(@RequestBody NoticeReceive noticeReceive) {
         PageInfo<NoticeReceive> pageInfo = noticeReceiveService.queryNoticeReceive(noticeReceive);
         return Result.ok(pageInfo);
     }
 
+    /**
+     * 更新
+     * @param noticeReceive
+     * @return
+     */
     @PostMapping("/updateNoticeReceive")
     public Result updateNoticeReceive(@RequestBody NoticeReceive noticeReceive) {
         int flag = noticeReceiveService.updateNoticeReceive(noticeReceive);

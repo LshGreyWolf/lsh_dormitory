@@ -15,6 +15,7 @@ select * from
     <if test="description != null">and description =#{description}</if>
     <if test="type != null">and id =#{type}</if>
     <if test="createTime != null">and create_time =#{createTime}</if>
+    <if test="buildingId != null">and building_id =#{buildingId}</if>
 </where>
 
 

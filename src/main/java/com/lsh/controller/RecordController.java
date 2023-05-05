@@ -40,6 +40,11 @@ public class RecordController {
     @Autowired
     private DormitoryService dormitoryService;
 
+    /**
+     * 来访分页
+     * @param record
+     * @return
+     */
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Record record) {
         PageInfo<Record> recordPageInfo = recordService.queryByPage(record);
@@ -49,7 +54,8 @@ public class RecordController {
             item.setStudent(student);
             Bed bed = bedService.getOne(new LambdaQueryWrapper<Bed>().eq(Bed::getId, item.getBedId()));
             item.setBed(bed);
-            Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, item.getDormitoryId()));
+            Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>()
+                    .eq(Dormitory::getId, item.getDormitoryId()));
             item.setDormitory(dormitory);
         });
         return Result.ok(recordPageInfo);

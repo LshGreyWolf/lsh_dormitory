@@ -54,8 +54,7 @@ public class StuController {
     private BuildingService buildingService;
 
     @PostMapping("/info")
-    public Result info(HttpServletRequest request) {
-
+    public Result info() {
         Student param = UserHolder.getStudent();
         Student student = studentService.getStudent(param.getId());
         Org org = orgService.detail(student.getClazzId());
@@ -65,6 +64,13 @@ public class StuController {
         return Result.ok(student);
     }
 
+    /**
+     * 查询学生缺勤记录
+     *
+     * @param absence
+     * @param request
+     * @return
+     */
     @PostMapping("/selectAbsence")
     public Map<String, Object> selectAbsence(@RequestBody Absence absence, HttpServletRequest request) {
         Student param = (Student) request.getAttribute("student");
@@ -76,16 +82,23 @@ public class StuController {
             LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(Dormitory::getId, entity.getDormitoryId());
             Dormitory dormitory = dormitoryService.getOne(queryWrapper);
-                entity.setDormitory(dormitory);
+            entity.setDormitory(dormitory);
         });
         return Result.ok(pageInfo);
     }
 
+    /**
+     * 在线选宿舍（查询）
+     *
+     * @return
+     */
     @PostMapping("/selectDormitory")
     public Result selectDormitory() {
         Student entity = UserHolder.getStudent();
         //先查询登录学生的详细信息
         Student student = studentService.getStudent(entity.getId());
+        Integer sex = student.getSex();
+
         SelectionDormitory selectionDormitory = new SelectionDormitory();
         selectionDormitory.setClazzId(student.getClazzId());
         //根据学生的班级id 查出来该学生所在班级的所有待选宿舍
@@ -112,31 +125,40 @@ public class StuController {
             //查询已选择的所有学生的个数
             int count = dormitoryStudentService.count(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
             //查询已选择的所有学生的列表
-            List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
-            map.put("selectCount", count);
-            List<Map<String, Object>> studentMapList = new ArrayList<>();
-            //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
-            studentList.forEach(student1 -> {
-                Map<String, Object> studentMap = new HashMap<>();
-                Student studentDetail = studentService.getStudent(student1.getStudentId());
-                studentMap.put("stuNo", studentDetail.getStuNo());
-                studentMap.put("name", studentDetail.getName());
-                studentMap.put("bedId", student1.getBedId());
-                studentMapList.add(studentMap);
-            });
-            map.put("studentList", studentMapList);
-            list.add(map);
-        }
+
+                List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
+                map.put("selectCount", count);
+                List<Map<String, Object>> studentMapList = new ArrayList<>();
+                //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
+                studentList.forEach(student1 -> {
+                    Map<String, Object> studentMap = new HashMap<>();
+                    Student studentDetail = studentService.getStudent(student1.getStudentId());
+                    studentMap.put("stuNo", studentDetail.getStuNo());
+                    studentMap.put("name", studentDetail.getName());
+                    studentMap.put("bedId", student1.getBedId());
+                    studentMapList.add(studentMap);
+                });
+
+                map.put("studentList", studentMapList);
+                list.add(map);
+            }
+
         return Result.ok(list);
     }
 
+    /**
+     * 选择
+     *
+     * @param map
+     * @return
+     */
     @PostMapping("/selectDormitorySubmit")
     public Result selectDormitorySubmit(@RequestBody Map<String, String> map) {
         Student param = UserHolder.getStudent();
         Student student = studentService.getStudent(param.getId());
         String bedId = map.get("bedId");
         String dormitoryId = map.get("dormitoryId");
-        int row ;
+        int row;
         try {
             row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
         } catch (Exception e) {
@@ -148,6 +170,12 @@ public class StuController {
         return Result.fail("系统异常，请联系管理员！");
     }
 
+    /**
+     * 报修申请
+     *
+     * @param repair
+     * @return
+     */
     @PostMapping("/addRepair")
     public Result addRepair(@RequestBody Repair repair) {
         Student student = UserHolder.getStudent();
@@ -200,12 +228,13 @@ public class StuController {
                 i.setUser(userService.getUser(user));
             });
             return Result.ok(noticePageInfo);
-        }else {
+        } else {
             return Result.ok(noticePageInfo);
         }
     }
+
     @PostMapping("/updateStudent")
-    public Result updateStudent(@RequestBody Student student){
+    public Result updateStudent(@RequestBody Student student) {
         Integer id = UserHolder.getStudent().getId();
         student.setId(id);
         studentService.updateById(student);

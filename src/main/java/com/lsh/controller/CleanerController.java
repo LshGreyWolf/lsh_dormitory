@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * (Cleaner)表控制层
  *
- * @author makejava
+ * @author lsh
  * @since 2023-04-15 10:04:44
  */
 @RestController
@@ -27,6 +27,12 @@ public class CleanerController {
     @Autowired
     private BuildingService buildingService;
 
+    /**
+     * 保洁人员的分页
+     *
+     * @param cleaner
+     * @return
+     */
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Cleaner cleaner) {
         PageInfo<Cleaner> pageInfo = cleanerService.queryByPage(cleaner);
@@ -40,6 +46,12 @@ public class CleanerController {
         return Result.ok(pageInfo);
     }
 
+    /**
+     * 添加保洁员（一名保洁员只能选择一栋楼）
+     *
+     * @param cleaner
+     * @return
+     */
     @PostMapping("/addCleaner")
     public Result addCleaner(@RequestBody Cleaner cleaner) {
 

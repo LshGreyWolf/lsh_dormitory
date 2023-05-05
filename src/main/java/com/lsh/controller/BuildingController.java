@@ -44,8 +44,13 @@ public class BuildingController {
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 楼宇的分页
+     * @param building
+     * @return
+     */
     @PostMapping("/BuildingQueryByPage")
-    public Map<String, Object> BuildingQueryByPage(@RequestBody Building building, HttpServletRequest request) {
+    public Map<String, Object> BuildingQueryByPage(@RequestBody Building building,HttpServletRequest request) {
 
         //如果是超级管理员才能查询所有的楼宇
         //宿管员只能查询到自己的楼宇
@@ -70,6 +75,11 @@ public class BuildingController {
         return Result.ok(buildingPageInfo);
     }
 
+    /**
+     * 新增楼宇，同时新增该楼宇的楼层数
+     * @param building
+     * @return
+     */
     @PostMapping("/save")
     public Result saveBuilding(@RequestBody Building building) {
         //新增楼宇的时候需要注意：同时将对应楼宇的楼层插入到楼层表中

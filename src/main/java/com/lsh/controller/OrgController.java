@@ -36,6 +36,11 @@ public class OrgController {
     @Autowired
     private GradeService gradeService;
 
+    /**
+     * 年级树形结构
+     * @param org
+     * @return
+     */
     @PostMapping("/tree")
     public Result tree(@RequestBody Org org) {
         PageInfo<Org> pageInfo = orgService.query(org);
@@ -91,8 +96,8 @@ public class OrgController {
      */
     @PostMapping("/save")
     public Result save(@RequestBody Org org) {
-        int flag = orgService.create(org);
-        if (flag > 0) {
+        boolean flag = orgService.save(org);
+        if (flag) {
             return Result.ok("新增成功！");
         }
         return Result.ok("新增失败！");

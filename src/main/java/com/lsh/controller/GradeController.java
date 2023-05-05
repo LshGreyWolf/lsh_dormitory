@@ -29,6 +29,11 @@ public class GradeController {
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 年级的分页
+     * @param grade
+     * @return
+     */
     @PostMapping("/gradeQueryByPage")
     public Map<String, Object> gradeQueryByPage(@RequestBody Grade grade) {
         PageInfo<Grade> pageInfo = gradeService.gradeQueryByPage(grade);

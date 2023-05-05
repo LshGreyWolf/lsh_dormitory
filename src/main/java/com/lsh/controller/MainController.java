@@ -46,7 +46,7 @@ public class MainController {
     private NoticeService noticeService;
 
     /**
-     * 线性图
+     * 表格
      *
      * @return
      */
@@ -83,21 +83,30 @@ public class MainController {
         return Result.ok(list);
     }
 
+    /**
+     * 折线图
+     *
+     * @return
+     */
     @GetMapping("/buildingLine")
     public Result buildingLine() {
 
         List<Building> buildingList = buildingService.list();
         List<Map<String, Object>> list = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat("######0.00");
+
         HashMap<String, Object> map = new HashMap<>();
         HashMap<String, Object> map2 = new HashMap<>();
         HashMap<String, Object> map3 = new HashMap<>();
         HashMap<String, Object> map4 = new HashMap<>();
-        HashMap<String, Object> map5 = new HashMap<>();
+        //宿舍数量
         ArrayList<Integer> countList = new ArrayList<>();
+        //入住人数
         ArrayList<Integer> occupyList = new ArrayList<>();
+        //闲置数量
         ArrayList<Integer> leaveUnusedList = new ArrayList<>();
+        //使用率
         ArrayList<Integer> percentList = new ArrayList<>();
+
         buildingList.forEach(item -> {
 
             List<Dormitory> dormitoryList =
@@ -142,17 +151,15 @@ public class MainController {
             map4.put("type", "line");
             map4.put("stack", "Total");
 
-
             //总宿舍量
             int count = dormitoryList.size();
             //使用的宿舍量
             int used = dormitoryStudentService.countByBuildingId(item.getId());
-            if (count ==0){
+            if (count == 0) {
                 percentList.add(0);
-            }else {
-                percentList.add( used / count);
+            } else {
+                percentList.add(used / count);
             }
-
 
 
         });
@@ -204,13 +211,12 @@ public class MainController {
      */
     @GetMapping("/notice")
     public Result notice() {
-
         List<Notice> noticeList = noticeService.list();
         return Result.ok(noticeList);
     }
 
     @GetMapping("/deleteAllRedisKey")
-    public Result deleteAllRedisKey(){
+    public Result deleteAllRedisKey() {
         Collection<String> keys = redisCache.keys("*");
         redisCache.deleteObject(keys);
         return Result.ok(keys);

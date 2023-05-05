@@ -13,6 +13,7 @@ import com.sun.webkit.graphics.WCRenderQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.NoticeService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -59,6 +60,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     }
 
     @Override
+    @Transactional
     public int updateNotice(Notice notice) {
         noticeMapper.updateNotice(notice);
         noticeReceiveMapper.deleteByNoticeId(notice.getId());

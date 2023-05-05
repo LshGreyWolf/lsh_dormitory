@@ -32,7 +32,11 @@ public class SelectionDormitoryController {
     @Autowired
     private OrgService orgService;
 
-
+    /**
+     * 为选择宿舍的班分配宿舍
+     * @param map
+     * @return
+     */
     @PostMapping("/saveSelectionDormitory")
     public Result saveSelectionDormitory(@RequestBody Map<String, String> map) {
         //clazzId,dormitoryIds
@@ -55,8 +59,6 @@ public class SelectionDormitoryController {
                 }
             }
         }
-
-
         int flag = selectionDormitoryService.saveSelectionDormitory(clazzId, dormitoryIds);
         if (flag > 0) {
             return Result.ok("分配成功！");
@@ -64,6 +66,7 @@ public class SelectionDormitoryController {
             return Result.fail("分配失败！");
         }
     }
+
 
     @PostMapping("updateSelectionDormitory")
     public Result updateSelectionDormitory(@RequestBody SelectionDormitory selectionDormitory) {
@@ -75,6 +78,11 @@ public class SelectionDormitoryController {
         }
     }
 
+    /**
+     *查询所有选择宿舍的班级
+     * @param selectionDormitory
+     * @return
+     */
     @PostMapping("/querySelectionDormitory")
     public Map<String, Object> querySelectionDormitory(@RequestBody SelectionDormitory selectionDormitory) {
         PageInfo<SelectionDormitory> pageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);

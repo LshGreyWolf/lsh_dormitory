@@ -30,7 +30,7 @@ public class Menu {
 
     private String href;
 
-    private String target;
+
 
     private Integer parentId;
     //0:管理员/宿管员;1:学生

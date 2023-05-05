@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import static com.lsh.constants.RedisConstants.STUDENT_DORMITORY;
 
 /**
- * @author lenovo
+ * @author lsh
  * @version 1.0
  * @description TODO
  * @date 2023/3/26 14:37
@@ -43,15 +43,20 @@ public class DormitoryController {
     @Autowired
     private DormitoryStudentService dormitoryStudentService;
 
+    /**
+     * 根据楼层id 查询宿舍信息
+     * @param storeyId 楼层id
+     * @return
+     */
     @PostMapping("/list/{storeyId}")
     public Result list(@PathVariable("storeyId") Integer storeyId) {
 
         LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getStoreyId, storeyId);
         List<Dormitory> dormitoryList = dormitoryService.list(queryWrapper);
-        //将楼层对应的宿舍缓存到redis
-        Storey storey = storeyService.getOne(new LambdaQueryWrapper<Storey>().eq(Storey::getId, storeyId));
 
+        Storey storey = storeyService.getOne(new LambdaQueryWrapper<Storey>().eq(Storey::getId, storeyId));
+        //将楼层对应的宿舍缓存到redis
         String key = STUDENT_DORMITORY + storey.getName();
         redisCache.setCacheObject(key, JSONUtil.toJsonStr(dormitoryList));
 

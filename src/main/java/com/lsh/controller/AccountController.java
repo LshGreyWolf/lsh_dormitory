@@ -21,6 +21,11 @@ public class AccountController {
     @Resource
     private AccountService accountService;
 
+    /**
+     * 充值
+     * @param account
+     * @return
+     */
     @PostMapping("/insertAccount")
     public Result insertAccount(@RequestBody Account account) {
         accountService.save(account);

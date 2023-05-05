@@ -31,10 +31,13 @@ public class Assess  extends Page{
     private Integer dormitoryId;
     
     private Date createTime;
+    private Date UpdateTime;
     @TableField(exist = false)
     private User user;
     @TableField(exist = false)
     private Dormitory dormitory;
+
+    private Integer buildingId;
 
 
 

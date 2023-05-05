@@ -39,6 +39,11 @@ public class StudentController {
     @Autowired
     private GradeService gradeService;
 
+    /**
+     * 学生管理的分页查询
+     * @param student 学生
+     * @return Map
+     */
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Student student) {
 
@@ -59,6 +64,11 @@ public class StudentController {
         return Result.ok(studentPageInfo);
     }
 
+    /**
+     * 条件查询
+     * @param student
+     * @return
+     */
     @PostMapping("/conditionQuery")
     public Map<String, Object> conditionQuery(@RequestBody Student student) {
         //构建分页查询的条件（组织结构 点击事件）
@@ -84,9 +94,14 @@ public class StudentController {
             item.setGrade(grade);
 
         });
-
         return Result.ok(studentPageInfo);
     }
+
+    /**
+     * 删除学生信息
+     * @param ids 学生的id
+     * @return Result
+     */
     @GetMapping("delete")
     public Result delete(String ids) {
         int row = studentService.deleteStudent(ids);
@@ -96,6 +111,11 @@ public class StudentController {
         return Result.fail("删除失败");
     }
 
+    /**
+     * 保存学生信息
+     * @param student 学生
+     * @return Result
+     */
     @PostMapping("/save")
     public Result save(@RequestBody Student student) {
         boolean flag = studentService.saveStudent(student);
@@ -105,6 +125,11 @@ public class StudentController {
         return Result.fail("新增失败");
     }
 
+    /**
+     * 更新学生信息
+     * @param student 学生
+     * @return Result
+     */
     @PostMapping("/update")
     public Result update(@RequestBody Student student) {
         boolean flag = studentService.updateStudent(student);
@@ -114,6 +139,11 @@ public class StudentController {
         return Result.fail("修改失败");
     }
 
+    /**
+     * 重置密码
+     * @param student 学生
+     * @return Result
+     */
 
     @PostMapping("/resetPassword")
     public Result resetPassword(@RequestBody Student student) {

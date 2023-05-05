@@ -39,7 +39,6 @@ public class NoticeController {
     public Map<String, Object> query(@RequestBody Notice notice) {
         PageInfo<Notice> pageInfo = noticeService.queryByPage(notice);
         pageInfo.getList().forEach(item -> {
-
             Integer userId = item.getUserId();
             User user = new User();
             user.setId(userId);
