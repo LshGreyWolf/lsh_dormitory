@@ -32,7 +32,6 @@
             <if test="content != null">, content= #{content}</if>
             <if test="createTime != null">, create_time = #{createTime}</if>
             <if test="userId != null">, user_id= #{userId}</if>
-            <if test="filepath != null">, filepath = #{filepath}</if>
         </set>
 
     </update>
@@ -63,7 +62,6 @@
             <if test="title != null and title != ''">and title = #{title}</if>
             <if test="content != null and content != ''">and content = #{content}</if>
             <if test="userId != null">and user_id = #{userId}</if>
-            <if test="filepath != null and filepath != ''">and filepath = #{filepath}</if>
             <if test="type != null and type != ''">and type = #{type}</if>
         </where>
     </sql>

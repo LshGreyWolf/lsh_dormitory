@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Selection;
 
+import java.util.List;
+
 
 /**
  * (Selection)表服务接口
@@ -20,4 +22,7 @@ public interface SelectionService extends IService<Selection> {
     void updateSelection(Selection selection);
 
     boolean deleteSelection(String ids);
+
+
+    List<Selection> selectByClazzId(Integer clazzId);
 }

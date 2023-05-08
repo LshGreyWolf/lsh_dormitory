@@ -46,7 +46,10 @@ public class RepairController {
     public Map<String, Object> queryByPage(@RequestBody Repair repair) {
         PageInfo<Repair> repairPageInfo = null;
         User entity = UserHolder.getUser();
-        User param = userService.getById(entity.getId());
+        User param = null;
+        if (entity != null) {
+            param = userService.getById(entity.getId());
+        }
         //如果登录的用户是宿管员，则只显示该宿管员管理的楼宇
         if (param.getType() == USER_TYPE_ADMINISTRATORS) {
             Building one = buildingService.getOne(new LambdaQueryWrapper<Building>().eq(Building::getUserId, param.getId()));
@@ -69,12 +72,38 @@ public class RepairController {
             item.setStudent(studentService.getStudent(item.getStudentId()));
         });
 
+        return Result.ok(repairPageInfo);
+    }
+
+    /**
+     * 报修分页
+     *
+     * @param repair
+     * @return
+     */
+    @PostMapping("/queryByPageStudent")
+    public Map<String, Object> queryByPageStudent(@RequestBody Repair repair) {
+        PageInfo<Repair> repairPageInfo = repairService.queryByPage(repair);
+        repairPageInfo.getList().forEach(item -> {
+            //根据id取出宿舍数据
+            Dormitory dormitory = dormitoryService
+                    .getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, item.getDormitoryId()));
+            Building building = new Building();
+            building.setId(item.getBuildingId());
+            Student student = new Student();
+            student.setId(item.getStudentId());
+            studentService.queryByPage(student);
+            item.setBuilding(buildingService.getBuilding(building));
+            item.setDormitory(dormitory);
+            item.setStudent(studentService.getStudent(item.getStudentId()));
+        });
 
         return Result.ok(repairPageInfo);
     }
 
     /**
      * 报修审核
+     *
      * @param repair
      * @return
      */
@@ -99,6 +128,7 @@ public class RepairController {
 
     /**
      * 更新报修描述
+     *
      * @param repair
      * @return
      */

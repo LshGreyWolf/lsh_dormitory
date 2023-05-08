@@ -1,5 +1,6 @@
 package com.lsh.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.*;
@@ -7,6 +8,7 @@ import com.lsh.service.*;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,10 +97,8 @@ public class StuController {
     @PostMapping("/selectDormitory")
     public Result selectDormitory() {
         Student entity = UserHolder.getStudent();
-        //先查询登录学生的详细信息
-        Student student = studentService.getStudent(entity.getId());
-        Integer sex = student.getSex();
 
+        Student student = studentService.getStudent(entity.getId());
         SelectionDormitory selectionDormitory = new SelectionDormitory();
         selectionDormitory.setClazzId(student.getClazzId());
         //根据学生的班级id 查出来该学生所在班级的所有待选宿舍
@@ -126,22 +126,22 @@ public class StuController {
             int count = dormitoryStudentService.count(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
             //查询已选择的所有学生的列表
 
-                List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
-                map.put("selectCount", count);
-                List<Map<String, Object>> studentMapList = new ArrayList<>();
-                //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
-                studentList.forEach(student1 -> {
-                    Map<String, Object> studentMap = new HashMap<>();
-                    Student studentDetail = studentService.getStudent(student1.getStudentId());
-                    studentMap.put("stuNo", studentDetail.getStuNo());
-                    studentMap.put("name", studentDetail.getName());
-                    studentMap.put("bedId", student1.getBedId());
-                    studentMapList.add(studentMap);
-                });
+            List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
+            map.put("selectCount", count);
+            List<Map<String, Object>> studentMapList = new ArrayList<>();
+            //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
+            studentList.forEach(student1 -> {
+                Map<String, Object> studentMap = new HashMap<>();
+                Student studentDetail = studentService.getStudent(student1.getStudentId());
+                studentMap.put("stuNo", studentDetail.getStuNo());
+                studentMap.put("name", studentDetail.getName());
+                studentMap.put("bedId", student1.getBedId());
+                studentMapList.add(studentMap);
+            });
 
-                map.put("studentList", studentMapList);
-                list.add(map);
-            }
+            map.put("studentList", studentMapList);
+            list.add(map);
+        }
 
         return Result.ok(list);
     }
@@ -156,8 +156,26 @@ public class StuController {
     public Result selectDormitorySubmit(@RequestBody Map<String, String> map) {
         Student param = UserHolder.getStudent();
         Student student = studentService.getStudent(param.getId());
+
         String bedId = map.get("bedId");
         String dormitoryId = map.get("dormitoryId");
+
+        //根据学生id查出学生班级是否可以选择宿舍以及得到选择的时间
+        List<Selection> selections = selectionService.selectByClazzId(student.getClazzId());
+        if (selections != null && selections.size() == 0) {
+            return Result.fail("操作失败，未设置！请联系管理员");
+        }
+        Selection selection = selections.get(0);
+        if (selection.getStartTime().getTime() > System.currentTimeMillis() || System.currentTimeMillis() > selection.getEndTime().getTime()) {
+            return Result.fail("操作失败，不在时间段内选择");
+        }
+
+        //查询登录学生的性别
+        Integer sex = student.getSex();
+        Dormitory dormitory = dormitoryService.getById(dormitoryId);
+        if (!Objects.equals(sex, dormitory.getSex())) {
+            return Result.fail("请选择正确的宿舍");
+        }
         int row;
         try {
             row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
@@ -167,7 +185,7 @@ public class StuController {
         if (row > 0) {
             return Result.ok("选择成功！");
         }
-        return Result.fail("系统异常，请联系管理员！");
+        return Result.fail("选择失败，请稍后再试。");
     }
 
     /**

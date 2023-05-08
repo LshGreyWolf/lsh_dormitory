@@ -23,12 +23,7 @@ public class Building  extends Page{
     
     private String name;
 
-    /**
-     * 4人间
-     * 6人间
-     * 8人间
-     */
-    private Integer type;
+
     
     private Integer storeyNum;
     

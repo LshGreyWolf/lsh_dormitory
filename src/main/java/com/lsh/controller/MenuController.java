@@ -2,6 +2,7 @@ package com.lsh.controller;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.lsh.config.exception.MyException;
 import com.lsh.domain.Menu;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
@@ -14,6 +15,7 @@ import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +48,7 @@ public class MenuController {
 
     /**
      * 菜单的树形结构
+     *
      * @param request
      * @return
      */
@@ -90,58 +93,64 @@ public class MenuController {
 
     /**
      * 菜单列表的ztree树形结构
+     *
      * @param checked
      * @return
      */
     @GetMapping("/tree")
-    public Result tree(@RequestParam("checked") Integer checked, @RequestParam("id") Integer userId ) {
-        //checked表示菜单是否被选中，查询的时候方便回显
-        List<Integer> menuCheckedIdList = null;
-        if (!StringUtils.isEmpty(checked) && !StringUtils.isEmpty(userId)) {
-
-            menuCheckedIdList = userMenuService.getMenu(userId);
-        }
-
-        List<Menu> list = menuService.list(null);
-
-        List<Map<String, Object>> menus = new ArrayList<>();
-
-        for (Menu menu : list) {
-            //父级菜单
-            if (menu.getParentId() == 0) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("id", menu.getId());
-                map.put("name", menu.getTitle());
-                map.put("isParent", true);
-                map.put("open", true);
-                if (checked != null) {
-                    map.put("checked", menuCheckedIdList.contains(menu.getId()));
-                }
-                List<Map<String, Object>> child = new ArrayList<>();
-                for (Menu menuChild : list) {
-                    if (menuChild.getParentId() != 0 && menuChild.getParentId() == menu.getId()) {
-                        HashMap<String, Object> childMap = new HashMap<>();
-                        childMap.put("id", menuChild.getId());
-                        childMap.put("name", menuChild.getTitle());
-                        childMap.put("isParent", false);
-                        childMap.put("open", false);
-                        if (checked != null) {
-                            childMap.put("checked", menuCheckedIdList.contains(menuChild.getId()));
-                        }
-                        child.add(childMap);
-                    }
-                }
-
-                map.put("children", child);
-                menus.add(map);
+    public Result tree(@RequestParam(value = "checked", required = false) Integer checked
+            , @RequestParam(value = "id", required = false) Integer userId) {
+        try {
+            //checked表示菜单是否被选中，查询的时候方便回显
+            List<Integer> menuCheckedIdList = null;
+            if (!StringUtils.isEmpty(checked) && !StringUtils.isEmpty(userId)) {
+                menuCheckedIdList = userMenuService.getMenu(userId);
             }
+            //查询不为类型不为学生的菜单
+            List<Menu> list = menuService.list(new LambdaQueryWrapper<Menu>().ne(Menu::getType, 1));
 
+            List<Map<String, Object>> menus = new ArrayList<>();
+
+            for (Menu menu : list) {
+                //父级菜单
+                if (menu.getParentId() == 0) {
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("id", menu.getId());
+                    map.put("name", menu.getTitle());
+                    map.put("isParent", true);
+                    map.put("open", true);
+                    if (checked != null) {
+                        map.put("checked", menuCheckedIdList.contains(menu.getId()));
+                    }
+                    List<Map<String, Object>> child = new ArrayList<>();
+                    for (Menu menuChild : list) {
+                        if (menuChild.getParentId() != 0 && menuChild.getParentId() == menu.getId()) {
+                            HashMap<String, Object> childMap = new HashMap<>();
+                            childMap.put("id", menuChild.getId());
+                            childMap.put("name", menuChild.getTitle());
+                            childMap.put("isParent", false);
+                            childMap.put("open", false);
+                            if (!StringUtils.isEmpty(checked)) {
+                                childMap.put("checked", menuCheckedIdList.contains(menuChild.getId()));
+                            }
+                            child.add(childMap);
+                        }
+                    }
+                    map.put("children", child);
+                    menus.add(map);
+                }
+
+            }
+            return Result.ok(menus);
+        } catch (MyException e) {
+            e.printStackTrace();
+            return Result.fail("系统异常，请稍后再试");
         }
-        return Result.ok(menus);
     }
 
     /**
      * 查询所有的菜单
+     *
      * @param request
      * @return
      */
@@ -156,15 +165,21 @@ public class MenuController {
     }
 
     @GetMapping("/deleteMenu")
+    @Transactional
     public Result deleteMenu(Integer id) {
+        try {
             menuService.removeById(id);
-            userMenuService.remove(new LambdaQueryWrapper<UserMenu>().eq(UserMenu::getMenuId,id));
-        return Result.ok("删除成功！");
+            userMenuService.remove(new LambdaQueryWrapper<UserMenu>().eq(UserMenu::getMenuId, id));
+            return Result.ok("删除成功！");
+        } catch (MyException e) {
+            e.printStackTrace();
+            return Result.fail("系统异常，请稍后再试");
+        }
     }
 
 
     @PostMapping("/updateMenu")
-    public Result updateMenu(@RequestBody Menu menu){
+    public Result updateMenu(@RequestBody Menu menu) {
         menuService.updateById(menu);
         return Result.ok("修改成功！");
     }

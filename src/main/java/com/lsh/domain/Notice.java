@@ -34,7 +34,7 @@ public class Notice extends Page {
 
     private Integer userId;
 
-    private String filepath;
+
     @TableField(exist = false)
     private User user;
 

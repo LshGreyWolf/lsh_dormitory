@@ -10,20 +10,19 @@
         <result column="type" property="type"/>
         <result column="grade_id" property="gradeId"/>
         <result column="parent_id" property="parentId"/>
-        <result column="remark" property="remark"/>
     </resultMap>
 
     <insert id="create" keyProperty="id" useGeneratedKeys="true" parameterType="com.lsh.domain.Org">
         insert into tb_org(name,
                            type,
                            grade_id,
-                           parent_id,
-                           remark)
+                           parent_id
+                           )
         values (#{name},
                 #{type},
                 #{gradeId},
-                #{parentId},
-                #{remark})
+                #{parentId}
+                )
     </insert>
 
     <select id="query" resultMap="Org">
@@ -52,8 +51,7 @@
         set name=#{name},
             type=#{type},
             grade_id=#{gradeId},
-            parent_id=#{parentId},
-            remark=#{remark}
+            parent_id=#{parentId}
         where id = #{id}
     </update>
 
@@ -63,7 +61,6 @@
         <if test="type != null">,type = #{type}</if>,
         <if test="gradeId != null">,grade_id = #{gradeId}</if>,
         <if test="parentId != null">,parent_id = #{parentId}</if>,
-        <if test="remark != null and remark != ''">,remark = #{remark}</if>
         <if test="deleted != null and deleted != ''">,deleted = #{1}</if>
         where id = #{id}
     </update>
@@ -76,7 +73,6 @@
             <if test="type != null">and type = #{type}</if>
             <if test="gradeId != null">and grade_id = #{gradeId}</if>
             <if test="parentId != null">and parent_id = #{parentId}</if>
-            <if test="remark != null and remark != ''">and remark = #{remark}</if>
             <if test="status != null">and status =#{status}</if>
         </where>
     </sql>

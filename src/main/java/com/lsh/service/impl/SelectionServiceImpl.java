@@ -108,4 +108,10 @@ public class SelectionServiceImpl extends ServiceImpl<SelectionMapper, Selection
         }
         return false;
     }
+
+    @Override
+    public List<Selection> selectByClazzId(Integer clazzId) {
+
+        return selectionMapper.selectByClazzId(clazzId);
+    }
 }

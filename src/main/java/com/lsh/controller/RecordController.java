@@ -40,11 +40,7 @@ public class RecordController {
     @Autowired
     private DormitoryService dormitoryService;
 
-    /**
-     * 来访分页
-     * @param record
-     * @return
-     */
+
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Record record) {
         PageInfo<Record> recordPageInfo = recordService.queryByPage(record);

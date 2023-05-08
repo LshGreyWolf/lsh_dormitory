@@ -10,7 +10,6 @@
             <if test="sex !=null">,sex</if>
             <if test="name !=null">,name</if>
             <if test="type !=null">,type</if>
-            <if test="remark !=null">,remark</if>
             <if test="password !=null">,password</if>
             <if test="status !=null">,status</if>
         </trim>
@@ -21,7 +20,6 @@
             <if test="sex !=null">,#{sex}</if>
             <if test="name !=null">, #{name}</if>
             <if test="type !=null">,#{type}</if>
-            <if test="remark !=null">,#{remark}</if>
             <if test="password !=null">,#{password}</if>
             <if test="status !=null">,#{status}</if>
         </trim>
@@ -53,7 +51,6 @@
             <if test="password !=null">password = #{password},</if>
             <if test="name !=null">name = #{name},</if>
             <if test="sex !=null">sex = #{sex},</if>
-            <if test="remark !=null">remark = #{remark},</if>
             <if test="type !=null">type = #{type},</if>
             <if test="phone !=null">phone = #{phone}</if>
         </set>
@@ -108,7 +105,6 @@
             <if test="name != null and name != ''">and name like concat('%',#{name},'%')</if>
             <if test="phone != null and phone != ''">and phone = #{phone}</if>
             <if test="type != null">and type = #{type}</if>
-            <if test="remark != null and remark != ''">and remark = #{remark}</if>
             <if test="sex != null and sex != ''">and sex = #{sex}</if>
             <if test="status != null and sex != ''">and status = #{status}</if>
         </where>

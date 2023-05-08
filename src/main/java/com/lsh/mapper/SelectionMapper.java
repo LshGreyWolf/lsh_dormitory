@@ -21,4 +21,6 @@ public interface SelectionMapper extends BaseMapper<Selection> {
     void saveSelection(Selection selection);
 
     void updateSelection(Selection selection);
+
+    List<Selection> selectByClazzId(Integer clazzId);
 }

@@ -29,7 +29,7 @@ public class Org  extends Page{
     
     private Integer parentId;
     
-    private String remark;
+
 
     private Integer status;
 

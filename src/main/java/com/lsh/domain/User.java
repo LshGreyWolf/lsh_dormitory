@@ -33,7 +33,6 @@ public class User extends Page {
      * 0- 管理员 /1 -宿管员
      */
     private Integer type;
-    private String remark;
     private String sex;
     private Integer status;
     @TableField(exist = false)

@@ -5,7 +5,6 @@
     <sql id="BuildingQuery">
         <where>
             <if test="name != null">name like concat('%' ,#{name} ,'%')</if>
-            <if test="type != null">and type= #{type}</if>
             <if test="storeyNum != null">and storey_num= #{storeyNum}</if>
             <if test="sex != null">and sex= #{sex}</if>
             <if test="userId != null">and user_id= #{userId}</if>
@@ -18,7 +17,6 @@
         insert into tb_building
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="name != null">name</if>
-            <if test="type != null">,type</if>
             <if test="sex != null">,sex</if>
             <if test="storeyNum != null">,storey_num</if>
             <if test="remark != null">,remark</if>
@@ -27,7 +25,6 @@
         values
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="name != null">,#{name}</if>
-            <if test="type != null">,#{type}</if>
             <if test="sex != null">,#{sex}</if>
             <if test="storeyNum != null">,#{storeyNum}</if>
             <if test="remark != null">,#{remark}</if>
@@ -41,7 +38,6 @@
         <set>
 
             <if test="name != null">,name =#{name}</if>
-            <if test="type != null">,type =#{type}</if>
             <if test="storeyNum != null">,storey_num = #{storeyNum}</if>
             <if test="sex != null">,sex = #{sex}</if>
             <if test="remark != null">,remark = #{remark}</if>

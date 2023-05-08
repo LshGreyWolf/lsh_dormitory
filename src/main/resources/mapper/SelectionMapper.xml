@@ -31,6 +31,15 @@
         select * from tb_selection
         <include refid="SelectionFindCriteria"/>
     </select>
+    <select id="selectByClazzId" resultType="com.lsh.domain.Selection">
+        select ts.*
+        from tb_selection ts,
+             tb_selection_joiner tsj
+        where ts.id = tsj.selection_id
+          and tsj.clazz_id = #{clazzId}
+        order by start_time desc limit 1
+
+    </select>
 
     <sql id="SelectionFindCriteria">
         <where>

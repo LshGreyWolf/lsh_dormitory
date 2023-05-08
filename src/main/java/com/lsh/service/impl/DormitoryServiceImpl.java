@@ -90,7 +90,6 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
                 entity.setStoreyId(item.getStoreyId());
                 entity.setSex(building.getSex());
                 entity.setCapacity(item.getCapacity());
-                entity.setType(building.getType());
                 dormitoryMapper.insert(entity);
                 //初始化床位信息
                 for (int j = 1; j <= entity.getCapacity(); j++) {
