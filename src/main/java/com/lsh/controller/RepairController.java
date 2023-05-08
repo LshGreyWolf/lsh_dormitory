@@ -115,11 +115,13 @@ public class RepairController {
 
     @GetMapping("/deleteRepair")
     public Result deleteRepair(String ids) {
+        //只能删除已经审核完毕的报修信息
         int flag = repairService.deleteRepair(ids);
+
         if (flag > 0) {
             return Result.ok("删除成功");
         } else {
-            return Result.fail("删除失败");
+            return Result.fail("该条报修信息还未审核");
         }
     }
 

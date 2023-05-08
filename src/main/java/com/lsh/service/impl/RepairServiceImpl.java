@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Repair;
 import com.lsh.mapper.RepairMapper;
+import com.lsh.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.RepairService;
@@ -41,7 +42,12 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
         String[] arr = ids.split(",");
         int row = 0;
         for (String s : arr) {
-            if(!StringUtils.isEmpty(s)){
+            if (!StringUtils.isEmpty(s)) {
+                Repair repair = repairMapper.selectById(s);
+                Integer status = repair.getStatus();
+                if (status == 0) {
+                    return -1;
+                }
                 repairMapper.deleteById(Integer.parseInt(s));
                 row++;
             }
