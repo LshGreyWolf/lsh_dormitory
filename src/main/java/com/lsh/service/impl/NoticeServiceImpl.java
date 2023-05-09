@@ -63,6 +63,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Transactional
     public int updateNotice(Notice notice) {
         noticeMapper.updateNotice(notice);
+        //先删掉关联表的数据
         noticeReceiveMapper.deleteByNoticeId(notice.getId());
         List<Integer> buildingIds = notice.getBuildingIds();
         for (Integer buildingId : buildingIds) {

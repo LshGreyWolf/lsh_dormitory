@@ -48,7 +48,6 @@ public class OrgController {
         List<Org> list = pageInfo.getList();
         //要构建的树形结构
         List<Map<String, Object>> trees = new ArrayList<>();
-
         for (Org entity : list) {
             if (entity.getParentId() == 0) {
                 Map<String, Object> map = new HashMap<>();
@@ -64,9 +63,7 @@ public class OrgController {
                 trees.add(map);
             }
         }
-
         redisCache.setCacheObject(SCHOOL_TREE, JSONUtil.toJsonStr(trees));
-
         return Result.ok(trees);
     }
 

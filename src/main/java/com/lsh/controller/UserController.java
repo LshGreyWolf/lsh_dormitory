@@ -89,13 +89,10 @@ public class UserController {
     public Result addUser(@RequestBody User user) {
         log.info("============={}", user.getMenuIds());
         List<Integer> menuIds = user.getMenuIds();
-//        user.setStatus(1);
         boolean flag = false;
         flag = userService.addUser(user);
-//        UserMenu userMenu = BeanUtil.copyProperties(user, UserMenu.class);
         //同时将数据同步到用户菜单关联表中
         //新增用户时，因为之前没有，不用删除
-
         user = userService.getUser(user);
         //循环插入
         for (Integer menuId : menuIds) {

@@ -65,11 +65,8 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
             wrapper.eq(Bed::getDormitoryId,i.getId());
             bedMapper.delete(wrapper);
         });
-
         //如果已存在宿舍信息，则删除
         dormitoryMapper.delete(queryWrapper);
-
-
         //无，则初始化
         DormitorySet dormitorySet = new DormitorySet();
         dormitorySet.setBuildingId(dormitory.getBuildingId());
@@ -99,7 +96,6 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
                     bedMapper.insert(bed);
                 }
             }
-
         });
     }
 

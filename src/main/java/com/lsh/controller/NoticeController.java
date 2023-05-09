@@ -50,7 +50,6 @@ public class NoticeController {
 
     @PostMapping("/saveNotice")
     public Result saveNotice(@RequestBody Notice notice) {
-
         User user = UserHolder.getUser();
         notice.setUserId(user.getId());
         notice.setCreateTime(new Date());

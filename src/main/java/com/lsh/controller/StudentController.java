@@ -46,7 +46,6 @@ public class StudentController {
      */
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Student student) {
-
         //进行分页查询
         PageInfo<Student> studentPageInfo = studentService.queryByPage(student);
 
@@ -60,7 +59,6 @@ public class StudentController {
             item.setGrade(grade);
 
         });
-
         return Result.ok(studentPageInfo);
     }
 
