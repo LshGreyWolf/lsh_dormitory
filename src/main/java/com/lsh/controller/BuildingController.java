@@ -51,7 +51,6 @@ public class BuildingController {
      */
     @PostMapping("/BuildingQueryByPage")
     public Map<String, Object> BuildingQueryByPage(@RequestBody Building building,HttpServletRequest request) {
-
         //如果是超级管理员才能查询所有的楼宇
         //宿管员只能查询到自己的楼宇
         User param = UserHolder.getUser();
@@ -71,7 +70,6 @@ public class BuildingController {
         }
         //将楼宇数据缓存到redis中,无过期时间
         redisCache.setCacheObject(USER_BUILDING_KEY, JSONUtil.toJsonStr(buildingList));
-
         return Result.ok(buildingPageInfo);
     }
 

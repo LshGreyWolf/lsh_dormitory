@@ -13,7 +13,7 @@
         </where>
 
     </sql>
-    <update id="saveBuilding" parameterType="com.lsh.domain.Building">
+    <insert id="saveBuilding" parameterType="com.lsh.domain.Building">
         insert into tb_building
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="name != null">name</if>
@@ -30,9 +30,7 @@
             <if test="remark != null">,#{remark}</if>
             <if test="userId != null">,#{userId}</if>
         </trim>
-
-
-    </update>
+    </insert>
     <update id="updateBuilding">
         update tb_building
         <set>

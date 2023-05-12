@@ -10,6 +10,7 @@ import com.lsh.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.StudentService;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -63,16 +64,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    public boolean updateStudent( Student student) {
+    public boolean updateStudent(Student student) {
 
         boolean flag = studentMapper.updateStudent(student);
-      return flag;
+        return flag;
     }
 
     @Override
     public Student getStudent(Integer id) {
 
-       return studentMapper.getStudent(id);
+        return studentMapper.getStudent(id);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         student.setPhone(phone);
         Student student1 = studentMapper.getStudent1(student);
 
-        if ( student1== null) {
+        if (StringUtils.isEmpty(student1)) {
             studentMapper.register(studentDto);
         } else {
             return false;

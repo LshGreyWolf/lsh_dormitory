@@ -3,6 +3,7 @@ package com.lsh.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Vo.LoginType;
 import com.lsh.domain.Vo.StudentDto;
 
@@ -22,6 +23,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,6 +54,7 @@ public class LoginController {
 
     /**
      * 登录
+     *
      * @param user
      * @return
      */
@@ -115,6 +118,7 @@ public class LoginController {
 
     /**
      * 注册
+     *
      * @param studentDto
      * @return
      */
@@ -128,9 +132,8 @@ public class LoginController {
             return Result.fail("两次密码不一致！");
         }
         Integer type = studentDto.getType();
-        if (type != 2) {
-            return Result.fail("只限制学生注册！");
-        }
+
+        studentDto.setType(2);
         boolean flag = studentService.register(studentDto);
 
         if (!flag) {
@@ -139,8 +142,25 @@ public class LoginController {
         return Result.ok("注册成功，请登录！");
     }
 
+    @PostMapping("/registerAdmin")
+    public Result registerAdmin(@RequestBody User user) {
+        String password = user.getPassword();
+        String newPassword = user.getNewPassword();
+        if (!password.equals(newPassword)) {
+            return Result.fail("两次密码不一致！");
+        }
+        String phone = user.getPhone();
+        User one = userService.getOne(new LambdaQueryWrapper<User>().eq(User::getPhone, phone));
+        if (!StringUtils.isEmpty(one)) {
+            return Result.fail("该手机号已注册！");
+        }
+        userService.save(user);
+        return Result.ok("注册成功，请登录！");
+    }
+
     /**
      * 登出
+     *
      * @return
      */
     @PostMapping("/logout")

@@ -54,7 +54,6 @@ public class DormitoryController {
         LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getStoreyId, storeyId);
         List<Dormitory> dormitoryList = dormitoryService.list(queryWrapper);
-
         Storey storey = storeyService.getOne(new LambdaQueryWrapper<Storey>().eq(Storey::getId, storeyId));
         //将楼层对应的宿舍缓存到redis
         String key = STUDENT_DORMITORY + storey.getName();

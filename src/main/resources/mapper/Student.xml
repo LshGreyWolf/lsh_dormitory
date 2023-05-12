@@ -34,12 +34,14 @@
             <if test="stuNo != null">,stu_no</if>
             <if test="password != null">,password</if>
             <if test="phone != null">,phone</if>
+            <if test="name != null">,name</if>
         </trim>
         values
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="stuNo != null">,#{stuNo}</if>
             <if test="password != null">,#{password}</if>
             <if test="phone != null">,#{phone}</if>
+            <if test="name != null">,#{name}</if>
 
         </trim>
 

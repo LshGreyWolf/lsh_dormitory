@@ -35,6 +35,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/login")
                 .excludePathPatterns("/login/register")
+                .excludePathPatterns("/login/registerAdmin")
                 .excludePathPatterns("/student/import")
                 .excludePathPatterns("/user/upload");
     }

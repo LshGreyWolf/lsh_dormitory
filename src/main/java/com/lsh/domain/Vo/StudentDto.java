@@ -25,6 +25,8 @@ public class StudentDto {
     private String newPassword;
     @NotBlank(message = "手机号不能为空！")
     private String phone;
-    @NotNull(message = "用户类型不能为空！")
+
     private Integer type;
+    private String name;
+
 }
