@@ -1,5 +1,6 @@
 package com.lsh.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -101,6 +102,9 @@ public class SelectionServiceImpl extends ServiceImpl<SelectionMapper, Selection
         int row = 0;
         for (String id : idArr) {
             selectionMapper.deleteById(id);
+
+            selectionJoinerMapper.
+                    delete(new LambdaQueryWrapper<SelectionJoiner>().eq(SelectionJoiner::getSelectionId, id));
             row++;
         }
         if (row >= 0) {

@@ -24,4 +24,5 @@ public interface AbsenceMapper extends BaseMapper<Absence> {
 
     int insertAbsence(Absence absence);
 
+
 }

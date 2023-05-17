@@ -29,8 +29,6 @@ public class Dormitory {
 
     private Integer sex;
 
-    private Integer type;
-
     private Integer capacity;
 
     private Integer storeyId;

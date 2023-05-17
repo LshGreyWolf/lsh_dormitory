@@ -31,8 +31,8 @@ public class SelectionDormitoryServiceImpl extends ServiceImpl<SelectionDormitor
     @Override
     public int saveSelectionDormitory(String clazzId, String dormitoryIds) {
         String[] ids = dormitoryIds.split(",");
-        //先删除原来的设置
-        selectionDormitoryMapper.deleteByClazzId(Integer.parseInt(clazzId));
+        //先删除原来的设置（不能删除，否则一个班级无法分配两栋楼的宿舍（男生、女生））
+//        selectionDormitoryMapper.deleteByClazzId(Integer.parseInt(clazzId));
 
         for (String id : ids) {
             if (!StringUtils.isEmpty(id)) {

@@ -112,7 +112,6 @@ public class UserController {
         LambdaQueryWrapper<UserMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserMenu::getUserId, user.getId());
         userMenuService.remove(queryWrapper);
-
         for (Integer menuId : user.getMenuIds()) {
             flag = userMenuService.saveUserMenu(user.getId(), menuId);
         }

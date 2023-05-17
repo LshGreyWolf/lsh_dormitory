@@ -15,8 +15,7 @@
         from tb_dormitory_student,
              tb_student
         where tb_dormitory_student.student_id = tb_student.id
-          and bed_id = #{bedId}
-        limit 1
+          and bed_id = #{bedId} limit 1
 
     </select>
 </mapper>

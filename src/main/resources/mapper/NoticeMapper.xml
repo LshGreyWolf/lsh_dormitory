@@ -8,7 +8,6 @@
             <if test="title != null">, title</if>
             <if test="content != null">, content</if>
             <if test="userId != null">, user_id</if>
-            <if test="filepath != null">, filepath</if>
             <if test="type != null">, type</if>
             <if test="createTime != null">, create_time</if>
 
@@ -18,7 +17,6 @@
             <if test="title != null">, #{title}</if>
             <if test="content != null">, #{content}</if>
             <if test="userId != null">, #{userId}</if>
-            <if test="filepath != null">, #{filepath}</if>
             <if test="type != null">, #{type}</if>
             <if test="createTime != null">, #{createTime}</if>
         </trim>
@@ -33,7 +31,7 @@
             <if test="createTime != null">, create_time = #{createTime}</if>
             <if test="userId != null">, user_id= #{userId}</if>
         </set>
-
+        where id =#{id}
     </update>
 
 

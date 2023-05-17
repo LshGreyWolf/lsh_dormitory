@@ -1,5 +1,6 @@
 package com.lsh.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Org;
 import com.lsh.domain.SelectionDormitory;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @version 1.0
@@ -34,6 +38,7 @@ public class SelectionDormitoryController {
 
     /**
      * 为选择宿舍的班分配宿舍
+     *
      * @param map
      * @return
      */
@@ -43,16 +48,16 @@ public class SelectionDormitoryController {
         String clazzId = map.get("clazzId");
         String dormitoryIds = map.get("dormitoryIds");
 
-        //查出该班级下分配的所有宿舍 TODO 有bug
+
         Org org = orgService.detail(Integer.valueOf(clazzId));
         SelectionDormitory selectionDormitory = new SelectionDormitory();
         selectionDormitory.setClazzId(org.getId());
-        PageInfo<SelectionDormitory> selectionDormitoryPageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);
 
-        List<SelectionDormitory> list = selectionDormitoryPageInfo.getList();
+        //得到所有不是本班级的选择的宿舍id
+        List<SelectionDormitory> dormitoryIdList = selectionDormitoryService.list(new LambdaQueryWrapper<SelectionDormitory>().ne(SelectionDormitory::getClazzId, Integer.valueOf(clazzId)));
         String[] ids = dormitoryIds.split(",");
         //比较前端传来的宿舍id和已经分配宿舍的班级的宿舍id作比较。一个宿舍不能分配给两个班级（暂不考虑混合宿舍）
-        for (SelectionDormitory selectionDormitory1 : list) {
+        for (SelectionDormitory selectionDormitory1 : dormitoryIdList) {
             for (String id : ids) {
                 if (selectionDormitory1.getDormitoryId().equals(Integer.valueOf(id))) {
                     return Result.fail("该宿舍已经分配，请选择其他宿舍。");
@@ -79,7 +84,8 @@ public class SelectionDormitoryController {
     }
 
     /**
-     *查询所有选择宿舍的班级
+     * 查询所有选择宿舍的班级
+     *
      * @param selectionDormitory
      * @return
      */

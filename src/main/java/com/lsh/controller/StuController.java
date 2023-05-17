@@ -96,53 +96,53 @@ public class StuController {
      */
     @PostMapping("/selectDormitory")
     public Result selectDormitory() {
-        Student entity = UserHolder.getStudent();
-
-        Student student = studentService.getStudent(entity.getId());
-        SelectionDormitory selectionDormitory = new SelectionDormitory();
-        selectionDormitory.setClazzId(student.getClazzId());
-        //根据学生的班级id 查出来该学生所在班级的所有待选宿舍
-        PageInfo<SelectionDormitory> selectionDormitoryPageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);
-        //待选宿舍列表
-        List<SelectionDormitory> selectionDormitoryList = selectionDormitoryPageInfo.getList();
-        //最终返回结果
         ArrayList<Map<String, Object>> list = new ArrayList<>();
-        //遍历待选宿舍
-        for (SelectionDormitory dormitory : selectionDormitoryList) {
-            HashMap<String, Object> map = new HashMap<>();
-            //查出宿舍的容量,宿舍号，以及性别
-            Dormitory dormitory1 = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitory.getDormitoryId()));
-            map.put("capacity", dormitory1.getCapacity());
-            map.put("id", dormitory1.getId());
-            map.put("no", dormitory1.getNo());
-            map.put("sex", dormitory1.getSex());
+        try {
+            Student entity = UserHolder.getStudent();
+            Student student = studentService.getStudent(entity.getId());
+            SelectionDormitory selectionDormitory = new SelectionDormitory();
+            selectionDormitory.setClazzId(student.getClazzId());
+            //根据学生的班级id 查出来该学生所在班级的所有待选宿舍
+            PageInfo<SelectionDormitory> selectionDormitoryPageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);
+            //待选宿舍列表
+            List<SelectionDormitory> selectionDormitoryList = selectionDormitoryPageInfo.getList();
+            //最终返回结果
+            //遍历待选宿舍
+            for (SelectionDormitory dormitory : selectionDormitoryList) {
+                HashMap<String, Object> map = new HashMap<>();
+                //查出宿舍的容量,宿舍号，以及性别
+                Dormitory dormitory1 = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitory.getDormitoryId()));
+                map.put("capacity", dormitory1.getCapacity());
+                map.put("id", dormitory1.getId());
+                map.put("no", dormitory1.getNo());
+                map.put("sex", dormitory1.getSex());
+                Building building1 = new Building();
+                building1.setId(dormitory1.getBuildingId());
+                Building building = buildingService.getBuilding(building1);
+                map.put("buildingName", building.getName());
 
-            Building building1 = new Building();
-            building1.setId(dormitory1.getBuildingId());
-            Building building = buildingService.getBuilding(building1);
-            map.put("buildingName", building.getName());
-
-            //查询已选择的所有学生的个数
-            int count = dormitoryStudentService.count(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
-            //查询已选择的所有学生的列表
-
-            List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
-            map.put("selectCount", count);
-            List<Map<String, Object>> studentMapList = new ArrayList<>();
-            //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
-            studentList.forEach(student1 -> {
-                Map<String, Object> studentMap = new HashMap<>();
-                Student studentDetail = studentService.getStudent(student1.getStudentId());
-                studentMap.put("stuNo", studentDetail.getStuNo());
-                studentMap.put("name", studentDetail.getName());
-                studentMap.put("bedId", student1.getBedId());
-                studentMapList.add(studentMap);
-            });
-
-            map.put("studentList", studentMapList);
-            list.add(map);
+                //查询已选择的所有学生的个数
+                int count = dormitoryStudentService.count(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
+                //查询已选择的所有学生的列表
+                List<DormitoryStudent> studentList = dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
+                map.put("selectCount", count);
+                List<Map<String, Object>> studentMapList = new ArrayList<>();
+                //循环已选学生列表得到已选学生的宿舍号和姓名和床位id
+                studentList.forEach(student1 -> {
+                    Map<String, Object> studentMap = new HashMap<>();
+                    Student studentDetail = studentService.getStudent(student1.getStudentId());
+                    studentMap.put("stuNo", studentDetail.getStuNo());
+                    studentMap.put("name", studentDetail.getName());
+                    studentMap.put("bedId", student1.getBedId());
+                    studentMapList.add(studentMap);
+                });
+                map.put("studentList", studentMapList);
+                list.add(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail("系统异常，请稍后再试");
         }
-
         return Result.ok(list);
     }
 
@@ -160,7 +160,7 @@ public class StuController {
         String dormitoryId = map.get("dormitoryId");
         //根据学生id查出学生班级是否可以选择宿舍以及得到选择的时间
         List<Selection> selections = selectionService.selectByClazzId(student.getClazzId());
-        if (selections != null && selections.size() == 0) {
+        if (selections == null || selections.size() == 0) {
             return Result.fail("操作失败，未设置！请联系管理员");
         }
         Selection selection = selections.get(0);
@@ -177,12 +177,9 @@ public class StuController {
         try {
             row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
         } catch (Exception e) {
-            return Result.fail("版本冲突！,请稍后再试。");
+            return Result.fail("版本冲突！,请稍后再试");
         }
-        if (row > 0) {
-            return Result.ok("选择成功！");
-        }
-        return Result.fail("选择失败，请稍后再试。");
+        return Result.ok("选择成功！");
     }
 
     /**

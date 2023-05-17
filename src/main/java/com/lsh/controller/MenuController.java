@@ -102,15 +102,13 @@ public class MenuController {
             , @RequestParam(value = "id", required = false) Integer userId) {
         try {
             //checked表示菜单是否被选中，查询的时候方便回显
-            List<Integer> menuCheckedIdList = null;
+            List<Integer> menuCheckedIdList = new ArrayList<>();
             if (!StringUtils.isEmpty(checked) && !StringUtils.isEmpty(userId)) {
                 menuCheckedIdList = userMenuService.getMenu(userId);
             }
             //查询不为类型不为学生的菜单
             List<Menu> list = menuService.list(new LambdaQueryWrapper<Menu>().ne(Menu::getType, 1));
-
             List<Map<String, Object>> menus = new ArrayList<>();
-
             for (Menu menu : list) {
                 //父级菜单
                 if (menu.getParentId() == 0) {

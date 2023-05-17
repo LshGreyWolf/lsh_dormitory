@@ -34,7 +34,6 @@
     <update id="updateBuilding">
         update tb_building
         <set>
-
             <if test="name != null">,name =#{name}</if>
             <if test="storeyNum != null">,storey_num = #{storeyNum}</if>
             <if test="sex != null">,sex = #{sex}</if>

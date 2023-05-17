@@ -14,6 +14,7 @@
             <if test=" leaveTime != null">,leave_time</if>
             <if test=" remark != null">,remark</if>
             <if test=" studentId != null">,student_id</if>
+            <if test=" buildingId != null">,building_id</if>
         </trim>
         values
         <trim prefix="(" suffix=")" prefixOverrides=",">
@@ -25,6 +26,7 @@
             <if test=" leaveTime != null">,#{leaveTime}</if>
             <if test=" remark != null">,#{remark}</if>
             <if test=" studentId != null">,#{studentId}</if>
+            <if test=" buildingId != null">,#{buildingId}</if>
         </trim>
     </insert>
     <update id="updateVisitor">
@@ -38,8 +40,7 @@
         <if test="leaveTime != null">, leave_time =#{leaveTime}</if>
         <if test="remark != null">, remark =#{remark}</if>
         </set>
-
-
+        where id = #{id}
     </update>
 
     <select id="queryByPage" resultType="com.lsh.domain.Visit">

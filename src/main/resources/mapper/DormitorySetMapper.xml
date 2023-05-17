@@ -13,7 +13,6 @@
             <if test="storeyId != null">,storey_id</if>
             <if test="capacity != null">,capacity</if>
         </trim>
-
         values
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="prefix != null">,#{prefix}</if>

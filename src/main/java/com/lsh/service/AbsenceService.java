@@ -22,4 +22,6 @@ public interface AbsenceService extends IService<Absence> {
     Absence getAbsence(Integer id);
 
     PageInfo<Absence> queryByPage(Absence absence);
+
+
 }

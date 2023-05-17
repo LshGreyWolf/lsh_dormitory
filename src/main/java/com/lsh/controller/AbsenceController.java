@@ -70,10 +70,10 @@ public class AbsenceController {
             Date endTimeTemp = item.getEndTime();
             Date currentTimeTemp = new Date();
 
-            if (endTimeTemp.after(currentTimeTemp)) {
+            if (currentTimeTemp.after(endTimeTemp)) {
                 //结束时间大于当前时间，则缺勤
                 item.setStatus(2);
-                absenceService.updateById(item);
+                absenceService.updateAbsence(item);
             }
         });
         return Result.ok(pageInfo);

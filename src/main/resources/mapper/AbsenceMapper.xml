@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.lsh.mapper.AbsenceMapper">
     <insert id="insertAbsence">
-insert into tb_absence
+        insert into tb_absence
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="startTime != null">,start_time</if>
             <if test="endTime != null">,end_time</if>
@@ -39,6 +39,7 @@ insert into tb_absence
         </set>
         where id = #{id}
     </update>
+
 
     <select id="queryByPage" resultType="com.lsh.domain.Absence" parameterType="com.lsh.domain.Absence">
 

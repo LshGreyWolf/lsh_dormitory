@@ -6,6 +6,7 @@ import com.lsh.service.*;
 import com.lsh.utils.Result;
 import com.lsh.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,8 +55,12 @@ public class StudentMainController {
             return Result.ok("暂无");
         }
         Integer dormitoryId = dormitoryStudent.getDormitoryId();
+        if (StringUtils.isEmpty(dormitoryId)) {
+            return Result.fail("暂无");
+        }
         //根据宿舍id查出宿舍号
         Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitoryId));
+
         String dormitoryNo = dormitory.getNo();
         map.put("dormitoryNo", dormitoryNo);
         //根据宿舍id查出楼宇号
@@ -79,11 +84,10 @@ public class StudentMainController {
         //根据该学生id查询该学生所在的宿舍
         DormitoryStudent dormitoryStudent =
                 dormitoryStudentService.getOne(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, studentId));
-        if (dormitoryStudent == null) {
-            return Result.ok("暂无");
+        if (StringUtils.isEmpty(dormitoryStudent)) {
+            return Result.fail("暂无");
         }
         Integer dormitoryId = dormitoryStudent.getDormitoryId();
-
         //根据宿舍id查出该宿舍的所有学生
         List<DormitoryStudent> studentList =
                 dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitoryId));

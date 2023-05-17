@@ -57,4 +57,6 @@ public class AbsenceServiceImpl extends ServiceImpl<AbsenceMapper, Absence> impl
         }
         return new PageInfo<Absence>(absenceMapper.queryByPage(absence));
     }
+
+
 }
