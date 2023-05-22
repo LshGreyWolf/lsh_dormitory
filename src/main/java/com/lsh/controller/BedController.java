@@ -44,7 +44,6 @@ public class BedController {
      */
     @PostMapping("/list/{dormitoryId}")
     public Result list(@PathVariable("dormitoryId") Integer dormitoryId) {
-
         LambdaQueryWrapper<Bed> queryWrapper = new LambdaQueryWrapper<Bed>()
                 .eq(Bed::getDormitoryId, dormitoryId);
         List<Bed> bedList = bedService.list(queryWrapper);
@@ -53,13 +52,10 @@ public class BedController {
             Student student = dormitoryStudentService.queryStudentByBedId(item.getId());
             item.setStudent(student);
         });
-
         Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getId, dormitoryId));
-
         String key = STUDENT_BED + dormitory.getNo();
         redisCache.setCacheObject(key, JSONUtil.toJsonStr(bedList));
-
         return Result.ok(bedList);
     }
 

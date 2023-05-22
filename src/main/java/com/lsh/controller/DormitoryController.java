@@ -50,7 +50,6 @@ public class DormitoryController {
      */
     @PostMapping("/list/{storeyId}")
     public Result list(@PathVariable("storeyId") Integer storeyId) {
-
         LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getStoreyId, storeyId);
         List<Dormitory> dormitoryList = dormitoryService.list(queryWrapper);
@@ -108,7 +107,6 @@ public class DormitoryController {
         Integer majorId = replaceBedDto.getMajorId();
         Integer studentId = replaceBedDto.getStudentId();
         Integer bedId = replaceBedDto.getBedId();
-
         //调换床位id
         //根据床位id查出之前的学生的信息
         DormitoryStudent originalDormitoryStudent =
@@ -116,7 +114,6 @@ public class DormitoryController {
         //删除原来学生的床位和选宿舍的信息（dormitory  dormitory_student）
         boolean flag = dormitoryStudentService.remove(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, originalDormitoryStudent.getStudentId()));
         //插入新学生的信息
-
         if (!flag){
             return Result.fail("系统异常！");
         }

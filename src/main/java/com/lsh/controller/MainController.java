@@ -108,7 +108,6 @@ public class MainController {
         ArrayList<Integer> percentList = new ArrayList<>();
 
         buildingList.forEach(item -> {
-
             List<Dormitory> dormitoryList =
                     dormitoryService.list(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getBuildingId, item.getId()));
             map.put("name", "宿舍数量");
@@ -119,7 +118,6 @@ public class MainController {
         //每栋楼的宿舍数量
         map.put("data", countList);
         buildingList.forEach(item -> {
-
             map2.put("name", "入住人数");
             map2.put("type", "line");
             map2.put("stack", "Total");

@@ -52,11 +52,9 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
     @Override
     @Transactional
     public void initDormitory(Dormitory dormitory) {
-
         LambdaQueryWrapper<Dormitory> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Dormitory::getBuildingId, dormitory.getBuildingId());
         queryWrapper.eq(Dormitory::getStoreyId, dormitory.getStoreyId());
-
         //删除已有宿舍对应的床位信息
         //先查询该宿舍对应的床位信息
         List<Dormitory> dormitoryList = dormitoryMapper.listDormitory(dormitory);

@@ -109,7 +109,4 @@
             <if test="status != null and sex != ''">and status = #{status}</if>
         </where>
     </sql>
-
-
-
 </mapper>
