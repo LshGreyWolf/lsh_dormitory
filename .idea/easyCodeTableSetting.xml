@@ -126,7 +126,89 @@
             </TableInfoDTO>
           </value>
         </entry>
-        <entry key="dormitory.tb_building">
+        <entry key="dormitory.tb_assess">
+          <value>
+            <TableInfoDTO>
+              <option name="fullColumn">
+                <list>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="id" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="userId" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="description" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="0-差/1-良好/2-优秀" />
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="type" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="宿舍id" />
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="dormitoryId" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="createTime" />
+                    <option name="type" value="java.util.Date" />
+                  </ColumnInfoDTO>
+                </list>
+              </option>
+              <option name="name" value="TbAssess" />
+              <option name="preName" value="tb_" />
+              <option name="saveModelName" value="lsh_dormitory" />
+              <option name="savePackageName" value="" />
+              <option name="savePath" value="./src/main/java" />
+              <option name="templateGroupName" value="MybatisPlus" />
+            </TableInfoDTO>
+          </value>
+        </entry>
+        <entry key="dormitory.tb_bed">
+          <value>
+            <TableInfoDTO>
+              <option name="fullColumn">
+                <list>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="dormitoryId" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="bno" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                </list>
+              </option>
+              <option name="name" value="TbDormitoryStudent" />
+              <option name="preName" value="tb_" />
+              <option name="saveModelName" value="dormitory" />
+              <option name="savePackageName" value="" />
+              <option name="savePath" value="./src/main/java" />
+              <option name="templateGroupName" value="MybatisPlus" />
+            </TableInfoDTO>
+          </value>
+        </entry>
+        <entry key="dormitory.tb_grade">
           <value>
             <TableInfoDTO>
               <option name="comment" value="楼宇" />
@@ -136,6 +218,28 @@
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
                     <option name="name" value="id" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                </list>
+              </option>
+              <option name="name" value="TbBed" />
+              <option name="preName" value="tb_" />
+              <option name="saveModelName" value="lsh_dormitory" />
+              <option name="savePackageName" value="" />
+              <option name="savePath" value="./src/main/java" />
+              <option name="templateGroupName" value="MybatisPlus" />
+            </TableInfoDTO>
+          </value>
+        </entry>
+        <entry key="dormitory.tb_building">
+          <value>
+            <TableInfoDTO>
+              <option name="fullColumn">
+                <list>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="sex" />
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
@@ -160,7 +264,7 @@
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="sex" />
+                    <option name="name" value="id" />
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
@@ -179,14 +283,14 @@
               </option>
               <option name="name" value="TbBuilding" />
               <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
+              <option name="saveModelName" value="lsh_dormitory" />
               <option name="savePackageName" value="" />
               <option name="savePath" value="./src/main/java" />
               <option name="templateGroupName" value="MybatisPlus" />
             </TableInfoDTO>
           </value>
         </entry>
-        <entry key="dormitory.tb_dormitory_set">
+        <entry key="dormitory.tb_cleaner">
           <value>
             <TableInfoDTO>
               <option name="fullColumn">
@@ -200,20 +304,8 @@
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="prefix" />
+                    <option name="name" value="name" />
                     <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="start" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="end" />
-                    <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
@@ -221,74 +313,9 @@
                     <option name="name" value="buildingId" />
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="storeyId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="capacity" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
                 </list>
               </option>
-              <option name="name" value="TbDormitorySet" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_dormitory_student">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="dormitoryId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="bedId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="studentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="checkin" />
-                    <option name="type" value="java.util.Date" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="comment" value="0待入住/1已入住" />
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="status" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbDormitoryStudent" />
+              <option name="name" value="TbCleaner" />
               <option name="preName" value="tb_" />
               <option name="saveModelName" value="dormitory" />
               <option name="savePackageName" value="" />
@@ -317,204 +344,6 @@
                 </list>
               </option>
               <option name="name" value="TbGrade" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="lsh_dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_menu">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="title" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="icon" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="href" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="target" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="parentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="comment" value="0:管理员/宿管员;1:学生" />
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="type" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbMenu" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_notice">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="title" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="content" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="createTime" />
-                    <option name="type" value="java.util.Date" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="userId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="filepath" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbNotice" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_notice_receive">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="noticeId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="buildingId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbNoticeReceive" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_org">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="name" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="comment" value="1学院/2系/3专业/4班级" />
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="type" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="gradeId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="parentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="remark" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbOrg" />
               <option name="preName" value="tb_" />
               <option name="saveModelName" value="lsh_dormitory" />
               <option name="savePackageName" value="" />
@@ -559,7 +388,7 @@
             </TableInfoDTO>
           </value>
         </entry>
-        <entry key="dormitory.tb_record">
+        <entry key="dormitory.tb_menu">
           <value>
             <TableInfoDTO>
               <option name="fullColumn">
@@ -571,98 +400,46 @@
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
+                    <option name="comment" value="0:管理员/宿管员;1:学生" />
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="studentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="dormitoryId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="bedId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="comment" value="1入住/2退宿" />
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="status" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="createDate" />
-                    <option name="type" value="java.util.Date" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbRecord" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_repair">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="studentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="dormitoryId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="buildingId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="description" />
+                    <option name="name" value="title" />
                     <option name="type" value="java.lang.String" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="createDate" />
-                    <option name="type" value="java.util.Date" />
+                    <option name="name" value="icon" />
+                    <option name="type" value="java.lang.String" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
-                    <option name="comment" value="0待解决/1已解决" />
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="status" />
+                    <option name="name" value="href" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="comment" value="1入住/2退宿" />
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="target" />
+                    <option name="type" value="java.lang.String" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="parentId" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="type" />
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                 </list>
               </option>
-              <option name="name" value="TbRepair" />
+              <option name="name" value="TbMenu" />
               <option name="preName" value="tb_" />
               <option name="saveModelName" value="dormitory" />
               <option name="savePackageName" value="" />
@@ -679,7 +456,7 @@
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="id" />
+                    <option name="name" value="gradeId" />
                     <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
@@ -698,14 +475,14 @@
               </option>
               <option name="name" value="TbRole" />
               <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
+              <option name="saveModelName" value="lsh_dormitory" />
               <option name="savePackageName" value="" />
               <option name="savePath" value="./src/main/java" />
               <option name="templateGroupName" value="MybatisPlus" />
             </TableInfoDTO>
           </value>
         </entry>
-        <entry key="dormitory.tb_selection">
+        <entry key="dormitory.tb_org">
           <value>
             <TableInfoDTO>
               <option name="fullColumn">
@@ -723,16 +500,23 @@
                     <option name="type" value="java.lang.String" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
+                    <option name="comment" value="1学院/2系/3专业/4班级" />
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="startTime" />
-                    <option name="type" value="java.util.Date" />
+                    <option name="name" value="type" />
+                    <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
                     <option name="ext" value="{}" />
-                    <option name="name" value="endTime" />
-                    <option name="type" value="java.util.Date" />
+                    <option name="name" value="id" />
+                    <option name="type" value="java.lang.Integer" />
+                  </ColumnInfoDTO>
+                  <ColumnInfoDTO>
+                    <option name="custom" value="false" />
+                    <option name="ext" value="{}" />
+                    <option name="name" value="parentId" />
+                    <option name="type" value="java.lang.Integer" />
                   </ColumnInfoDTO>
                   <ColumnInfoDTO>
                     <option name="custom" value="false" />
@@ -742,75 +526,7 @@
                   </ColumnInfoDTO>
                 </list>
               </option>
-              <option name="name" value="TbSelection" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_selection_dormitory">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="dormitoryId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="clazzId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbSelectionDormitory" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_selection_joiner">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="selectionId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="clazzId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbSelectionJoiner" />
+              <option name="name" value="TbOrg" />
               <option name="preName" value="tb_" />
               <option name="saveModelName" value="dormitory" />
               <option name="savePackageName" value="" />
@@ -968,76 +684,6 @@
                 </list>
               </option>
               <option name="name" value="TbUserMenu" />
-              <option name="preName" value="tb_" />
-              <option name="saveModelName" value="dormitory" />
-              <option name="savePackageName" value="" />
-              <option name="savePath" value="./src/main/java" />
-              <option name="templateGroupName" value="MybatisPlus" />
-            </TableInfoDTO>
-          </value>
-        </entry>
-        <entry key="dormitory.tb_visit">
-          <value>
-            <TableInfoDTO>
-              <option name="fullColumn">
-                <list>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="id" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="visitor" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="phone" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="sex" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="idcard" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="studentId" />
-                    <option name="type" value="java.lang.Integer" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="visitTime" />
-                    <option name="type" value="java.util.Date" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="leaveTime" />
-                    <option name="type" value="java.util.Date" />
-                  </ColumnInfoDTO>
-                  <ColumnInfoDTO>
-                    <option name="custom" value="false" />
-                    <option name="ext" value="{}" />
-                    <option name="name" value="remark" />
-                    <option name="type" value="java.lang.String" />
-                  </ColumnInfoDTO>
-                </list>
-              </option>
-              <option name="name" value="TbVisit" />
               <option name="preName" value="tb_" />
               <option name="saveModelName" value="dormitory" />
               <option name="savePackageName" value="" />

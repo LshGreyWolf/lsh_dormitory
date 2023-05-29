@@ -142,24 +142,14 @@ public class MainController {
         });
         map3.put("data", leaveUnusedList);
         buildingList.forEach(item -> {
-
             List<Dormitory> dormitoryList =
                     dormitoryService.list(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getBuildingId, item.getId()));
-            map4.put("name", "使用率");
-            map4.put("type", "line");
-            map4.put("stack", "Total");
-
-            //总宿舍量
+            map4.put("name", "使用率");  map4.put("type", "line");   map4.put("stack", "Total");
             int count = dormitoryList.size();
-            //使用的宿舍量
             int used = dormitoryStudentService.countByBuildingId(item.getId());
-            if (count == 0) {
-                percentList.add(0);
-            } else {
-                percentList.add(used / count);
-            }
-
-
+            if (count == 0) {percentList.add(0);  }
+           else {
+                percentList.add(used / count);  }
         });
         map4.put("data", percentList);
         list.add(map);

@@ -26,10 +26,9 @@ public class Storey {
     private String name;
     
     private Integer buildingId;
-    
-    private String remark;
 
-    private Date createTime;
+
+
 
 
 

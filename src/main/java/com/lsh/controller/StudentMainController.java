@@ -84,8 +84,8 @@ public class StudentMainController {
         //根据该学生id查询该学生所在的宿舍
         DormitoryStudent dormitoryStudent =
                 dormitoryStudentService.getOne(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, studentId));
-        if (StringUtils.isEmpty(dormitoryStudent)) {
-            return Result.fail("暂无");
+        if (dormitoryStudent == null) {
+            return Result.ok("暂无");
         }
         Integer dormitoryId = dormitoryStudent.getDormitoryId();
         //根据宿舍id查出该宿舍的所有学生

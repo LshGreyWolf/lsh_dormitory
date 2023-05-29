@@ -71,7 +71,7 @@ public class AbsenceController {
             Date currentTimeTemp = new Date();
 
             if (currentTimeTemp.after(endTimeTemp)) {
-                //结束时间大于当前时间，则缺勤
+                //当前时间大于结束时间，则缺勤
                 item.setStatus(2);
                 absenceService.updateAbsence(item);
             }

@@ -91,7 +91,6 @@ public class BuildingController {
             Storey storey = new Storey();
             storey.setBuildingId(serviceBuilding.getId());
             storey.setName(i + 1 + "层");
-            storey.setCreateTime(new Date());
             storeyService.save(storey);
         }
         if (flag) {
