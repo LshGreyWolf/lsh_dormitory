@@ -17,10 +17,7 @@ import com.lsh.domain.Vo.PasswordDto;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserMenuService;
 import com.lsh.service.UserService;
-import com.lsh.utils.JWTUtil;
-import com.lsh.utils.RedisCache;
-import com.lsh.utils.Result;
-import com.lsh.utils.UserHolder;
+import com.lsh.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,6 +86,8 @@ public class UserController {
     public Result addUser(@RequestBody User user) {
         List<Integer> menuIds = user.getMenuIds();
         boolean flag = false;
+
+        user.setPassword(Md5Utils.getMd5(user.getPassword()));
         flag = userService.addUser(user);
         user = userService.getUser(user);
         for (Integer menuId : menuIds) {

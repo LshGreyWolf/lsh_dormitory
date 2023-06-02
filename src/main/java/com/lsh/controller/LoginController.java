@@ -7,14 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.lsh.domain.Vo.LoginType;
 import com.lsh.domain.Vo.StudentDto;
 
-import com.lsh.utils.JWTUtil;
+import com.lsh.utils.*;
 import com.lsh.domain.Student;
 import com.lsh.domain.User;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserService;
-import com.lsh.utils.RedisCache;
-import com.lsh.utils.Result;
-import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
@@ -61,7 +58,8 @@ public class LoginController {
     @PostMapping
     public Result login(@RequestBody User user) {
         if (user.getType() == 2) { //学生登录的
-            Student entity = studentService.login(user.getUserName(), user.getPassword());
+
+            Student entity = studentService.login(user.getUserName(), Md5Utils.getMd5(user.getPassword()));
             if (entity != null) {
                 String token = JWTUtil.signForStudent(entity);
                 Map map = new HashMap();
@@ -75,12 +73,13 @@ public class LoginController {
                 return Result.fail("用户名或密码错误");
             }
         } else {//管理员与宿管员登录
-            User entity = userService.login(user.getUserName(), user.getPassword());
+            User entity = userService.login(user.getUserName(), Md5Utils.getMd5(user.getPassword()));
             if (entity != null) {
-
-//                用户已经被禁用 todo
+//                用户已经被禁用
+                if (entity.getStatus() == 0) {
+                    return Result.fail("该用户已被禁用");
+                }
                 String token = JWTUtil.sign(entity);
-
                 Map map = new HashMap();
                 map.put(JWTUtil.token, token);
                 map.put("user", entity);
