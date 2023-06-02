@@ -80,7 +80,6 @@ public class DormitoryStudentServiceImpl extends ServiceImpl<DormitoryStudentMap
         dormitory1.setId(dormitoryId);
         dormitory1.setVersion(beginVersion+1);
         dormitoryMapper.updateById(dormitory1);
-
         return 1;
     }
 

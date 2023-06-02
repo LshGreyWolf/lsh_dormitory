@@ -38,6 +38,7 @@ public class OrgController {
 
     /**
      * 年级树形结构
+     *
      * @param org
      * @return
      */
@@ -61,6 +62,7 @@ public class OrgController {
                     map.put("isParent", false);
                 }
                 trees.add(map);
+
             }
         }
         redisCache.setCacheObject(SCHOOL_TREE, JSONUtil.toJsonStr(trees));
@@ -121,7 +123,7 @@ public class OrgController {
     @PostMapping("/queryByPage")
     public Map<String, Object> queryByPage(@RequestBody Org org) {
         PageInfo<Org> pageInfo = orgService.queryByPage(org);
-        pageInfo.getList().forEach(item->{
+        pageInfo.getList().forEach(item -> {
             Grade grade = gradeService.getOne(new LambdaQueryWrapper<Grade>().eq(Grade::getId, item.getGradeId()));
             item.setGradeName(grade.getName());
         });

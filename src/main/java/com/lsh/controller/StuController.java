@@ -158,7 +158,6 @@ public class StuController {
         Student student = studentService.getStudent(param.getId());
         String bedId = map.get("bedId");
         String dormitoryId = map.get("dormitoryId");
-        //根据学生id查出学生班级是否可以选择宿舍以及得到选择的时间
         List<Selection> selections = selectionService.selectByClazzId(student.getClazzId());
         if (selections == null || selections.size() == 0) {
             return Result.fail("操作失败，未设置！请联系管理员");
@@ -167,8 +166,7 @@ public class StuController {
         if (selection.getStartTime().getTime() > System.currentTimeMillis() || System.currentTimeMillis() > selection.getEndTime().getTime()) {
             return Result.fail("操作失败，不在时间段内选择");
         }
-        //查询登录学生的性别
-        Integer sex = student.getSex();
+        Integer sex = student.getSex(); //查询登录学生的性别
         Dormitory dormitory = dormitoryService.getById(dormitoryId);
         if (!Objects.equals(sex, dormitory.getSex())) {
             return Result.fail("请选择正确的宿舍");

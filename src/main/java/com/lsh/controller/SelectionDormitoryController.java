@@ -85,7 +85,6 @@ public class SelectionDormitoryController {
 
     /**
      * 查询所有选择宿舍的班级
-     *
      * @param selectionDormitory
      * @return
      */

@@ -81,10 +81,7 @@ public class DormitoryController {
     @GetMapping("/delete")
     public Result delete(Integer dormitoryId) {
         boolean flag = dormitoryService.removeById(dormitoryId);
-        if (flag) {
             return Result.ok("删除成功");
-        }
-        return Result.fail("删除失败");
     }
 
     @PostMapping("/list")
