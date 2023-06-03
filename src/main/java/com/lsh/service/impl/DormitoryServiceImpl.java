@@ -44,8 +44,6 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
 
     @Override
     public List<Dormitory> listDormitory(Dormitory dormitory) {
-
-
         return dormitoryMapper.listDormitory(dormitory);
     }
 
@@ -58,9 +56,9 @@ public class DormitoryServiceImpl extends ServiceImpl<DormitoryMapper, Dormitory
         //删除已有宿舍对应的床位信息
         //先查询该宿舍对应的床位信息
         List<Dormitory> dormitoryList = dormitoryMapper.listDormitory(dormitory);
-        dormitoryList.forEach(i->{
+        dormitoryList.forEach(item->{
             LambdaQueryWrapper<Bed> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(Bed::getDormitoryId,i.getId());
+            wrapper.eq(Bed::getDormitoryId,item.getId());
             bedMapper.delete(wrapper);
         });
         //如果已存在宿舍信息，则删除

@@ -98,10 +98,6 @@ public class DormitoryController {
 
     @PostMapping("/replaceBed")
     public Result replaceBed(@RequestBody ReplaceBedDto replaceBedDto) {
-        Integer gradeId = replaceBedDto.getGradeId();
-        Integer clazzId = replaceBedDto.getClazzId();
-        Integer collegeId = replaceBedDto.getCollegeId();
-        Integer majorId = replaceBedDto.getMajorId();
         Integer studentId = replaceBedDto.getStudentId();
         Integer bedId = replaceBedDto.getBedId();
         //调换床位id

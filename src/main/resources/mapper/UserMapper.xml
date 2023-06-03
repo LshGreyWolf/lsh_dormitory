@@ -20,7 +20,7 @@
             <if test="phone !=null">,#{phone}</if>
             <if test="sex !=null">,#{sex}</if>
             <if test="name !=null">, #{name}</if>
-            <if test="type !=null">,#{type}</if>
+            <if test="type !=null">,#{type,typeHandler=com.lsh.handler.AESEncryptHandler}</if>
             <if test="password !=null">,#{password}</if>
             <if test="status !=null">,#{status}</if>
         </trim>
@@ -37,7 +37,7 @@
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="userName != null">,#{userName}</if>
             <if test="password != null">,#{password}</if>
-            <if test="phone != null">,#{phone}</if>
+            <if test="phone != null">,#{phone,typeHandler=com.lsh.handler.AESEncryptHandler}</if>
             <if test="type != null">,#{type}</if>
 
         </trim>

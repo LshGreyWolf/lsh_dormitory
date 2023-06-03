@@ -10,10 +10,7 @@ import com.lsh.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -174,6 +171,9 @@ public class StuController {
         int row;
         try {
             row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
+            if (row == 0) {
+            return Result.fail("选择失败，请稍后重试");
+            }
         } catch (Exception e) {
             return Result.fail("版本冲突！,请稍后再试");
         }

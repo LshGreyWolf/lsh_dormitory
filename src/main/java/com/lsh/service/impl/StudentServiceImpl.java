@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Student;
 import com.lsh.domain.Vo.StudentDto;
 import com.lsh.mapper.StudentMapper;
+import com.lsh.utils.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.lsh.service.StudentService;
@@ -91,6 +92,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Student student1 = studentMapper.getStudent1(student);
 
         if (StringUtils.isEmpty(student1)) {
+            studentDto.setPassword(Md5Utils.getMd5(studentDto.getPassword()));
             studentMapper.register(studentDto);
         } else {
             return false;

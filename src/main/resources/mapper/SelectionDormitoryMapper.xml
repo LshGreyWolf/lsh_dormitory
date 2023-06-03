@@ -33,9 +33,8 @@
 
     <sql id="SelectionDormitoryFindCriteria">
         <where>
-            <if test="id != null">and id = #{id}</if>
-            <if test="dormitoryId != null">and dormitory_id = #{dormitoryId}</if>
-            <if test="clazzId != null">and clazz_id = #{clazzId}</if>
+
+            and clazz_id = #{clazzId}
         </where>
     </sql>
 </mapper>

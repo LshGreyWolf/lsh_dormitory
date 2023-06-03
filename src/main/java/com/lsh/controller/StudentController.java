@@ -177,13 +177,8 @@ public class StudentController {
         headerAlias.put("密码", "password");
         headerAlias.put("专业", "majorId");
         headerAlias.put("学院", "collegeId");
-
         reader.setHeaderAlias(headerAlias);
-
         List<Student> list = reader.readAll(Student.class);
-
-        System.out.println(list);
-
         //上传的excel数据,保存到数据库中
         studentService.saveBatch(list);
         return true;
