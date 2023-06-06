@@ -52,10 +52,13 @@ public class BedController {
             Student student = dormitoryStudentService.queryStudentByBedId(item.getId());
             item.setStudent(student);
         });
+
+
         Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>()
                 .eq(Dormitory::getId, dormitoryId));
         String key = STUDENT_BED + dormitory.getNo();
         redisCache.setCacheObject(key, JSONUtil.toJsonStr(bedList));
+
         return Result.ok(bedList);
     }
 

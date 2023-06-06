@@ -88,4 +88,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         return new PageInfo<Notice>(noticeMapper.queryByBuildingId(notice));
     }
 
+    @Override
+    public List<Notice> queryByPageUser(List<Integer> idList) {
+
+        return noticeMapper.queryByPageUser(idList);
+    }
+
 }

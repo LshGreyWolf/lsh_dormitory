@@ -190,14 +190,12 @@ public class StuController {
     public Result addRepair(@RequestBody Repair repair) {
         Student student = UserHolder.getStudent();
         String description = repair.getDescription();
-
         List<DormitoryStudent> list =
                 dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, student.getId()));
         if (list != null && list.size() > 0) {
             DormitoryStudent dormitoryStudent = list.get(0);
             Dormitory dormitory =
                     dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitoryStudent.getDormitoryId()));
-
             repair.setDormitoryId(dormitory.getId());
             repair.setBuildingId(dormitory.getBuildingId());
             repair.setCreateDate(new Date());
@@ -205,7 +203,6 @@ public class StuController {
             repair.setStudentId(student.getId());
             //待解决
             repair.setStatus(0);
-
             boolean flag = repairService.saveRepair(repair);
             if (!flag) {
                 return Result.fail("新增失败！");
@@ -224,11 +221,9 @@ public class StuController {
                 dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, student.getId()));
         PageInfo<Notice> noticePageInfo = null;
         if (list != null && list.size() > 0) {
-
             DormitoryStudent dormitoryStudent = list.get(0);
             //得到学生所选宿舍的详细信息
             Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, dormitoryStudent.getDormitoryId()));
-
             notice.setBuildingId(dormitory.getBuildingId());
             noticePageInfo = noticeService.queryByBuildingId(notice);
             List<Notice> noticeList = noticePageInfo.getList();

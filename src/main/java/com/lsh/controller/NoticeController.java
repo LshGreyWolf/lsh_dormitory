@@ -1,9 +1,12 @@
 package com.lsh.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.domain.Building;
 import com.lsh.domain.Notice;
 import com.lsh.domain.NoticeReceive;
 import com.lsh.domain.User;
+import com.lsh.service.BuildingService;
 import com.lsh.service.NoticeReceiveService;
 import com.lsh.service.NoticeService;
 import com.lsh.service.UserService;
@@ -17,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.lsh.constants.SystemConstants.USER_TYPE_ADMINISTRATORS;
 
 /**
  * @version 1.0
@@ -33,18 +39,44 @@ public class NoticeController {
     @Autowired
     private UserService userService;
     @Autowired
+    private BuildingService buildingService;
+    @Autowired
     private NoticeReceiveService noticeReceiveService;
 
     @PostMapping("query")
-    public Map<String, Object> query(@RequestBody Notice notice) {
+    public Result query(@RequestBody Notice notice) {
         PageInfo<Notice> pageInfo = noticeService.queryByPage(notice);
-        pageInfo.getList().forEach(item -> {
+        List<Notice> noticeList = noticeService.list();
+        noticeList.forEach(item -> {
             Integer userId = item.getUserId();
             User user = new User();
             user.setId(userId);
             item.setUser(userService.getUser(user));
         });
-        return Result.ok(pageInfo);
+
+        User param = UserHolder.getUser();
+        User loginUser = userService.getUser(param);
+        if (loginUser.getType() == USER_TYPE_ADMINISTRATORS) {
+            //得到用户id，查询改用户负责的楼栋，查询公告的时候加上楼栋限制
+            Building building = buildingService.
+                    getOne(new LambdaQueryWrapper<Building>().eq(Building::getUserId, loginUser.getId()));
+            Integer buildingId = building.getId();
+            //根据用户负责的楼栋来查询改楼栋的公告
+            List<NoticeReceive> receiveList = noticeReceiveService
+                    .list(new LambdaQueryWrapper<NoticeReceive>().eq(NoticeReceive::getBuildingId, buildingId));
+            List<Integer> idList = receiveList.stream().map(item -> {
+                return item.getNoticeId();
+            }).collect(Collectors.toList());
+            List<Notice> notices = noticeService.queryByPageUser(idList);
+            notices.forEach(item -> {
+                Integer userId = item.getUserId();
+                User user = new User();
+                user.setId(userId);
+                item.setUser(userService.getUser(user));
+            });
+            return Result.ok(notices);
+        }
+        return Result.ok(noticeList);
     }
 
 
@@ -58,7 +90,7 @@ public class NoticeController {
         //插入公告_接收者关联表
         List<Integer> buildingIds = notice.getBuildingIds();
         for (Integer buildingId : buildingIds) {
-            NoticeReceive  noticeReceive = new NoticeReceive();
+            NoticeReceive noticeReceive = new NoticeReceive();
             noticeReceive.setBuildingId(buildingId);
             noticeReceive.setNoticeId(notice.getId());
             noticeReceiveService.saveNoticeReceive(noticeReceive);

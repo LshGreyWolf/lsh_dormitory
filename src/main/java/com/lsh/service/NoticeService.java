@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.pagehelper.PageInfo;
 import com.lsh.domain.Notice;
 
+import java.util.List;
+
 
 /**
  * (Notice)表服务接口
@@ -25,4 +27,6 @@ public interface NoticeService extends IService<Notice> {
     Notice getNotice(Notice notice);
 
     PageInfo<Notice> queryByBuildingId(Notice notice);
+
+    List<Notice> queryByPageUser(List<Integer> idList);
 }

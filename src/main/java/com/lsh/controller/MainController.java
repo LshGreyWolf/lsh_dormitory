@@ -156,7 +156,6 @@ public class MainController {
         list.add(map2);
         list.add(map3);
         list.add(map4);
-
         return Result.ok(list);
     }
 

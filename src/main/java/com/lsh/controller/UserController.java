@@ -209,7 +209,6 @@ public class UserController {
             Student student = studentService.getById(UserHolder.getStudent().getId());
             file = student.getFile();
         }
-
         return Result.ok("http://localhost:9001/" + file);
     }
 

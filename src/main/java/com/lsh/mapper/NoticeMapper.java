@@ -26,4 +26,6 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
 
     List<Notice> queryByBuildingId(Notice notice);
+
+    List<Notice> queryByPageUser(List<Integer> idList);
 }

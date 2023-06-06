@@ -47,13 +47,11 @@ public class SelectionDormitoryController {
         //clazzId,dormitoryIds
         String clazzId = map.get("clazzId");
         String dormitoryIds = map.get("dormitoryIds");
-
-
         Org org = orgService.detail(Integer.valueOf(clazzId));
         SelectionDormitory selectionDormitory = new SelectionDormitory();
         selectionDormitory.setClazzId(org.getId());
-
-        //得到所有不是本班级的选择的宿舍id
+        //避免宿舍被重复分配
+        // 得到所有不是本班级的选择的宿舍id
         List<SelectionDormitory> dormitoryIdList = selectionDormitoryService.list(new LambdaQueryWrapper<SelectionDormitory>().ne(SelectionDormitory::getClazzId, Integer.valueOf(clazzId)));
         String[] ids = dormitoryIds.split(",");
         //比较前端传来的宿舍id和已经分配宿舍的班级的宿舍id作比较。一个宿舍不能分配给两个班级（暂不考虑混合宿舍）

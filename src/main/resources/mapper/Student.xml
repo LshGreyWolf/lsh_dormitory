@@ -21,7 +21,7 @@
             <if test="idcard != null and idcard != ''">, #{idcard}</if>
             <if test="gradeId != null">, #{gradeId}</if>
             <if test="sex != null">, #{sex}</if>
-            <if test="phone != null and phone != ''">, #{phone,typeHandler=com.lsh.handler.AESEncryptHandler}</if>
+            <if test="phone != null and phone != ''">, #{phone}</if>
             <if test="password != null and password != ''">, #{password}</if>
             <if test="clazzId != null">, #{clazzId}</if>
 
@@ -40,7 +40,7 @@
         <trim prefix="(" suffix=")" prefixOverrides=",">
             <if test="stuNo != null">,#{stuNo}</if>
             <if test="password != null">,#{password}</if>
-            <if test="phone != null">,#{phone,typeHandler=com.lsh.handler.AESEncryptHandler}</if>
+            <if test="phone != null">,#{phone}</if>
             <if test="name != null">,#{name}</if>
 
         </trim>

@@ -49,8 +49,17 @@
         select tb_notice.*
         from tb_notice,tb_notice_receive
         where tb_notice.id = tb_notice_receive.notice_id
-          and building_id = #{buildingId}
+        and building_id = #{buildingId}
         <include refid="NoticeFindCriteria"/>
+    </select>
+    <select id="queryByPageUser" resultType="com.lsh.domain.Notice">
+        select * from tb_notice
+        where id in
+        <foreach item="item" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+
     </select>
 
 

@@ -56,6 +56,7 @@ public class RepairController {
             repair.setBuildingId(one.getId());
             repairPageInfo = repairService.queryByPage(repair);
         } else {
+
             repairPageInfo = repairService.queryByPage(repair);
         }
         repairPageInfo.getList().forEach(item -> {
@@ -83,6 +84,9 @@ public class RepairController {
      */
     @PostMapping("/queryByPageStudent")
     public Map<String, Object> queryByPageStudent(@RequestBody Repair repair) {
+        if (UserHolder.getStudent() != null){
+            repair.setStudentId(UserHolder.getStudent().getId());
+        }
         PageInfo<Repair> repairPageInfo = repairService.queryByPage(repair);
         repairPageInfo.getList().forEach(item -> {
             //根据id取出宿舍数据
