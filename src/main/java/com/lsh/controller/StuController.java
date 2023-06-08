@@ -99,12 +99,8 @@ public class StuController {
             Student student = studentService.getStudent(entity.getId());
             SelectionDormitory selectionDormitory = new SelectionDormitory();
             selectionDormitory.setClazzId(student.getClazzId());
-            //根据学生的班级id 查出来该学生所在班级的所有待选宿舍
             PageInfo<SelectionDormitory> selectionDormitoryPageInfo = selectionDormitoryService.querySelectionDormitory(selectionDormitory);
-            //待选宿舍列表
             List<SelectionDormitory> selectionDormitoryList = selectionDormitoryPageInfo.getList();
-            //最终返回结果
-            //遍历待选宿舍
             for (SelectionDormitory dormitory : selectionDormitoryList) {
                 HashMap<String, Object> map = new HashMap<>();
                 //查出宿舍的容量,宿舍号，以及性别
@@ -117,7 +113,6 @@ public class StuController {
                 building1.setId(dormitory1.getBuildingId());
                 Building building = buildingService.getBuilding(building1);
                 map.put("buildingName", building.getName());
-
                 //查询已选择的所有学生的个数
                 int count = dormitoryStudentService.count(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitory.getDormitoryId()));
                 //查询已选择的所有学生的列表
@@ -153,31 +148,24 @@ public class StuController {
     public Result selectDormitorySubmit(@RequestBody Map<String, String> map) {
         Student param = UserHolder.getStudent();
         Student student = studentService.getStudent(param.getId());
-        String bedId = map.get("bedId");
-        String dormitoryId = map.get("dormitoryId");
+        String bedId = map.get("bedId"); String dormitoryId = map.get("dormitoryId");
         List<Selection> selections = selectionService.selectByClazzId(student.getClazzId());
         if (selections == null || selections.size() == 0) {
-            return Result.fail("操作失败，未设置！请联系管理员");
-        }
+            return Result.fail("操作失败，未设置！请联系管理员");  }
         Selection selection = selections.get(0);
-        if (selection.getStartTime().getTime() > System.currentTimeMillis() || System.currentTimeMillis() > selection.getEndTime().getTime()) {
-            return Result.fail("操作失败，不在时间段内选择");
-        }
+        if (selection.getStartTime().getTime() > System.currentTimeMillis()
+                || System.currentTimeMillis() > selection.getEndTime().getTime()) {
+            return Result.fail("操作失败，不在时间段内选择");}
         Integer sex = student.getSex(); //查询登录学生的性别
         Dormitory dormitory = dormitoryService.getById(dormitoryId);
         if (!Objects.equals(sex, dormitory.getSex())) {
             return Result.fail("请选择正确的宿舍");
-        }
-        int row;
-        try {
+        }int row;  try {
             row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
-            if (row == 0) {
-            return Result.fail("选择失败，请稍后重试");
-            }
+                if (row == 0) {   return Result.fail("选择失败，请稍后重试"); }
         } catch (Exception e) {
             return Result.fail("版本冲突！,请稍后再试");
-        }
-        return Result.ok("选择成功！");
+        } return Result.ok("选择成功！");
     }
 
     /**

@@ -48,7 +48,6 @@ public class StudentController {
     public Map<String, Object> queryByPage(@RequestBody Student student) {
         //进行分页查询
         PageInfo<Student> studentPageInfo = studentService.queryByPage(student);
-
         List<Student> studentList = studentPageInfo.getList();
         studentList.forEach(item -> {
             //根据student的id查询对应的班级

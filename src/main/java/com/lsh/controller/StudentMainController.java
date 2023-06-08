@@ -83,25 +83,27 @@ public class StudentMainController {
         Integer studentId = student.getId();
         //根据该学生id查询该学生所在的宿舍
         DormitoryStudent dormitoryStudent =
-                dormitoryStudentService.getOne(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getStudentId, studentId));
+                dormitoryStudentService.getOne(new LambdaQueryWrapper<DormitoryStudent>()
+                        .eq(DormitoryStudent::getStudentId, studentId));
         if (dormitoryStudent == null) {
-            return Result.ok("暂无");
-        }
+            return Result.ok("暂无"); }
         Integer dormitoryId = dormitoryStudent.getDormitoryId();
         //根据宿舍id查出该宿舍的所有学生
         List<DormitoryStudent> studentList =
-                dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>().eq(DormitoryStudent::getDormitoryId, dormitoryId));
+                dormitoryStudentService.list(new LambdaQueryWrapper<DormitoryStudent>()
+                        .eq(DormitoryStudent::getDormitoryId, dormitoryId));
         studentList.forEach(item -> {
-            Student student1 = studentService.getOne(new LambdaQueryWrapper<Student>().eq(Student::getId, item.getStudentId()));
+            Student student1 = studentService.getOne(new LambdaQueryWrapper<Student>()
+                    .eq(Student::getId, item.getStudentId()));
             item.setStudent(student1);
-
-            Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>().eq(Dormitory::getId, item.getDormitoryId()));
+            Dormitory dormitory = dormitoryService.getOne(new LambdaQueryWrapper<Dormitory>()
+                    .eq(Dormitory::getId, item.getDormitoryId()));
             //根据buildingId查出楼宇名称
-            Building building = buildingService.getOne(new LambdaQueryWrapper<Building>().eq(Building::getId, dormitory.getBuildingId()));
+            Building building = buildingService.getOne(new LambdaQueryWrapper<Building>()
+                    .eq(Building::getId, dormitory.getBuildingId()));
             dormitory.setBuilding(building);
             Storey storey = storeyService.getById(dormitory.getStoreyId());
             dormitory.setStorey(storey);
-
             item.setDormitory(dormitory);
         });
         return Result.ok(studentList);
