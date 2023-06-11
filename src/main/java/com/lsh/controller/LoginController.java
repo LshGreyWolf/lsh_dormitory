@@ -68,7 +68,6 @@ public class LoginController {
 
                 redisCache.setCacheObject("student", JSONUtil.toJsonStr(entity));
                 return Result.ok("登陆成功", map);
-
             } else {
                 return Result.fail("用户名或密码错误");
             }

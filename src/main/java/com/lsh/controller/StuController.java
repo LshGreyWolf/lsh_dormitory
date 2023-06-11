@@ -161,7 +161,8 @@ public class StuController {
         if (!Objects.equals(sex, dormitory.getSex())) {
             return Result.fail("请选择正确的宿舍");
         }int row;  try {
-            row = dormitoryStudentService.selectDormitorySubmit(student.getId(), Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
+            row = dormitoryStudentService.selectDormitorySubmit(student.getId(),
+                    Integer.parseInt(dormitoryId), Integer.parseInt(bedId));
                 if (row == 0) {   return Result.fail("选择失败，请稍后重试"); }
         } catch (Exception e) {
             return Result.fail("版本冲突！,请稍后再试");

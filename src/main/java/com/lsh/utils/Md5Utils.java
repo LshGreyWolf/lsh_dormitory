@@ -34,4 +34,8 @@ public class Md5Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println(Md5Utils.getMd5("123456"));
+    }
 }
