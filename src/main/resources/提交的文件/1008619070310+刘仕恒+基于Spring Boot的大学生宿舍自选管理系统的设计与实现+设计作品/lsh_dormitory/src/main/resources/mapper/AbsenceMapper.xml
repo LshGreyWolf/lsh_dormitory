@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsh.mapper.AbsenceMapper">
+    <insert id="insertAbsence">
+        insert into tb_absence
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="startTime != null">,start_time</if>
+            <if test="endTime != null">,end_time</if>
+            <if test="remark != null">,remark</if>
+            <if test="studentId != null">,student_id</if>
+            <if test="dormitoryId != null">,dormitory_id</if>
+            <if test="buildingId != null">,building_id</if>
+            <if test="status != null">,status</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="startTime != null">,#{startTime}</if>
+            <if test="endTime != null">,#{endTime}</if>
+            <if test="remark != null">,#{remark}</if>
+            <if test="studentId != null">,#{studentId}</if>
+            <if test="dormitoryId != null">,#{dormitoryId}</if>
+            <if test="buildingId != null">,#{buildingId}</if>
+            <if test="status != null">,#{status}</if>
+        </trim>
+
+
+    </insert>
+    <update id="updateAbsence" parameterType="com.lsh.domain.Absence">
+        update tb_absence
+        <set>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="dormitoryId != null">dormitory_id = #{dormitoryId},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="buildingId != null and buildingId != ''">building_id = #{buildingId},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="queryByPage" resultType="com.lsh.domain.Absence" parameterType="com.lsh.domain.Absence">
+
+        select * from tb_absence
+        <include refid="AbsenceFindCriteria"/>
+    </select>
+    <select id="getAbsence" resultType="com.lsh.domain.Absence" parameterType="java.lang.Integer">
+
+        select *
+        from tb_absence
+        where id = #{id}
+    </select>
+
+    <sql id="AbsenceFindCriteria">
+        <where>
+            <if test="id != null">and id = #{id}</if>
+            <if test="studentId != null">and student_id = #{studentId}</if>
+            <if test="dormitoryId != null">and dormitory_id = #{dormitoryId}</if>
+            <if test="remark != null and remark != ''">and remark = #{remark}</if>
+            <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="buildingId != null and buildingId != ''">and building_id = #{buildingId}</if>
+        </where>
+    </sql>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lsh.mapper.MenuMapper">
+
+
+    <select id="queryMenu" resultType="com.lsh.domain.Menu" parameterType="java.lang.Integer">
+
+        select *
+        from tb_menu tm,
+             tb_user_menu tum
+        where tm.id = tum
+            .menu_id
+          and user_id = #{userID}
+          and tm.type = 0
+
+
+    </select>
+    <select id="queryByType" resultType="com.lsh.domain.Menu">
+
+        select tb_menu.* from tb_menu where type = 1
+    </select>
+</mapper>
