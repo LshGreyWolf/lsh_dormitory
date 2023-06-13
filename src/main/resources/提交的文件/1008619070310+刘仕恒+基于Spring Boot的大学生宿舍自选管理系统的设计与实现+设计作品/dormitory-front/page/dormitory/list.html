@@ -1,0 +1,374 @@
+<div class="layuimini-container layuimini-page-anim">
+    <div class="layuimini-main">
+        <p style="margin-left: 15px; font-size: 15px;color: #9F9F9F;margin-top: 5px;margin-bottom: 5px" ;>宿舍管理</p>
+        <div style="margin:  10px" id="building">
+
+        </div>
+
+
+    </div>
+    <div class="layuimini-main" style="width: 250px;position: absolute;left: 0px">
+        <p style="margin-left: 1px; font-size: 14px;color: #1b1d21;margin-top: 5px;margin-bottom: 5px;border-left: #00998b solid thick "
+           ;>&nbsp;&nbsp;楼层</p>
+        <hr>
+        <ul class="storey"></ul>
+
+
+    </div>
+    <div class="layuimini-main " style="left:270px;position: absolute;right:0px;float: right">
+        <p style="margin-left: 1px; font-size: 14px;color: #1b1d21;margin-top: 5px;margin-bottom: 5px;border-left: #00998b solid thick "
+           ;>&nbsp;&nbsp;宿舍</p>
+        <hr>
+        <ul class="dormitory">
+
+        </ul>
+
+    </div>
+</div>
+<style>
+
+    .storey {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .storey li {
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #f1f1f1;
+        font-size: 16px;
+        cursor: pointer;
+        padding-left: 50px;
+    }
+
+    .storey > li > span {
+        float: right;
+        margin-right: 10px;
+    }
+
+    .storey > li > span > button {
+        cursor: pointer;
+        color: #00998b;
+        background: transparent;
+        border: 0px;
+        font-size: 20px;
+    }
+
+    .storey-bg {
+        background-color: #f0f0f0;
+        color: #000000;
+    }
+
+    .dormitory {
+    }
+
+    .dormitory > li {
+        width: 100%;
+        clear: both;
+        margin-bottom: 5px;
+    }
+
+    .dormitory > li > p {
+        height: 40px;
+        background-color: #f8f8f8;
+        line-height: 40px;
+        font-size: 15px;
+        cursor: pointer;
+        padding-left: 10px;
+        border: 1px solid #dddddd;
+        border-radius: 4px;
+    }
+
+    .dormitory > li > p > span {
+        float: right;
+        margin-right: 10px;
+
+    }
+
+    .dormitory > li > p > span > button {
+        cursor: pointer;
+        color: #00998b;
+        background: transparent;
+        border: 0px;
+        font-size: 20px;
+    }
+
+    .bed {
+        display: none;
+    }
+
+    .bed li {
+        float: left;
+        width: 130px;
+        height: 130px;
+        border: 1px solid #f0f0f0;
+        margin: 10px;
+        text-align: center;
+        color: #999999;
+    }
+
+    .bed li:hover {
+        background-color: #f0f0f0;
+    }
+
+    .bed li i {
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .bed li i:hover {
+        color: #00998b;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    li {
+        -webkit-user-select: none; /*谷歌 /Chrome*/
+        -moz-user-select: none; /*火狐/Firefox*/
+        -ms-user-select: none; /*IE 10+*/
+        user-select: none;
+    }
+</style>
+
+<script>
+    layui.use(['form', 'miniPage', 'element', 'miniAdmin', 'form', 'axios','jquery'], function () {
+        let $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            jquery = layui.jquery,
+            axios = layui.axios,
+            miniAdmin = layui.miniAdmin,
+            miniPage = layui.miniPage
+
+
+        function loadBuilding() {
+            axios.post("building/BuildingQueryByPage", {}).then(function (res) {
+                res.data.forEach(item => {
+                    let btn = '<button class="layui-btn layui-btn-primary layui-btn-radius " ' +
+                        'id="building" data-key="' + item.id + '">' + item.name + '</button>'
+                    let btnObj = $(btn)
+                    btnObj.click(function () {
+                        let buildingId = $(this).data('key')
+                        $(this).removeClass('layui-btn-primary')
+                        $(this).siblings().addClass('layui-btn-primary')
+                        loadStory(buildingId)
+                    })
+                    $("#building").append(btnObj)
+                })
+                //触发点击事件(刷新显示第一个)
+                $('#building button:first').trigger('click');
+            }).catch(function (error) {
+                console.log(error)
+            })
+        }
+
+        loadBuilding()
+
+        //加载楼层数据
+        function loadStory(buildingId) {
+            axios.post("storey/list/" + buildingId).then(function (res) {
+                //切换楼宇的时候移除上一个楼宇的楼层的li
+                $(".storey").empty()
+
+                res.data.forEach(item => {
+
+                    let btn = `
+                    <li data-key="${item.id}">${item.name}
+
+                        <span>
+                            <button class="layui-icon layui-icon-add-circle" title="添加宿舍"></button>
+                        </span>
+                    </li>`
+                    let btnObj = $(btn)
+
+                    btnObj.click(function () {
+                        let storeyId = $(this).data('key')
+                        $(this).siblings().removeClass('storey-bg')
+                        $(this).addClass('storey-bg')
+                        //加载宿舍数据
+                        loadDormitory(storeyId)
+                    })
+                    //添加宿舍
+                    btnObj.find('button').click(function (event) {
+                        //阻止冒泡
+                        event.stopPropagation()
+                        let storyId = btnObj.find('li').data('key')
+
+                        let content = miniPage.getHrefContent('dormitory/addDormitory.html');
+                        let openWH = miniPage.getOpenWidthHeight();
+                        let index = layer.open({
+                            title: '添加宿舍',
+                            type: 1,
+                            shade: 0.2,
+                            maxmin: true,
+                            shadeClose: true,
+                            area: [openWH[1] + 'px', openWH[1] + 'px'],
+                            content: content,
+                            end: function () {
+                                btnObj.trigger('click');
+                            }
+                        });
+                        $(window).on("resize", function () {
+                            layer.full(index);
+                        });
+                        form.val('addDormitoryForm', {
+                            buildingId: buildingId,
+                            storeyId: btnObj.data('key')
+                        })
+
+
+                    })
+
+                    $(".storey").append(btnObj)
+
+                })
+                //触发点击事件(刷新显示第一个)
+                $('.storey li:first').trigger('click');
+            })
+        }
+
+        //加载宿舍数据
+        function loadDormitory(storeyId) {
+            axios.post("dormitory/list/" + storeyId).then(function (res) {
+                $(".dormitory").empty()
+                res.data.forEach(item => {
+                    let html = `
+                        <li>
+                            <p style="" class="layui-colla-title" data-key="${item.id}">${item.no}&nbsp;宿舍
+                                <span>
+                                     <button class="layui-icon layui-icon-add-circle bed-add" title="添加床位"></button>
+                                     <button class="layui-icon layui-icon-delete dormitory-delete" title="删除宿舍"></button>
+                                </span>
+                            </p>
+                    <ul class="bed">
+                    <li></li><li></li><li></li>
+                    </ul>
+                        </li>
+                    `
+                    let htmlObj = $(html)
+                    htmlObj.find('p').click(function () {
+                        //点击事件的循环
+                        $(this).siblings().toggle(200)
+                        //得到宿舍id
+                        let dormitoryId = $(this).data('key')
+                        //加载床位信息
+                        loadBed(dormitoryId, $(this).siblings())
+                    })
+                    //删除宿舍
+                    htmlObj.find('.dormitory-delete').click(function (event) {
+                        event.stopPropagation()
+
+                        layer.confirm("确定要删除该宿舍吗？", function (index) {
+                            let dormitoryId = htmlObj.find('p').data('key')
+                            axios.get('dormitory/delete?dormitoryId=' + dormitoryId).then(function (response) {
+                                miniAdmin.success(response.msg)
+                                //移除宿舍
+                                htmlObj.remove();
+                                layer.close(index);
+                            }).catch();
+                        })
+                    })
+
+                    htmlObj.find('.bed-add').click(function (event) {
+                        event.stopPropagation()
+
+                        let dormitoryId = htmlObj.find('p').data('key')
+                        let content = miniPage.getHrefContent('dormitory/addBed.html');
+                        let openWH = miniPage.getOpenWidthHeight();
+                        let index = layer.open({
+                            title: '添加宿舍',
+                            type: 1,
+                            shade: 0.2,
+                            maxmin: true,
+                            shadeClose: true,
+                            area: [openWH[1] + 'px', openWH[1] + 'px'],
+                            content: content,
+                            end: function () {
+                                loadBed(htmlObj.find('p').data("key"), htmlObj.find('p').siblings());
+                            }
+                        });
+
+                        form.val('addBedForm', {
+                            dormitoryId: dormitoryId
+                        })
+
+                    })
+
+                    $(".dormitory").append(htmlObj)
+
+                })
+            })
+        }
+
+
+        function loadBed(dormitoryId,objbed){
+            axios.post('bed/list/'+dormitoryId).then(function (response) {
+                objbed.empty();
+                if(response.data.length==0){
+                    objbed.append('暂无床位信息');
+                }
+                response.data.forEach(item=>{
+                    let html = `
+                        <li data-key="${item.id}">
+                        <img ${item.student?'src="../images/bed2.png"':'src="../images/bed.png"'} >
+                        <p>床位：${item.bno}</p>
+                        <p style="${item.student?'color:#00998b':''}">${item.student?item.student.name:'暂无'}</p>
+                        <p>
+                        <i class="layui-icon layui-icon-delete bed-delete" title="删除床位"></i>
+                        <i class="layui-icon layui-icon-edit bed-edit" title="分配调整"></i>
+                        </p>
+                        </li>
+                    `;
+                    let htmlObj = $(html);
+                    htmlObj.find('.bed-delete').click(function (event) {
+                        event.stopPropagation();
+                        layer.confirm("确定要删除床位吗？",function (index) {
+
+                            let bedId = htmlObj.data("key")
+
+                            axios.get('bed/deleteBed?bedId=' + bedId).then(function (response) {
+                                htmlObj.remove();
+                                miniAdmin.success(response.msg)
+                                layer.close(index);
+                            }).catch();
+                        })
+
+                    });
+
+                    htmlObj.find('.bed-edit').click(function (event) {
+                        event.stopPropagation();
+
+                        let content = miniPage.getHrefContent('dormitory/edit.html');
+                        let openWH = miniPage.getOpenWidthHeight();
+
+                        let index = layer.open({
+                            title: '分配调整',
+                            type: 1,
+                            shade: 0.2,
+                            maxmin: true,
+                            shadeClose: true,
+                            area: [openWH[0] + 'px', openWH[1] + 'px'],
+                            offset: [openWH[2] + 'px', openWH[3] + 'px'],
+                            content: content,
+                        });
+                        $(window).on("resize", function () {
+                            layer.full(index);
+                        });
+                        let bedId = htmlObj.data("key")
+                        form.val("updateForm", {
+                            bedId:bedId
+                        })
+
+                    });
+
+                    objbed.append(htmlObj);
+                });
+            }).catch(function (error) {
+                layer.msg(error);
+            });
+
+
+        }
+    });
+
+</script>

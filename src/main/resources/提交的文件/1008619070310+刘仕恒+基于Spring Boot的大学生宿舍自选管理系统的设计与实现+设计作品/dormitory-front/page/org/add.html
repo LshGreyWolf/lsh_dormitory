@@ -1,0 +1,112 @@
+<div class="layuimini-main">
+    <div class="layui-form layuimini-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label required">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="required" lay-reqtext="名称不能为空" placeholder="请输入名称"
+                       value="" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">上级栏目</label>
+            <div class="layui-input-block">
+                <input type="hidden" name="parentId" id="parentId" placeholder="请选择上级栏目" value=""
+                       class="layui-input">
+                <input type="text" name="parentName" readonly id="parentName" placeholder="请选择上级栏目" value=""
+                       class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" value="1" title="学院" checked="">
+                <input type="radio" name="type" value="2" title="系">
+                <input type="radio" name="type" value="3" title="专业">
+                <input type="radio" name="type" value="4" title="班级">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">年级</label>
+            <div class="layui-input-block">
+                <select name="gradeId" id="gradeId" lay-verify="required">
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注信息</label>
+            <div class="layui-input-block">
+                <textarea name="remark" class="layui-textarea" placeholder="请输入备注信息"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table', 'axios', 'selectOrg', 'miniAdmin'], function () {
+        let form = layui.form,
+            layer = layui.layer,
+            selectOrg = layui.selectOrg,
+            miniAdmin = layui.miniAdmin,
+            axios = layui.axios,
+            $ = layui.$;
+
+        /**
+         * 初始化表单，要加上，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+
+        // 当前弹出层，防止ID被覆盖
+        let parentIndex = layer.index;
+
+        //点击那个input框，显示树形结构 TODO
+        selectOrg.render({
+            elem: '#parentName',
+            selected: [],
+            checked: false,
+            gradeId: 1,
+            done: function (data) {
+                console.log(data)
+                $('#parentId').val(data[0].id);
+                $('#parentName').val(data[0].name);
+            }
+        });
+
+
+        axios.post('grade/gradeQueryByPage', {}).then(function (response) {
+            let options = '<option value="">请选择年级</option>';
+            for (let obj of response.data) {
+                options += '<option value="' + obj.id + '">' + obj.name + '</option>'
+            }
+
+            $('#gradeId').append(options);
+            form.render('select');
+        }).catch();
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            axios.post('org/save', data.field).then(function (response) {
+                if (response.code == 200) {
+
+                    miniAdmin.success(response.msg)
+                    window.reload();
+                }
+                layer.close(parentIndex);
+            }).catch(function (error) {
+                miniAdmin.error(error)
+            });
+            return false;
+        });
+
+    });
+</script>

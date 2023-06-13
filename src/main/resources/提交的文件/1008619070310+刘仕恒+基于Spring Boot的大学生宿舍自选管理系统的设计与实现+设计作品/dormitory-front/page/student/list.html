@@ -1,0 +1,385 @@
+<div class="layuimini-container layuimini-page-anim">
+    <!--    <div class="layuimini-main"  style="width: 250px;position:;left: 0px">-->
+
+    <!--    </div>-->
+    <div class="layuimini-main" id="ztree1" style="width: 250px;position: absolute;left: 0px">
+        <form class="layui-form layui-form-pane" action="" id="grade1">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <div class="layui-input-inline" style="width: 250px">
+                        <select name="grade" id="grade" lay-filter="selectGrade">
+                            <option value="">请选择年级</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="ztree" id="ztree" style="margin-top:10px"></div>
+    </div>
+
+    <div class="layuimini-main" style="left:270px;position: absolute;right:0px;float: right">
+
+        <div style="margin: 10px 10px 10px 10px">
+            <form class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">学号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="stuNo" autocomplete="off" class="layui-input" style="width: 180px"
+                                   placeholder="请输入学生学号">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">姓名</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" autocomplete="off" class="layui-input" style="width: 180px"
+                                   placeholder="请输入学生姓名">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-inline">
+                            <select name="sex">
+                                <option value="">请选择学生性别</option>
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <button type="submit" class="layui-btn layui-btn-primary" lay-submit
+                                lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-primary">
+                            <i class="layui-icon">&#xe669;</i>重置
+                        </button>
+                        <button class="layui-btn layui-btn-primary layui-border-black" id="import">
+                            <i class=" layui-icon ">&#xe67c;</i>
+                            导入学生数据
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add">
+                    <i class="layui-icon layui-icon-add-circle"></i>
+                    新增
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-normal data-delete-btn" lay-event="update">
+                    <i class="layui-icon layui-icon-edit"></i>
+                    修改
+                </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete">
+                    <i class="layui-icon layui-icon-delete"></i>
+                    删除
+                </button>
+            </div>
+
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-xs" lay-event="reset">重置密码</a>
+        </script>
+    </div>
+
+</div>
+<style>
+    #ztree {
+        border: 1px solid #e6e6e6;
+    }
+</style>
+
+<script>
+    layui.use(['form', 'table', 'miniPage', 'miniAdmin', 'form', 'element', 'axios', 'ztree', 'upload'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            axios = layui.axios,
+            upload = layui.upload,
+            form = layui.form,
+            ztree = layui.ztree,
+            miniAdmin = layui.miniAdmin,
+            miniPage = layui.miniPage;
+        //渲染年级列表
+        axios.post('grade/gradeQueryByPage', {}).then(function (res) {
+            res.data.forEach(item => {
+                let option =''
+                if (item.id ==1){
+                    option+= `<option value="${item.id}" data-id="${item.id}" selected> ${item.name}级</option>`
+                }else {
+                    option+= `<option value="${item.id}" data-id="${item.id}"> ${item.name}级</option>`
+                }
+                $('#grade').append(option);
+            })
+            form.render();
+        })
+
+        //选择年级，重载列表
+        form.on("select(selectGrade)", function (data) {
+            let gradeId = parseInt(data.value)
+            table.reload('currentTableId', {
+                    where: {'gradeId': gradeId}
+                });
+
+
+            axios.post("org/tree",{gradeId:gradeId,limit:1000}).then(function (res){
+                ztree.init($("#ztree"), setting,res.data);
+            })
+
+        })
+
+
+        //渲染下拉框
+        form.render()
+        //导入
+        upload.render({
+            elem: '#import'
+            , url: 'http://localhost:8888/dormitory/student/import'
+            , accept: 'file'
+            , auto: true
+            , before: function (obj) {
+                layer.load();
+            }
+            , done: function (res) {
+                miniAdmin.success("导入成功！")
+                layer.closeAll('loading');
+                table.reload('currentTableId');
+            }
+            , error: function () {
+                miniAdmin.error("导入失败！")
+                layer.closeAll('loading');
+            }
+        });
+
+
+        let setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            }
+        };
+
+        function loadTree(){
+            //默认展示gradeId为1
+            axios.post('org/tree',{gradeId:1,limit:10000}).then(function (response) {
+                ztree.init($("#ztree"), setting,response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+
+        loadTree();
+
+        window.reload = function () {
+            loadTree();
+        }
+
+        //树的点击事件
+        $("#ztree1").click(function () {
+            let treeObj = ztree.getZTreeObj("ztree");
+            let node = treeObj.getSelectedNodes()[0];
+            let data;
+            console.log(node)
+            if (node.isParent) {
+                axios.post('student/queryByPage', {majorId: node.id}).then(function (res) {
+                    if (res.code == 200) {
+                        if (res.data.length > 0 && res.data != '') {
+                            data = res.data
+                            console.log( data)
+                            table.reload('currentTableId', {
+                                where: {'majorId': node.id}
+                            });
+                        }
+                        else {
+                            table.reload('currentTableId', {
+                                where: {'majorId': node.id}
+                            });
+
+                        }
+                    }
+                })
+            } else {
+                axios.post('student/queryByPage', {clazzId: node.id}).then(function (res) {
+                    if (res.code == 200) {
+                        //班级下有学生
+                        if (res.data.length > 0 && res.data != '') {
+                            for (let i = 0; i < res.data.length; i++) {
+                                data = res.data[i].clazzId
+                            }
+                            table.reload('currentTableId', {
+                                where: {'clazzId': data}
+                            });
+
+                        } else {
+                            //班级下无学生
+                            table.reload('currentTableId', {
+                                where: {clazzId: node.id}
+                            });
+
+                        }
+                    }
+                })
+            }
+
+
+        })
+
+
+        table.render({
+            elem: '#currentTableId',
+            method: 'post',
+            url: 'student/queryByPage',
+            data: {gradeId:1},
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            cols: [[
+                {type: "checkbox"},
+                {field: 'stuNo', align: 'center', title: '学号',minWidth: 150},
+                {field: 'name', align: 'center', title: '姓名',minWidth: 100},
+                {field: 'phone', align: 'center', title: '手机号',minWidth: 150},
+                {field: 'gradeId', align: 'center', title: '年级', templet: '<div>{{d.grade.name}}</div>',minWidth: 100},
+                {field: 'clazzId', align: 'center', title: '班级', templet: '<div>{{d.org.name}}</div>',minWidth: 150},
+                {
+                    field: 'sex', align: 'center', title: '性别', templet: function (row) {
+                        if (row.sex == 0) {
+                            return '<span class="layui-badge-rim">女</span>';
+                        } else {
+                            return '<span class="layui-badge-rim">男</span>';
+                        }
+                    },minWidth: 20
+                },
+                // {field: 'accountCard',align:'center', title: '卡号'},
+                {field: 'idcard', align: 'center', title: '身份证号',minWidth:180},
+                {title: '操作', minWidth: 150, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [9, 20, 50, 100],
+            limit: 9,
+            page: true,
+            skin: 'line'
+        });
+
+        window.reload = function () {
+            table.reload('currentTableId');
+        }
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            var result = JSON.stringify(data.field);
+            console.log(data.field)
+            //执行搜索重载
+            table.reload('currentTableId', {
+                where: data.field
+            }, 'data');
+
+            return false;
+        });
+
+        /**
+         * toolbar事件监听
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {   // 监听添加操作
+                let content = miniPage.getHrefContent('student/add.html');
+                let openWH = miniPage.getOpenWidthHeight();
+                let index = layer.open({
+                    title: '添加学生',
+                    type: 1,
+                    shade: 0.2,
+                    maxmin: true,
+                    shadeClose: true,
+                    area: [openWH[1] + 'px', openWH[1] + 'px'],
+                    content: content
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'update') {  //修改操作
+                let data = table.checkStatus('currentTableId').data;
+                if (data.length != 1) {
+
+                    miniAdmin.error("请选择一条记录修改")
+                } else {
+                    let content = miniPage.getHrefContent('student/update.html');
+                    let openWH = miniPage.getOpenWidthHeight();
+                    let index = layer.open({
+                        title: '添加',
+                        type: 1,
+                        shade: 0.2,
+                        maxmin: true,
+                        shadeClose: true,
+                        area: [openWH[0] + 'px', openWH[1] + 'px'],
+                        offset: [openWH[2] + 'px', openWH[3] + 'px'],
+                        content: content
+                    });
+                    //给表格赋值
+                    setFormValue(data[0]);
+                    //给班级赋值  后端通过给学生添加两个字段（org、grade）然后通过循环赋值
+                    $('#clazzName').val(data[0].org.name)
+
+                    $(window).on("resize", function () {
+                        layer.full(index);
+                    });
+                }
+            } else if (obj.event === 'delete') { //删除操作
+                let data = table.checkStatus('currentTableId').data;
+                if (data.length == 0) {
+                    layer.msg("请选择要删除的数据");
+                } else {
+                    layer.confirm('确认要删除吗', function (index) {
+
+                        let arr = data.map(item => item.id);
+                        axios.get('student/delete?ids=' + arr.join(",")).then(function (response) {
+                            table.reload('currentTableId');
+                            miniAdmin.success(response.msg)
+                        }).catch(function (error) {
+                            miniAdmin.error(error)
+                        });
+                        layer.close(index);
+                    });
+                }
+            }
+        });
+
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            //data就是表单每一行的数据
+            let data = obj.data;
+            if (obj.event === 'reset') {
+                layer.confirm('确定要重置该学生的密码吗？', function (index) {
+                    axios.post('student/resetPassword', data).then(function (response) {
+                        table.reload('currentTableId');
+                        miniAdmin.success(response.msg);
+                    }).catch(function (error) {
+                        miniAdmin.error(error);
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+
+        function setFormValue(data) {
+            form.val("updateForm", {
+                id: data.id,
+                stuNo: data.stuNo,
+                name: data.name,
+                idcard: data.idcard,
+                clazzId: data.clazzId,
+                sex: data.sex,
+                //给隐藏域赋值
+                gradeId2: data.gradeId,
+                phone: data.phone,
+            })
+        }
+
+    });
+</script>

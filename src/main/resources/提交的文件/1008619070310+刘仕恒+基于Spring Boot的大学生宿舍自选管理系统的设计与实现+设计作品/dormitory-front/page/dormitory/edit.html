@@ -1,0 +1,152 @@
+<div class="layuimini-main">
+    <div class="layui-form layuimini-form" lay-filter="updateForm">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label required">调换为：</label>
+            <div class="layui-input-inline">
+                <select name="gradeId" lay-filter="gradeId" id="gradeId">
+                    <option value="">请选择年级</option>
+                </select>
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <select name="collegeId" lay-filter="collegeId" id="collegeId">
+                    <option value="">请选择学院</option>
+                </select>
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <select name="majorId" lay-filter="majorId" id="majorId">
+                    <option value="">请选择专业</option>
+                </select>
+            </div>
+            <div class="layui-form-mid">-</div>
+            <div class="layui-input-inline">
+                <select name="clazzId" lay-filter="clazzId" id="clazzId">
+                    <option value="">请选择班级</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select name="studentId" lay-filter="studentId" id="studentId">
+                    <option value="">请选择学生</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="bedId" id="bedId">
+    </div>
+</div>
+<script>
+    layui.use(['form', 'table', 'axios', 'miniAdmin'], function () {
+        let form = layui.form,
+            layer = layui.layer,
+            miniAdmin = layui.miniAdmin,
+            axios = layui.axios,
+            $ = layui.$;
+
+        /**
+         * 初始化表单，不然刷新部分组件可能会不加载
+         */
+        form.render();
+
+
+        // 当前弹出层，防止ID被覆盖
+        let parentIndex = layer.index;
+
+        //初始化楼宇信息
+        axios.post('grade/gradeQueryByPage', {}).then(function (response) {
+            response.data.forEach(item => {
+                let option = `<option value="${item.id}">${item.name}</option>`
+                $('#gradeId').append(option);
+            })
+            form.render();
+        });
+
+        form.on('select(gradeId)', function (data) {
+            let param = {}
+            param.gradeId = data.value
+            param.type = 1
+            axios.post('org/queryByPage', param).then(function (response) {
+                $('#collegeId').empty();
+                $('#collegeId').append('<option value="">请选择学院</option>');
+                response.data.forEach(item => {
+                    let option = `<option value="${item.id}">${item.name}</option>`
+                    $('#collegeId').append(option);
+                })
+                form.render();
+            });
+        });
+
+        form.on('select(collegeId)', function (data) {
+            console.log(data)
+            let param = {}
+            param.parentId = data.value
+            param.type = 3
+            axios.post('org/queryByPage', param).then(function (response) {
+                $('#majorId').empty();
+                $('#majorId').append('<option value="">请选择专业</option>');
+                response.data.forEach(item => {
+                    let option = `<option value="${item.id}">${item.name}</option>`
+                    $('#majorId').append(option);
+                })
+                form.render();
+            });
+        });
+
+        form.on('select(majorId)', function (data) {
+            let param = {}
+            param.parentId = data.value
+            param.type = 4
+            axios.post('org/queryByPage', param).then(function (response) {
+                $('#clazzId').empty();
+                $('#clazzId').append('<option value="">请选择班级</option>');
+                response.data.forEach(item => {
+                    let option = `<option value="${item.id}">${item.name}</option>`
+                    $('#clazzId').append(option);
+                })
+                form.render();
+            });
+        });
+        form.on('select(clazzId)', function (data) {
+            let param = {}
+            param.clazzId = data.value
+            axios.post('student/queryByPage', param).then(function (response) {
+                $('#studentId').empty();
+                $('#studentId').append('<option value="">请选择学生</option>');
+                response.data.forEach(item => {
+                    let option = `<option value="${item.id}">${item.name}</option>`
+                    $('#studentId').append(option);
+                })
+                form.render();
+            });
+        });
+
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            console.log(data)
+            axios.post('dormitory/replaceBed', data.field).then(function (response) {
+                if (response.code == 200) {
+                    miniAdmin.success(response.msg)
+                    // window.reload();
+                    setInterval(function (){
+                        location.reload()
+                    },600)
+
+                }
+                layer.close(parentIndex);
+            }).catch(function (error) {
+                miniAdmin.error(error)
+            });
+            return false;
+        });
+
+    });
+</script>
