@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
  */
 @SuppressWarnings("serial")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Student extends Page {
 
@@ -62,5 +61,8 @@ public class Student extends Page {
 
     private String file;
 
-
+    public Student(String stuNo, String name) {
+        this.stuNo = stuNo;
+        this.name = name;
+    }
 }

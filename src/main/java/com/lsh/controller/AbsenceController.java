@@ -10,9 +10,19 @@ import com.lsh.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.lsh.constants.SystemConstants.USER_TYPE_ADMINISTRATORS;
 
@@ -110,6 +120,43 @@ public class AbsenceController {
             return Result.fail("更新失败！");
         }
     }
+
+    public static void main(String[] args) {
+        readFileByCommon();
+    }
+
+    public static void readFileByjava8(){
+        String filePath = "C:\\Users\\Administrator\\Desktop\\test.txt";
+        Path path = Paths.get(filePath);
+        try (Stream<String> lines = Files.lines(path)) {
+            List<Student> objectList = lines.map(line -> {
+                String[] fields = line.split(",");
+                return new Student(fields[0], fields[1]);
+            }).collect(Collectors.toList());
+
+            System.out.println("objectList = " + objectList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void readFileByCommon(){
+        String filePath = "C:\\Users\\Administrator\\Desktop\\test.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            List<Student> objectList = reader.lines()
+                    .map(line -> {
+                        String[] fields = line.split(",");
+                        return new Student(fields[0], fields[1]);
+                    })
+                    .collect(Collectors.toList());
+            System.out.println("objectList = " + objectList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 }
