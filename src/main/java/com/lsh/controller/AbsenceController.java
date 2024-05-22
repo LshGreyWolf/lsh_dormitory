@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -154,6 +155,7 @@ public class AbsenceController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
     }
 

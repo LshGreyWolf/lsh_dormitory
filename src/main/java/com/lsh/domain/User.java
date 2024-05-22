@@ -3,7 +3,10 @@ package com.lsh.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,6 +19,9 @@ import java.util.List;
  * @since 2023-03-05 12:21:01
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User extends Page {
     @TableId(type = IdType.AUTO)
     private Integer id;

@@ -24,21 +24,21 @@ import java.util.List;
 @Configuration
 public class MyWebMvcConfigurer implements WebMvcConfigurer {
 
-    @Bean
-    public TokenInterceptor tokenInterceptor(){
-        return new TokenInterceptor();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/login")
-                .excludePathPatterns("/login/register")
-                .excludePathPatterns("/login/registerAdmin")
-                .excludePathPatterns("/student/import")
-                .excludePathPatterns("/user/upload");
-    }
+//    @Bean
+//    public TokenInterceptor tokenInterceptor(){
+//        return new TokenInterceptor();
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(tokenInterceptor())
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/login")
+//                .excludePathPatterns("/login/register")
+//                .excludePathPatterns("/login/registerAdmin")
+//                .excludePathPatterns("/student/import")
+//                .excludePathPatterns("/user/upload");
+//    }
 
     //使用CorsFilter解决跨域的问题
     @Bean

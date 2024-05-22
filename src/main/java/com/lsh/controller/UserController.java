@@ -14,6 +14,7 @@ import com.lsh.domain.User;
 import com.lsh.domain.UserMenu;
 import com.lsh.domain.Vo.LoginType;
 import com.lsh.domain.Vo.PasswordDto;
+import com.lsh.event.RegisterEvent;
 import com.lsh.service.StudentService;
 import com.lsh.service.UserMenuService;
 import com.lsh.service.UserService;
@@ -21,6 +22,7 @@ import com.lsh.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,6 +53,8 @@ public class UserController {
     private RedisCache redisCache;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private ApplicationContext applicationContext;
 
     /**
      * 用户分页查询
@@ -265,6 +269,10 @@ public class UserController {
 
         return Result.ok("修改成功！");
     }
-
+    @PostMapping("/testListener")
+    public Result testListener(User user, HttpServletRequest request) {
+        applicationContext.publishEvent(new RegisterEvent(this,user));
+        return Result.ok("发布成功！");
+    }
 
 }

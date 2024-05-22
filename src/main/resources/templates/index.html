@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>首页</h1>
+<input type="hidden" id="webSocketUrl" th:value="${webSocketUrl}"/>
+<div id="tip" style="border:1px solid #F00;width:30%;display: none"/>
+<script type="text/javascript">
+  window.onload = function () {
+    //创建websocket连接
+    let url = document.getElementById("webSocketUrl").value;
+    console.log(url)
+    let socket = new WebSocket(url);
+
+    //打开事件
+    socket.onopen = function () {
+      console.log("webSocket正在连接");
+    };
+    //获得消息事件
+    socket.onmessage = function (msg) {
+      let tip = document.getElementById("tip");
+      tip.textContent = msg.data;
+      tip.style.display = "";
+    };
+    //关闭事件
+    socket.onclose = function () {
+      console.log("webSocket已关闭");
+    };
+    //发生了错误事件
+    socket.onerror = function () {
+      console.log("webSocket发生错误")
+    }
+  }
+</script>
+</body>
+</html>

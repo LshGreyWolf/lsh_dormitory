@@ -4,12 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.lsh.annotation.MyCustomAnnotation;
 import com.lsh.domain.User;
 
+import com.lsh.event.RegisterEvent;
 import com.lsh.mapper.UserMapper;
 import com.lsh.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -22,10 +26,13 @@ import java.util.List;
  * @since 2023-03-05 12:55:32
  */
 @Service("userService")
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ApplicationContext applicationContext;
 //    @Override
 //    public List<User> selectAll() {
 //      return userMapper.selectAll();
@@ -96,6 +103,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User findByUserName(String userName) {
 
         return userMapper.findByUserName(userName);
+    }
+
+    @Override
+    @MyCustomAnnotation(value = "aaaaa")
+    public String registerUser(User user) {
+        log.info("=====>>>进行用户的注册");
+        log.info("=====>>>user注册成功了");
+
+        applicationContext.publishEvent(new RegisterEvent(this, user));
+        return "aaaaaaaaaaaaaaaaaaaaaaaaa";
     }
 
 

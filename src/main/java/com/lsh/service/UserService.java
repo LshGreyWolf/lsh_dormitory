@@ -45,5 +45,7 @@ public interface UserService extends IService<User> {
 
 
     User findByUserName( String userName);
+
+    public String registerUser(User user);
 }
 

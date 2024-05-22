@@ -28,7 +28,9 @@ spring:
     time-zone: Asia/Shanghai
   resources:
    static-locations: classpath:/resources
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 
 server:
   port: 8888
