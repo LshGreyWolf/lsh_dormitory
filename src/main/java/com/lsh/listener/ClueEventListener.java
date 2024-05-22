@@ -1,6 +1,6 @@
 package com.lsh.listener;
 
-import com.lsh.controller.ClueServer;
+import com.lsh.websocket.ClueServer;
 import com.lsh.event.ClueEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
