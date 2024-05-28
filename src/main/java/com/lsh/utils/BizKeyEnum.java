@@ -1,0 +1,82 @@
+package com.lsh.utils;
+
+public enum BizKeyEnum {
+    chapterList("chapterList"),
+    chapter("chapter"),
+    center("center"),
+    point("point"),
+    paperCenter("paperCenter"),
+    paper("paper"),
+    paperView("paperView"),
+    centerPaper("centerPaper"),
+    unitTest("unitTest"),
+    unitPoint("unitPoint"),
+    pointTest("pointTest"),
+    dayTest("dayTest"),
+    dayTestConfig("dayTestConfig"),
+    selfHelpTest("selfHelpTest"),
+    memoryCurve("memoryCurve"),
+    pointPractice("pointPractice"),
+    centerRecordTemp("centerPaper/temp"),
+    unitTestRecordTemp("unitTest/temp"),
+    pointTestRecordTemp("pointTest/temp"),
+    pointPracticeTemp("pointPractice/temp"),
+    selfHelpTestTemp("selfHelpTest/temp"),
+    dayTestExpertReview("dayTestExpertReview"),
+    stage("stage"),
+    question("question"),
+    paperTestScene("paperTestScene"),
+    paperCategory("paperCategory"),
+    simPaper("simPaper"),
+    chapterExam("chapterExam"),
+    weakPoint("weakPoint"),
+    frequencyPoint("frequencyPoint"),
+    previosExam("previosExam"),
+    questionViewType("questionViewType"),
+    questionView("questionView"),
+    favQues("favQues"),
+    book("book"),
+    oneTreatOne("oneTreatOne"),
+    intelligentPaper("intelligentPaper"),
+    easyErrorProne("easyErrorProne"),
+    centerNot("centerNot"),
+    centerError("centerError"),
+    centerCollection("centerCollection"),
+    easyErrorQues("easyErrorQues"),
+    bigDatePaper("bigDatePaper"),
+    trueSimulation("trueSimulation"),
+    weChatQues("weChatQues"),
+    intelligentPush("intelligentPush"),
+    simSiteCourse("simSiteCourse"),
+    simModelInfo("simModelInfo"),
+    sitecoursePaperShow("sitecoursePaperShow"),
+    freeDownContent("freeDownContent"),
+    deploylCourse("deploylCourse"),
+    activityPaper("activityPaper"),
+    activitySimPaper("activitySimPaper"),
+    activityPaperTemp("activityPaper/temp"),
+    liveBroadcastPaper("zbPaper"),
+    intellPaper("intellPaper"),
+    intellQuestion("intellQuestion"),
+    intellNote("intellNote"),
+    ckSimPaper("ckSimPaper"),
+    pc_kno_account("PC_KNO_account"),
+    pc_com_account("PC_COM_account"),
+    pc_kno_sim("PC_KNO_SIM"),
+    publicPaper("publicPaper"),
+    simPaperErrorRedo("simPaperErrorRedo"),
+    chapterExamErrorRedo("chapterExamErrorRedo"),
+    note("note"),
+    questionPaper("questionPaper"),
+    collection("collection");
+
+    private final String biz;
+
+    private BizKeyEnum(String biz) {
+        this.biz = biz;
+    }
+
+    public String getbiz() {
+        return this.biz;
+    }
+}
